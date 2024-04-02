@@ -17,10 +17,10 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^10.0.2",
     "@astrojs/db": "^0.9.4",
     "@astrojs/markdoc": "^0.9.2",
     "@astrojs/mdx": "2.2.1",
+    "@astrojs/node": "^8.2.5",
     "@astrojs/prefetch": "0.4.1",
     "@astrojs/react": "^3.1.0",
     "@astrojs/rss": "4.0.5",

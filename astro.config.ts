@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx"
 import tailwind from "@astrojs/tailwind"
 import sitemap from "@astrojs/sitemap"
 import prefetch from "@astrojs/prefetch"
-import cloudflare from "@astrojs/cloudflare"
+import node from "@astrojs/node"
 import db from "@astrojs/db"
 import react from "@astrojs/react"
 import markdoc from "@astrojs/markdoc"
@@ -43,8 +43,8 @@ export default defineConfig({
     icon(),
   ],
   output: "server",
-  adapter: cloudflare({
-    imageService: "cloudflare",
+  adapter: node({
+    mode: "standalone",
   }),
   vite: {
     plugins: [rawFonts([".ttf"])],
