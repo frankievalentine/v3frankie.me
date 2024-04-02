@@ -9,48 +9,49 @@ const MAX_POSTS = 10;
 const allPosts = await getCollection("posts");
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
-const v3Tech: Array<{ title: string; desc: string; href: string }> = [
-	{
-		title: "Astro",
-		desc: "Build fast websites, faster.",
-		href: "https://astro.build",
-	},
-	{
-		title: "Astro Assets",
-		desc: "Built-in optimized asset support.",
-		href: "https://docs.astro.build/en/guides/assets/",
-	},
-	{
-		title: "Tailwind CSS",
-		desc: "Rapidly build modern websites without ever leaving your HTML.",
-		href: "https://tailwindcss.com",
-	},
-	{
-		title: "Markdown",
-		desc: "Simple and easy-to-use markup language.",
-		href: "https://www.markdownguide.org/",
-	},
-	{
-		title: "MDX",
-		desc: "Markdown for the component era.",
-		href: "https://mdxjs.com/",
-	},
-	{
-		title: "Satori",
-		desc: "Generating png Open Graph images for blog posts.",
-		href: "https://github.com/vercel/satori",
-	},
-	{
-		title: "Pagefind",
-		desc: "A fully static search library.",
-		href: "https://pagefind.app/",
-	},
-	{
-		title: "Astro Icon",
-		desc: "An easy to use Icon component for Astro.",
-		href: "https://github.com/natemoo-re/astro-icon#readme",
-	},
-];
+// const v3Tech: { desc: string; href: string; title: string }[] = [
+// 	{
+// 		desc: "Build fast websites, faster.",
+// 		href: "https://astro.build",
+// 		title: "Astro",
+// 	},
+// 	{
+// 		desc: "Rapidly build modern websites without ever leaving your HTML.",
+// 		href: "https://tailwindcss.com",
+// 		title: "Tailwind CSS",
+// 	},
+// 	{
+// 		desc: "Simple and easy-to-use markup language.",
+// 		href: "https://www.markdownguide.org/",
+// 		title: "Markdown",
+// 	},
+// 	{
+// 		desc: "Markdown for the component era.",
+// 		href: "https://mdxjs.com/",
+// 		title: "MDX",
+// 	},
+// 	{
+// 		desc: "Generating png Open Graph images for blog posts.",
+// 		href: "https://github.com/vercel/satori",
+// 		title: "Satori",
+// 	},
+// 	{
+// 		desc: "A fully static search library.",
+// 		href: "https://pagefind.app/",
+// 		title: "Pagefind",
+// 	},
+// 	{
+// 		desc: "An easy to use Icon component for Astro.",
+// 		href: "https://github.com/natemoo-re/astro-icon#readme",
+// 		title: "Astro Icon",
+// 	},
+// 	{
+// 		desc: "Highly customisable source code & syntax highlighter",
+// 		href: "https://expressive-code.com/",
+// 		title: "Expressive Code",
+// 	},
+// ];
+
 ---
 
 <PageLayout meta={{ title: "Home" }}>
@@ -91,8 +92,8 @@ const v3Tech: Array<{ title: string; desc: string; href: string }> = [
 		</ul>
 	</section>
 	<section class="mt-16">
-		<h2 class="title mb-4 text-xl">Technologies</h2>
-		<ul class="space-y-4 sm:space-y-2">
+		<h2 class="title mb-4 text-xl">Newsletter</h2>
+		<!-- <ul class="space-y-4 sm:space-y-2">
 			{
 				v3Tech.map(({ href, title, desc }) => (
 					<li>
@@ -108,6 +109,29 @@ const v3Tech: Array<{ title: string; desc: string; href: string }> = [
 					</li>
 				))
 			}
-		</ul>
+		</ul> -->
 	</section>
+	<section class="mt-16">
+		<h2 class="title mb-4 text-xl">Photos</h2>
+	</section>
+
+
+	<!-- Uses list section or page? -->
+			<!-- <ul class="space-y-4 sm:space-y-2">
+			{
+				v3Tech.map(({ href, title, desc }) => (
+					<li>
+						<a
+							href={href}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="main-link inline-block"
+						>
+							{title}
+						</a>: 
+						<p class="inline-block sm:mt-2">{desc}</p>
+					</li>
+				))
+			}
+		</ul> -->
 </PageLayout>

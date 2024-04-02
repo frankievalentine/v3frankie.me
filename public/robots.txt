@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://v3frankie.me/sitemap-index.xml

@@ -9,14 +9,13 @@ const url = new URL(Astro.request.url);
 		<Search />
 		<a
 			href="/"
-			class="grayscale hover:filter-none"
 			aria-current={url.pathname === "/" ? "page" : false}
 		>
 			<!-- <svg class="me-10 h-14 w-10 md:h-20 md:w-14" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 480">
 				<path d="m117.104 146.523 52.125 130.616 52.856-130.616h31.128L168.618 349.16 85.977 146.523z" fill="#424242"/>
 				<path d="M116.699 101.257H51.025v45.288h63.355v26.733H51.025V263H22.583V74.523h94.116z" fill="#424242"/>
 			</svg> -->
-			<img class="w-12 h-12 p-1 rounded-full ring-1 ring-gray-300 dark:ring-gray-500" src="/images/avatar-bw-300.png" alt="Bordered avatar">
+			<img class="w-12 h-12 p-1 rounded-full ring-1 ring-gray-300 dark:ring-gray-500" src="/images/avatar.jpg" alt="Bordered avatar">
 		</a>
 	</div>
 </header>
