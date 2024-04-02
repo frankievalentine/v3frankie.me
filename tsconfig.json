@@ -1,16 +1,17 @@
 {
-  "extends": "astro/tsconfigs/strict",
+  "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
-    "baseUrl": "/Users/frankievalentine/Development/astro-v3frankie.me",
-    "verbatimModuleSyntax": false,
+    "baseUrl": ".",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "allowJs": true,
     "paths": {
-      "@/assets/*": ["src/assets/*"],
-      "@/components/*": ["src/components/*"],
-      "@/data/*": ["src/data/*"],
-      "@/layouts/*": ["src/layouts/*"],
-      "@/utils": ["src/utils/index.ts"],
-      "@/types": ["src/types.ts"],
-      "@/site-config": ["src/site.config.ts"]
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@styles/*": ["styles/*"],
+      "@data/*": ["src/data/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@utils/*": ["src/utils/*"],
+      "@site-config": ["src/site.config.ts"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

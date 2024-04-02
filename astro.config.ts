@@ -4,12 +4,11 @@ import mdx from "@astrojs/mdx"
 import tailwind from "@astrojs/tailwind"
 import sitemap from "@astrojs/sitemap"
 import prefetch from "@astrojs/prefetch"
-
+import cloudflare from "@astrojs/cloudflare"
 import db from "@astrojs/db"
 import react from "@astrojs/react"
 import markdoc from "@astrojs/markdoc"
 import keystatic from "@keystatic/astro"
-
 import icon from "astro-icon"
 
 // https://astro.build/config
@@ -43,7 +42,10 @@ export default defineConfig({
     keystatic(),
     icon(),
   ],
-  output: "hybrid",
+  output: "server",
+  adapter: cloudflare({
+    imageService: "cloudflare",
+  }),
   vite: {
     plugins: [rawFonts([".ttf"])],
     optimizeDeps: {

@@ -1,4 +1,4 @@
-import type { SiteConfig } from "src/utils/types"
+import type { SiteConfig } from "@utils/types"
 
 export const siteConfig: SiteConfig = {
   // Used as both a meta property (src/components/HeadIndex.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
