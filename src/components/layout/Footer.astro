@@ -1,0 +1,15 @@
+---
+import { siteConfig } from "@/site-config";
+import ThemeToggle from "../ThemeToggle.astro";
+const year = new Date().getFullYear();
+---
+
+<footer
+	class="mt-auto flex w-full flex-row items-center justify-between gap-y-2 pb-4 pt-20 text-base text-center align-top text-gray-500"
+>
+	<div class="me-0 sm:me-4">
+		Copyright &copy; {year}{" "}
+		{siteConfig.author}
+	</div>
+	<ThemeToggle />
+</footer>

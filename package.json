@@ -1,15 +1,57 @@
 {
-  "name": "astro-v3frankie.me",
+  "name": "v3frankie.me",
   "type": "module",
+  "description": "My personal website.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frankievalentine/v3frankie.me"
+  },
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "postbuild": "pagefind --site dist",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check"
   },
   "dependencies": {
-    "astro": "^3.0.8"
-  }
+    "@astrojs/db": "^0.9.4",
+    "@astrojs/markdoc": "^0.9.2",
+    "@astrojs/mdx": "2.2.1",
+    "@astrojs/prefetch": "0.4.1",
+    "@astrojs/react": "^3.1.0",
+    "@astrojs/rss": "4.0.5",
+    "@astrojs/sitemap": "3.1.1",
+    "@astrojs/tailwind": "5.1.0",
+    "@keystatic/astro": "^5.0.0",
+    "@keystatic/core": "^0.5.7",
+    "astro": "4.5.9",
+    "astro-icon": "^1.1.0",
+    "astro-seo": "^0.8.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "satori": "^0.10.13",
+    "satori-html": "^0.3.2",
+    "sharp": "^0.33.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.5.10",
+    "@iconify-json/line-md": "^1.1.36",
+    "@pagefind/default-ui": "^1.0.4",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.10",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "@types/bun": "^1.0.5",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.4.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "pagefind": "^1.0.4"
+  },
+  "packageManager": "bun@1.0.35"
 }

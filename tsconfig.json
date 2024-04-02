@@ -1,3 +1,19 @@
 {
-  "extends": "astro/tsconfigs/strict"
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": "/Users/frankievalentine/Development/astro-v3frankie.me",
+    "verbatimModuleSyntax": false,
+    "paths": {
+      "@/assets/*": ["src/assets/*"],
+      "@/components/*": ["src/components/*"],
+      "@/data/*": ["src/data/*"],
+      "@/layouts/*": ["src/layouts/*"],
+      "@/utils": ["src/utils/index.ts"],
+      "@/types": ["src/types.ts"],
+      "@/site-config": ["src/site.config.ts"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "exclude": ["node_modules", "**/node_modules/*", ".vscode", "dist"]
 }
