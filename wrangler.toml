@@ -1,0 +1,13 @@
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "v3frankie-prod-db"
+database_id = "d65950fd-c05f-46df-945f-ae3cd531783a"
+
+[env.preview]
+name = "preview"
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "v3frankie-preview-db"
+database_id = "a08a428f-ba64-40e9-801c-8fa00ba88228"

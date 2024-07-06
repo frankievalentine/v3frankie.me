@@ -1,0 +1,19 @@
+---
+import { siteConfig } from "@/site-config"
+---
+
+<html lang={siteConfig.lang}>
+  <head>
+    <!-- <HeadIndex title={title} description={description} /> -->
+  </head>
+  <body>
+    <!-- <ThemeProvider /> -->
+    <!-- <SkipLink /> -->
+    <!-- <Header /> -->
+    <main id="main">
+      <slot />
+    </main>
+    <!-- <Footer /> -->
+  </body>
+</html>
+---
