@@ -1,47 +1,58 @@
-# Astro Starter Kit: Minimal
+# v3frankie.me
 
-```sh
-npm create astro@latest -- --template minimal
+<!-- <img src="https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE" alt="Astro Logo" /><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="Github Actions" /><img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Logo" /><img src="https://img.shields.io/badge/bun-282a36?style=for-the-badge&logo=bun&logoColor=fbf0df" alt="Bun Logo" /> -->
+
+- **Framework**: [Astro](https://astro.build/)
+- **Database**: [Cloudflare D1](https://developers.cloudflare.com/d1/)
+- **Deployment**: [Fly.io](https://fly.io/)
+- **CMS**: [Keystatic](https://keystatic.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
+- **CI/CD**: [Github Actions ](https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/)
+
+## Project Structure
+
+| File                   | Description                                   |
+| :--------------------- | :-------------------------------------------- |
+| `db/*`                 | DB configuration and contents.                |
+| `public/*`             | Assets, fonts, robots, sitemap, and manifest. |
+| `src/components/*`     | Project components.                           |
+| `pages/*`              | All other static pages.                       |
+| `pages/index.astro`    | Astro entry page.                             |
+| `pages/site.config.ts` | Main site configuration data.                 |
+| `styles/*`             | A small amount of global styles. Tailwind.    |
+| `layouts/*`            | Astro page layouts.                           |
+| `content/*`            | Blog content generated from Keystatic.        |
+
+## Running this site locally
+
+Fork and change your repo's description.
+Clone your newly forked repo using the Github CLI.
+
+Make sure you have bun installed, or use pnpm.
+
+```bash
+gh repo fork frankievalentine/v3frankie.me
+gh repo clone <insert your repo link here>
+cd <your repo>
+bun install
+bun run dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Deploy your own
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Install the [flyctl](https://formulae.brew.sh/formula/flyctl) using Homebrew and authenticate your Fly.io account.
 
-## 🚀 Project Structure
+Use fly.io's [dockerfile generator](https://github.com/fly-apps/dockerfile-node) to overwrite the current Dockerfile.
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+pnpx --yes @flydotio/dockerfile@latest`
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Then...
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+fly launch
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+More information on deploying an Astro project with Fly.io [here](https://fly.io/docs/js/frameworks/astro/).

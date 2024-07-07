@@ -1,20 +1,25 @@
 import rss from "@astrojs/rss"
-import { siteConfig } from "@site-config"
-import { getAllPosts } from "@data/posts"
+import { getCollection } from "astro:content"
+import { siteConfig } from "@/site-config"
 
 export const GET = async () => {
-  const posts = await getAllPosts()
+  const posts = await getCollection("posts")
 
   return rss({
     title: siteConfig.title,
     description: siteConfig.description,
-    site: import.meta.env.SITE,
+    site: siteConfig.title,
     items: posts.map((post) => ({
       title: post.data.title,
+      pubDate: post.data.pubDate,
       description: post.data.description,
-      pubDate: post.data.publishDate,
-      link: `posts/${post.slug}`,
+      customData: post.data.customData,
+      // Compute RSS link from post `slug`
+      // This example assumes all posts are rendered as `/blog/[slug]` routes
+      link: `/blog/${post.slug}/`,
     })),
+    customData: `<language>en-us</language>`,
+    trailingSlash: false,
     stylesheet: "/rss/styles.xsl",
   })
 }

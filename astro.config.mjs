@@ -1,7 +1,6 @@
 import { defineConfig } from "astro/config"
 import tailwind from "@astrojs/tailwind"
 import partytown from "@astrojs/partytown"
-import react from "@astrojs/react"
 import mdx from "@astrojs/mdx"
 import sitemap from "@astrojs/sitemap"
 import node from "@astrojs/node"
@@ -11,8 +10,10 @@ import icon from "astro-icon"
 import robotsTxt from "astro-robots-txt"
 import lighthouse from "astro-lighthouse"
 import expressiveCode from "astro-expressive-code"
-
 import cloudflare from "@astrojs/cloudflare"
+import react from "@astrojs/react"
+import RemoteAssets from "vite-plugin-remote-assets"
+import playformCompress from "@playform/compress"
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,19 +22,40 @@ export default defineConfig({
   prefetch: true,
   integrations: [
     tailwind(),
-    partytown(),
-    react(),
-    mdx(),
     sitemap(),
+    robotsTxt(),
+    partytown(),
+    expressiveCode(),
+    mdx(),
     markdoc(),
     keystatic(),
     icon(),
-    robotsTxt(),
     lighthouse(),
-    expressiveCode(),
+    react(),
+    (await import("@playform/compress")).default({
+      CSS: {
+        lightningcss: {
+          // Removes too much
+          unusedSymbols: false,
+        },
+      },
+      HTML: {
+        "html-minifier-terser": {
+          removeAttributeQuotes: false,
+        },
+      },
+      Image: false,
+      JavaScript: true,
+      SVG: true,
+      Logger: 1,
+    }),
   ],
   output: "hybrid",
-  adapter: cloudflare({ platformProxy: true }),
+  // Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
+  adapter: cloudflare({
+    platformProxy: true,
+    imageService: "passthrough",
+  }),
   vite: {
     build: {
       rollupOptions: {
@@ -44,6 +66,6 @@ export default defineConfig({
         },
       },
     },
-    plugins: [],
+    plugins: [RemoteAssets()],
   },
 })

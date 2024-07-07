@@ -1,0 +1,17 @@
+---
+import { siteConfig } from "@/site-config"
+// import ThemeSelect from "@/components/ThemeSelect.astro"
+import ThemeIcon from "@/components/ThemeIcon.astro"
+const year = new Date().getFullYear()
+---
+
+<footer
+  class="mt-auto flex flex-row items-center justify-between pb-4 pt-20 text-base text-center align-top text-gray-500"
+>
+  <div class="me-0 sm:me-4">
+    Copyright &copy; {year}{" "}
+    {siteConfig.author}
+  </div>
+  <ThemeIcon />
+  <!-- <ThemeSelect /> -->
+</footer>

@@ -1,19 +1,22 @@
 ---
-import { siteConfig } from "@/site-config"
+import Head from "@/components/Head.astro"
+
+import Header from "@/components/Header.astro"
+import Footer from "@/components/Footer.astro"
+
+// import ThemeProvider from "@/components/ThemeProvider.astro"
+
+import "@/style/global.css"
 ---
 
-<html lang={siteConfig.lang}>
+<html lang="en">
   <head>
-    <!-- <HeadIndex title={title} description={description} /> -->
+    <Head />
+    <!-- <ThemeProvider /> -->
   </head>
   <body>
-    <!-- <ThemeProvider /> -->
-    <!-- <SkipLink /> -->
-    <!-- <Header /> -->
-    <main id="main">
-      <slot />
-    </main>
-    <!-- <Footer /> -->
+    <Header />
+    <main><slot /></main>
+    <Footer />
   </body>
 </html>
----
