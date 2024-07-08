@@ -1,14 +1,13 @@
 ---
-// import Search from "@components/Search.astro"
-
 const url = new URL(Astro.request.url)
+import Search from "@/components/Search.astro"
 ---
 
 <header
   class="mb-12 grid lg:fixed lg:z-10 lg:top-12 lg:bottom-auto lg:left-auto lg:right-20"
 >
   <div class="flex sm:flex-row">
-    <!-- <Search /> -->
+    <Search />
     <a href="/" aria-current={url.pathname === "/" ? "page" : false}>
       <span class="absolute h-3 w-3">
         <span

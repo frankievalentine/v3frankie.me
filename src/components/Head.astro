@@ -1,7 +1,70 @@
 ---
 import { ViewTransitions } from "astro:transitions"
+
+import { siteConfig } from "@/site-config"
+
+const { title, description } = Astro.props
+
+const titleSeparator = "•"
+const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 ---
 
+<!-- Meta -->
+<meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>{siteTitle}</title>
+<!-- <meta name="generator" content={Astro.generator} /> -->
+
+<!-- Primary Meta Tags -->
+<meta name="title" content={siteTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={siteConfig.author} />
+
+<!-- Icons / Favicon -->
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> -->
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content={siteConfig.title} />
+<meta property="og:locale" content={siteConfig.ogLocale} />
+<meta property="article:author" content={siteConfig.author} />
+
+<!-- Pagefind -->
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- RSS auto-discovery -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={siteConfig.title}
+  href="/rss.xml"
+/>
+
+<!-- Analytics -->
+<script type="text/partytown" src="/utils/analytics.js"></script>
+
+<!-- Dark mode -->
 <script is:inline>
   // On page load or when changing themes, best to add inline in `head` to avoid FOUC
   if (
@@ -53,8 +116,5 @@ import { ViewTransitions } from "astro:transitions"
   document.addEventListener("astro:after-swap", setTheme)
 </script>
 
+<!-- View transitions -->
 <ViewTransitions />
-
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width" />
-<meta name="generator" content={Astro.generator} />

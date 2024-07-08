@@ -4,7 +4,8 @@ export const siteConfig: SiteConfig = {
   // Used as both a meta property (src/components/HeadIndex.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
   author: "Frankie Valentine",
   // Meta property used to construct the meta title property, found in src/components/HeadIndex.astro L:11
-  title: "https://v3frankie.me",
+  title: "v3frankie.me",
+  url: "https://v3frankie.me",
   // Meta property used as the default description meta property
   description: "Frankie Valentine's personal website",
   // HTML lang property, found in src/layouts/Base.astro L:18

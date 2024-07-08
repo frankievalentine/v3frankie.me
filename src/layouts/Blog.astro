@@ -2,9 +2,9 @@
 import BaseLayout from "@/layouts/Base"
 ---
 
-<BaseLayout>
-  <article data-pagefind-body>
-    <div>
+<BaseLayout meta={{ title: "Blog" }}>
+  <article class="flex-grow break-words" data-pagefind-body>
+    <div class="prose dark:prose-dark max-w-none">
       <slot />
     </div>
   </article>

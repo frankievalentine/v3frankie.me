@@ -1,18 +1,25 @@
 ---
+import type { SiteMeta } from "@/utils/types"
 import Head from "@/components/Head.astro"
 
 import Header from "@/components/Header.astro"
 import Footer from "@/components/Footer.astro"
-
-// import ThemeProvider from "@/components/ThemeProvider.astro"
+import { siteConfig } from "@/site-config"
 
 import "@/style/global.css"
+
+interface Props {
+  meta: SiteMeta
+}
+
+const {
+  meta: { title, description = siteConfig.description },
+} = Astro.props
 ---
 
 <html lang="en">
   <head>
-    <Head />
-    <!-- <ThemeProvider /> -->
+    <Head title={title} description={description} />
   </head>
   <body>
     <Header />

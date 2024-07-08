@@ -6,7 +6,7 @@ import { getCollection } from "astro:content"
 const posts = await getCollection("posts")
 ---
 
-<BaseLayout>
+<BaseLayout meta={{ title: "Home" }}>
   <section>
     <h1 class="title mb-6">Hey, I'm Frankie —</h1>
     <p class="mb-8 max-w-xl">

@@ -9,6 +9,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
+    "predev": "pagefind --site dist --output-path ./public/pagefind",
     "build": "astro check && astro build",
     "postbuild": "pagefind --site dist",
     "preview": "astro preview",

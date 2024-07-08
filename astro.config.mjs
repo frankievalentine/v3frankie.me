@@ -12,7 +12,6 @@ import lighthouse from "astro-lighthouse"
 import expressiveCode from "astro-expressive-code"
 import cloudflare from "@astrojs/cloudflare"
 import react from "@astrojs/react"
-import RemoteAssets from "vite-plugin-remote-assets"
 import playformCompress from "@playform/compress"
 import devtoolBreakpoints from "astro-devtool-breakpoints"
 
@@ -68,6 +67,6 @@ export default defineConfig({
         },
       },
     },
-    plugins: [RemoteAssets()],
+    plugins: [],
   },
 })
