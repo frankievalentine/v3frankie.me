@@ -2,8 +2,15 @@
 import { config, fields, collection } from "@keystatic/core"
 
 export default config({
+  // storage: {
+  //   kind: "local",
+  // },
   storage: {
-    kind: "local",
+    kind: "github",
+    repo: {
+      owner: "frankievalentine",
+      name: "v3frankie.me",
+    },
   },
   collections: {
     posts: collection({
@@ -14,7 +21,16 @@ export default config({
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
         publishedDate: fields.date({ label: "Published Date" }),
-        content: fields.mdx({ label: "Content" }),
+        content: fields.mdx({
+          label: "Content",
+          options: {
+            // Use Astro Image component for uploaded images
+            image: {
+              directory: "src/assets/images/posts",
+              publicPath: "@assets/images/posts/",
+            },
+          },
+        }),
       },
     }),
   },

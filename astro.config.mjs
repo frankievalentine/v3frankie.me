@@ -14,6 +14,7 @@ import cloudflare from "@astrojs/cloudflare"
 import react from "@astrojs/react"
 import RemoteAssets from "vite-plugin-remote-assets"
 import playformCompress from "@playform/compress"
+import devtoolBreakpoints from "astro-devtool-breakpoints"
 
 // https://astro.build/config
 export default defineConfig({
@@ -32,6 +33,7 @@ export default defineConfig({
     icon(),
     lighthouse(),
     react(),
+    devtoolBreakpoints(),
     (await import("@playform/compress")).default({
       CSS: {
         lightningcss: {

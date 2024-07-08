@@ -14,7 +14,6 @@
 
 | File                   | Description                                   |
 | :--------------------- | :-------------------------------------------- |
-| `db/*`                 | DB configuration and contents.                |
 | `public/*`             | Assets, fonts, robots, sitemap, and manifest. |
 | `src/components/*`     | Project components.                           |
 | `pages/*`              | All other static pages.                       |

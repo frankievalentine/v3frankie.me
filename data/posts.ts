@@ -5,3 +5,4 @@ export async function getAllPosts() {
   return await getCollection("posts", ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true
   })
+}

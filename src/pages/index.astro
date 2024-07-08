@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "@/layouts/Base"
 import Socials from "@/components/Socials.astro"
+
+import { getCollection } from "astro:content"
+const posts = await getCollection("posts")
 ---
 
 <BaseLayout>
@@ -39,16 +42,15 @@ import Socials from "@/components/Socials.astro"
   </section>
   <section aria-label="Blog post list" class="mt-16">
     <h2 class="title mb-4 text-xl">Posts</h2>
-    <!-- <ul class="space-y-4 sm:space-y-2">
+    <ul>
       {
-        allPostsByDate.map((p: any) => (
-          <li class="flex flex-col sm:flex-row">
-            <PostPreview post={p} />
-            <Views slug={p.slug} />
+        posts.map((post) => (
+          <li>
+            <a href={`/posts/${post.slug}`}>{post.data.title}</a>
           </li>
         ))
       }
-    </ul> -->
+    </ul>
   </section>
   <section class="mt-16">
     <h2 class="title mb-4 text-xl">Newsletter</h2>

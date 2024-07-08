@@ -56,6 +56,9 @@ importers:
       astro:
         specifier: ^4.11.5
         version: 4.11.5(@types/node@20.14.10)(lightningcss@1.25.1)(terser@5.31.1)(typescript@5.5.3)
+      astro-devtool-breakpoints:
+        specifier: ^0.3.0
+        version: 0.3.0(astro@4.11.5(@types/node@20.14.10)(lightningcss@1.25.1)(terser@5.31.1)(typescript@5.5.3))
       astro-expressive-code:
         specifier: ^0.35.3
         version: 0.35.3(astro@4.11.5(@types/node@20.14.10)(lightningcss@1.25.1)(terser@5.31.1)(typescript@5.5.3))
@@ -2285,6 +2288,11 @@ packages:
   astring@1.8.6:
     resolution: {integrity: sha512-ISvCdHdlTDlH5IpxQJIex7BWBywFWgjJSVdwst+/iQCoEYnyOaQ95+X1JGshuBjGp6nxKUy1jMgE3zPqN7fQdg==}
     hasBin: true
+
+  astro-devtool-breakpoints@0.3.0:
+    resolution: {integrity: sha512-Mp2T1xusL6R8IUJ0La8UtEjoQgYx0m2w8EFu9SdqqhR8ggkubrT+XRB92tFgvrDtuMMiXosO9oD/ZXrsGQtVSQ==}
+    peerDependencies:
+      astro: ^4.0.0
 
   astro-expressive-code@0.35.3:
     resolution: {integrity: sha512-f1L1m3J3EzZHDEox6TXmuKo5fTSbaNxE/HU0S0UQmvlCowtOKnU/LOsoDwsbQSYGKz+fdLRPsCjFMiKqEoyfcw==}
@@ -8048,6 +8056,10 @@ snapshots:
       tslib: 2.6.3
 
   astring@1.8.6: {}
+
+  astro-devtool-breakpoints@0.3.0(astro@4.11.5(@types/node@20.14.10)(lightningcss@1.25.1)(terser@5.31.1)(typescript@5.5.3)):
+    dependencies:
+      astro: 4.11.5(@types/node@20.14.10)(lightningcss@1.25.1)(terser@5.31.1)(typescript@5.5.3)
 
   astro-expressive-code@0.35.3(astro@4.11.5(@types/node@20.14.10)(lightningcss@1.25.1)(terser@5.31.1)(typescript@5.5.3)):
     dependencies:

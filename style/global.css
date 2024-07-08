@@ -4,7 +4,7 @@
 
 @layer base {
   html body {
-    @apply mx-auto flex min-h-screen max-w-[1520px] flex-col px-8 pt-16 font-sans leading-10 tracking-tight text-3xl font-normal antialiased;
+    @apply mx-auto flex min-h-screen max-w-[1520px] flex-col px-8 pt-16 leading-10 tracking-tight text-3xl font-normal antialiased;
   }
 }
 
