@@ -1,17 +1,19 @@
 ---
 import { siteConfig } from "@/site-config"
-// import ThemeSelect from "@/components/ThemeSelect.astro"
 import ThemeIcon from "@/components/ThemeIcon.astro"
+import StatusWidget from "@/components/StatusWidget.astro"
 const year = new Date().getFullYear()
 ---
 
 <footer
-  class="mt-auto flex flex-row items-center justify-between pb-4 pt-20 text-base text-center align-top text-gray-500"
+  class="mt-auto flex flex-row justify-between items-center gap-4 pb-4 pt-20"
 >
-  <div class="me-0 sm:me-4">
+  <div class="basis-1/2 text-gray-900 text-base dark:text-gray-200">
     Copyright &copy; {year}{" "}
     {siteConfig.author}
   </div>
-  <ThemeIcon />
-  <!-- <ThemeSelect /> -->
+  <div class="basis-1 lg:mb-2 lg:ml-[550px]">
+    <StatusWidget slug="v3frankie-me" />
+  </div>
+  <div class="basis-1"><ThemeIcon /></div>
 </footer>

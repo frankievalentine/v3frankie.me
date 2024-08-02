@@ -45,7 +45,7 @@ Install the [flyctl](https://formulae.brew.sh/formula/flyctl) using Homebrew and
 Use fly.io's [dockerfile generator](https://github.com/fly-apps/dockerfile-node) to overwrite the current Dockerfile.
 
 ```bash
-pnpx --yes @flydotio/dockerfile@latest`
+pnpx @flydotio/dockerfile@latest`
 ```
 
 Then...

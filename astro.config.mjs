@@ -51,6 +51,7 @@ export default defineConfig({
       Logger: 1,
     }),
   ],
+  // Hybrid needed for Keystatic
   output: "hybrid",
   // Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
   adapter: cloudflare({
