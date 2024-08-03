@@ -11,7 +11,7 @@
       "@/data/*": ["data/*"],
       "@/layouts/*": ["src/layouts/*.astro"],
       "@/utils/*": ["utils/*"],
-      "@/site-config": ["src/site.config.ts"]
+      "@/config/*": ["config/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

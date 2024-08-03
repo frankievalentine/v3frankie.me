@@ -1,7 +1,7 @@
 ---
 import { ViewTransitions } from "astro:transitions"
 
-import { siteConfig } from "@/site-config"
+import { siteConfig } from "@/config/site"
 
 const { title, description } = Astro.props
 
@@ -62,7 +62,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 />
 
 <!-- Analytics -->
-<script type="text/partytown" src="/utils/analytics.js"></script>
+<script is:inline type="text/partytown" src="/utils/analytics.js"></script>
 
 <!-- Dark mode -->
 <script is:inline>
