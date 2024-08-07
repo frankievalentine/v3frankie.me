@@ -1,6 +1,6 @@
 # v3frankie.me
 
-<!-- <img src="https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE" alt="Astro Logo" /><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="Github Actions" /><img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Logo" /><img src="https://img.shields.io/badge/bun-282a36?style=for-the-badge&logo=bun&logoColor=fbf0df" alt="Bun Logo" /> -->
+<img src="https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE" alt="Astro Logo" />
 
 - **Framework**: [Astro](https://astro.build/)
 - **Database**: [Cloudflare D1](https://developers.cloudflare.com/d1/)
@@ -34,8 +34,8 @@ Make sure you have bun installed, or use pnpm.
 gh repo fork frankievalentine/v3frankie.me
 gh repo clone <insert your repo link here>
 cd <your repo>
-bun install
-bun run dev
+pnpm install
+pnpm run dev
 ```
 
 ## Deploy your own
@@ -45,7 +45,7 @@ Install the [flyctl](https://formulae.brew.sh/formula/flyctl) using Homebrew and
 Use fly.io's [dockerfile generator](https://github.com/fly-apps/dockerfile-node) to overwrite the current Dockerfile.
 
 ```bash
-pnpx @flydotio/dockerfile@latest`
+pnpx @flydotio/dockerfile@latest
 ```
 
 Then...
