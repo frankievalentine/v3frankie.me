@@ -14,7 +14,6 @@ import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import playformCompress from "@playform/compress";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
-
 import simpleStackForm from "simple-stack-form";
 
 // https://astro.build/config

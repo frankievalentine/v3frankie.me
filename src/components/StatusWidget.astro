@@ -1,5 +1,5 @@
 ---
-import * as z from "zod"
+import * as z from "zod";
 
 const statusEnum = z.enum([
   "operational",
@@ -9,9 +9,9 @@ const statusEnum = z.enum([
   "under_maintenance",
   "unknown",
   "incident",
-])
+]);
 
-const statusSchema = z.object({ status: statusEnum })
+const statusSchema = z.object({ status: statusEnum });
 
 const dictionary = {
   operational: {
@@ -42,21 +42,21 @@ const dictionary = {
     label: "Under Maintenance",
     color: "bg-blue-500",
   },
-}
+};
 
-const slug = Astro.props.slug
+const slug = Astro.props.slug;
 
 const res = await fetch(`https://api.openstatus.dev/public/status/${slug}`, {
   // @ts-ignore
   next: { revalidate: 60 },
-})
-const data = await res.json()
-const parsed = statusSchema.safeParse(data)
+});
+const data = await res.json();
+const parsed = statusSchema.safeParse(data);
 if (!parsed.success) {
-  return null
+  return null;
 }
-const key = parsed.data.status
-const { label, color } = dictionary[key]
+const key = parsed.data.status;
+const { label, color } = dictionary[key];
 ---
 
 <a

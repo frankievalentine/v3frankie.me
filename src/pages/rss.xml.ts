@@ -15,7 +15,7 @@ export const GET = async () => {
       description: post.data.description,
       customData: post.data.customData,
       // Compute RSS link from post `slug`
-      // This example assumes all posts are rendered as `/blog/[slug]` routes
+      // This example assumes all posts are rendered as `/posts/[slug]` routes
       link: `/posts/${post.slug}/`,
     })),
     customData: `<language>en-us</language>`,

@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components"
+import { Icon } from "astro-icon/components";
 
 const socialLinks = [
   {
@@ -22,7 +22,7 @@ const socialLinks = [
     friendlyName: "email",
     link: "mailto:keen.song9641@fastmail.com",
   },
-]
+];
 ---
 
 <div class="flex">
@@ -30,7 +30,8 @@ const socialLinks = [
     {
       socialLinks.map(({ link, name, friendlyName }) => {
         const isEmail =
-          name.includes("email") || friendlyName.toLowerCase().includes("email")
+          name.includes("email") ||
+          friendlyName.toLowerCase().includes("email");
         return (
           <li>
             <a
@@ -50,7 +51,7 @@ const socialLinks = [
               <span class="sr-only">{friendlyName}</span>
             </a>
           </li>
-        )
+        );
       })
     }
   </ul>

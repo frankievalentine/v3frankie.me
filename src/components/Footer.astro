@@ -1,19 +1,17 @@
 ---
-import { siteConfig } from "@/config/site"
-import ThemeIcon from "@/components/ThemeIcon.astro"
-import StatusWidget from "@/components/StatusWidget.astro"
-const year = new Date().getFullYear()
+import StatusWidget from "@/components/StatusWidget.astro";
+import ThemeIcon from "@/components/ThemeIcon.astro";
+import { siteConfig } from "@/config/site";
+const year = new Date().getFullYear();
 ---
 
-<footer
-  class="mt-auto flex flex-row justify-between items-center gap-4 pb-4 pt-20"
->
-  <div class="basis-1/2 text-gray-900 text-base dark:text-gray-200">
+<footer class="mt-auto flex flex-row justify-between items-center gap-4 pb-4 pt-20">
+  <div class="text-gray-900 text-base dark:text-gray-200">
     Copyright &copy; {year}{" "}
     {siteConfig.author}
   </div>
-  <div class="basis-1 lg:mb-2 lg:ml-[550px]">
+  <div class="flex flex-row gap-4">
     <StatusWidget slug="v3frankie-me" />
+    <ThemeIcon />
   </div>
-  <div class="basis-1"><ThemeIcon /></div>
 </footer>

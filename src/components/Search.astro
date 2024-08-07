@@ -2,21 +2,21 @@
 
 <script is:inline>
   window.addEventListener("DOMContentLoaded", (event) => {
-    new PagefindUI({ element: "#search", resetStyles: false })
-  })
+    new PagefindUI({ element: "#search", resetStyles: false });
+  });
 
   window.addEventListener("keydown", (event) => {
     if (
       (event.metaKey === true || event.ctrlKey === true) &&
       event.key === "k"
     ) {
-      document.querySelector("div#search input").focus()
-      e.preventDefault()
+      document.querySelector("div#search input").focus();
+      e.preventDefault();
     } else if (event.key === "/") {
-      document.querySelector("div#search input").focus()
-      e.preventDefault()
+      document.querySelector("div#search input").focus();
+      e.preventDefault();
     }
-  })
+  });
 </script>
 
 <style is:global>
