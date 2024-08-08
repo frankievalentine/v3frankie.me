@@ -22,7 +22,7 @@ export default defineConfig({
   },
   prefetch: true,
   integrations: [
-    tailwind({ applyBaseStyles: false }),
+    tailwind(),
     sitemap(),
     robotsTxt(),
     partytown(),
