@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Adjust NODE_VERSION as desired
-ARG NODE_VERSION=20.15.0
+ARG NODE_VERSION=22.6.0
 FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Astro"
@@ -13,7 +13,7 @@ WORKDIR /app
 ENV NODE_ENV="production"
 
 # Install pnpm
-ARG PNPM_VERSION=9.6.0
+ARG PNPM_VERSION=9.7.0
 RUN npm install -g pnpm@$PNPM_VERSION
 
 
@@ -46,7 +46,7 @@ COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 
 ENV PORT=4321
-ENV HOST=0.0.0.0
+ENV HOST=127.0.0.1
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 4321
