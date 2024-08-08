@@ -1,6 +1,6 @@
+import { siteConfig } from "@/config/site"
 import rss from "@astrojs/rss"
 import { getCollection } from "astro:content"
-import { siteConfig } from "@/config/site"
 
 export const GET = async () => {
   const posts = await getCollection("posts")
@@ -19,7 +19,6 @@ export const GET = async () => {
       link: `/posts/${post.slug}/`,
     })),
     customData: `<language>en-us</language>`,
-    trailingSlash: false,
-    stylesheet: "/rss/styles.xsl",
+    trailingSlash: false
   })
 }

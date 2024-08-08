@@ -1,19 +1,17 @@
-import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import partytown from "@astrojs/partytown";
-import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
-import node from "@astrojs/node";
-import keystatic from "@keystatic/astro";
 import markdoc from "@astrojs/markdoc";
-import icon from "astro-icon";
-import robotsTxt from "astro-robots-txt";
-import lighthouse from "astro-lighthouse";
-import expressiveCode from "astro-expressive-code";
-import cloudflare from "@astrojs/cloudflare";
+import mdx from "@astrojs/mdx";
+import node from '@astrojs/node';
+import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
-import playformCompress from "@playform/compress";
+import sitemap from "@astrojs/sitemap";
+import tailwind from "@astrojs/tailwind";
+import keystatic from "@keystatic/astro";
 import devtoolBreakpoints from "astro-devtool-breakpoints";
+import expressiveCode from "astro-expressive-code";
+import icon from "astro-icon";
+import lighthouse from "astro-lighthouse";
+import robotsTxt from "astro-robots-txt";
+import { defineConfig } from "astro/config";
 import simpleStackForm from "simple-stack-form";
 
 // https://astro.build/config
@@ -41,13 +39,15 @@ export default defineConfig({
     SVG: true,
     Logger: 1
   }), simpleStackForm()],
-  // Hybrid needed for Keystatic
-  output: "hybrid",
-  // Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
-  adapter: cloudflare({
-    platformProxy: true,
-    imageService: "passthrough"
+  output: "server",
+  adapter: node({
+    mode: "standalone",
   }),
+  // Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
+  // adapter: cloudflare({
+  //   platformProxy: true,
+  //   imageService: "passthrough"
+  // }),
   vite: {
     build: {
       rollupOptions: {

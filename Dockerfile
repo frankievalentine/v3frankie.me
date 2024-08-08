@@ -1,16 +1,20 @@
 # syntax = docker/dockerfile:1
 
-# Adjust BUN_VERSION as desired
-ARG BUN_VERSION=1.0.35
-FROM oven/bun:${BUN_VERSION}-slim as base
+# Adjust NODE_VERSION as desired
+ARG NODE_VERSION=20.16.0
+FROM node:${NODE_VERSION}-slim as base
 
-LABEL fly_launch_runtime="Bun"
+LABEL fly_launch_runtime="Astro"
 
-# Bun app lives here
+# Astro app lives here
 WORKDIR /app
 
 # Set production environment
 ENV NODE_ENV="production"
+
+# Install pnpm
+ARG PNPM_VERSION=9.7.0
+RUN npm install -g pnpm@$PNPM_VERSION
 
 
 # Throw-away build stage to reduce size of final image
@@ -18,25 +22,20 @@ FROM base as build
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential ca-certificates curl pkg-config python-is-python3
-
-# Install Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs
+    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
 
 # Install node modules
-COPY --link bun.lockb package.json ./
-RUN bun install
+COPY --link package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --prod=false
 
 # Copy application code
 COPY --link . .
 
 # Build application
-RUN bun run build
+RUN pnpm run build
 
 # Remove development dependencies
-RUN rm -rf node_modules && \
-    bun install --ci
+RUN pnpm prune --prod
 
 
 # Final stage for app image
