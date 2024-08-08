@@ -1,12 +1,11 @@
 import markdoc from "@astrojs/markdoc";
 import mdx from "@astrojs/mdx";
-import node from '@astrojs/node';
+import node from "@astrojs/node";
 import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import keystatic from "@keystatic/astro";
-import devtoolBreakpoints from "astro-devtool-breakpoints";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import lighthouse from "astro-lighthouse";
@@ -19,27 +18,24 @@ export default defineConfig({
   site: "https://v3frankie.me",
   markdown: {},
   image: {
-    domains: ["images.unsplash.com"]
+    domains: ["images.unsplash.com"],
   },
   prefetch: true,
-  integrations: [tailwind(), sitemap(), robotsTxt(), partytown(), expressiveCode(), mdx(), markdoc(), keystatic(), icon(), lighthouse(), react(), devtoolBreakpoints(), (await import("@playform/compress")).default({
-    CSS: {
-      lightningcss: {
-        // Removes too much
-        unusedSymbols: false
-      }
-    },
-    HTML: {
-      "html-minifier-terser": {
-        removeAttributeQuotes: false
-      }
-    },
-    Image: false,
-    JavaScript: true,
-    SVG: true,
-    Logger: 1
-  }), simpleStackForm()],
-  output: "server",
+  integrations: [
+    tailwind({ applyBaseStyles: false }),
+    sitemap(),
+    robotsTxt(),
+    partytown(),
+    expressiveCode(),
+    mdx(),
+    markdoc(),
+    keystatic(),
+    icon(),
+    lighthouse(),
+    react(),
+    simpleStackForm(),
+  ],
+  output: "hybrid",
   adapter: node({
     mode: "standalone",
   }),
@@ -54,10 +50,10 @@ export default defineConfig({
         output: {
           entryFileNames: "entry.[hash].mjs",
           chunkFileNames: "chunks/chunk.[hash].mjs",
-          assetFileNames: "assets/asset.[hash][extname]"
-        }
-      }
+          assetFileNames: "assets/asset.[hash][extname]",
+        },
+      },
     },
-    plugins: []
-  }
+    plugins: [],
+  },
 });
