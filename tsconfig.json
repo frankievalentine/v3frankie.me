@@ -7,7 +7,7 @@
     "paths": {
       "@/assets/*": ["src/assets/*"],
       "@/components/*": ["src/components/*"],
-      "@/style/*": ["style/*"],
+      "@/styles/*": ["styles/*"],
       "@/data/*": ["data/*"],
       "@/layouts/*": ["src/layouts/*.astro"],
       "@/utils/*": ["utils/*"],
@@ -16,5 +16,5 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
-  "exclude": ["node_modules", "**/node_modules/*", ".vscode", "dist", "public/pagefind"]
+  "exclude": ["node_modules", "**/node_modules/*", "dist", "public/pagefind"]
 }
