@@ -1,22 +1,24 @@
 # syntax = docker/dockerfile:1
 
 # Adjust NODE_VERSION as desired
-FROM node:20-slim AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+ARG NODE_VERSION=20.16.0
+FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Astro"
 
 # Astro app lives here
-COPY . /app
 WORKDIR /app
 
 # Set production environment
 ENV NODE_ENV="production"
 
+# Install pnpm
+ARG PNPM_VERSION=9.7.0
+RUN npm install -g pnpm@$PNPM_VERSION
+
+
 # Throw-away build stage to reduce size of final image
-FROM base AS build
+FROM base as build
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
@@ -35,6 +37,7 @@ RUN pnpm run build
 # Remove development dependencies
 RUN pnpm prune --prod
 
+
 # Final stage for app image
 FROM base
 
@@ -47,4 +50,4 @@ ENV HOST=0.0.0.0
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 4321
-CMD ["pnpm", "run", "production"]
+CMD [ "node", "./dist/server/entry.mjs" ]
