@@ -1,26 +1,25 @@
 ---
-import { Icon } from "astro-icon/components";
-
 const socialLinks = [
   {
-    name: "line-md:github-loop",
     friendlyName: "Github",
     link: "https://github.com/frankievalentine",
+    path: "icons/github.svg",
   },
   {
-    name: "line-md:twitter-x",
     friendlyName: "Twitter",
     link: "https://twitter.com/v3frankie",
+    path: "icons/twitter.svg",
   },
   {
-    name: "line-md:linkedin",
     friendlyName: "LinkedIn",
     link: "https://linkedin.com/in/frankievalentine",
+    path: "icons/linkedin.svg",
   },
   {
     name: "line-md:email-twotone",
     friendlyName: "email",
     link: "mailto:keen.song9641@fastmail.com",
+    path: "icons/email.svg",
   },
 ];
 ---
@@ -28,9 +27,9 @@ const socialLinks = [
 <div class="flex">
   <ul class="flex items-center ml-0 mt-5 sm:flex-initial">
     {
-      socialLinks.map(({ link, name, friendlyName }) => {
+      socialLinks.map(({ link, friendlyName, path }) => {
         const isEmail =
-          name.includes("email") ||
+          friendlyName.includes("email") ||
           friendlyName.toLowerCase().includes("email");
         return (
           <li>
@@ -41,12 +40,7 @@ const socialLinks = [
               rel={`noopener noreferrer me ${isEmail ? "authn" : ""}`}
             >
               {
-                <Icon
-                  class="h-6 w-5"
-                  name={name}
-                  aria-hidden="true"
-                  focusable="false"
-                />
+              <img class="h-6 w-5" src={path} />
               }
               <span class="sr-only">{friendlyName}</span>
             </a>

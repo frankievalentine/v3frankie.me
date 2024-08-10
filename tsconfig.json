@@ -7,7 +7,7 @@
     "paths": {
       "@/assets/*": ["src/assets/*"],
       "@/components/*": ["src/components/*"],
-      "@/styles/*": ["styles/*"],
+      "@/styles/*": ["src/styles/*"],
       "@/data/*": ["data/*"],
       "@/layouts/*": ["src/layouts/*.astro"],
       "@/utils/*": ["utils/*"],
