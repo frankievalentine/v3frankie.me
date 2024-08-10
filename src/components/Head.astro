@@ -46,10 +46,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <meta property="og:locale" content={siteConfig.ogLocale} />
 <meta property="article:author" content={siteConfig.author} />
 
-<!-- Pagefind -->
-<link href="pagefind/pagefind-ui.css" rel="stylesheet" />
-<script is:inline src="pagefind/pagefind-ui.js"></script>
-
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -63,6 +59,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 <!-- Analytics -->
 <script is:inline type="text/partytown" src="analytics.js"></script>
+
+<!-- Pagefind -->
+ <script is:inline src="pagefind/pagefind-ui.js"></script>
 
 <!-- Dark mode -->
 <script is:inline>

@@ -13,9 +13,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# pagefind
-public/pagefind/
-
 # environment variables
 .env
 .env.production
