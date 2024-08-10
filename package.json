@@ -31,6 +31,7 @@
     "@keystatic/core": "^0.5.32",
     "astro": "^4.13.2",
     "astro-expressive-code": "^0.35.6",
+    "astro-icon": "^1.1.0",
     "astro-robots-txt": "^1.0.0",
     "astro-seo": "^0.8.4",
     "class-variance-authority": "^0.7.0",
@@ -55,6 +56,11 @@
     "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^3.4.9",
     "typescript": "^5.5.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@iconify/tools": "^4.0.4"
+    }
   },
   "packageManager": "pnpm@9.7.0"
 }

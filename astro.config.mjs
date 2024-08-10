@@ -12,36 +12,27 @@ import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
 import simpleStackForm from "simple-stack-form";
 
+import icon from "astro-icon";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://v3frankie.me",
   markdown: {},
   image: {
-    domains: ["images.unsplash.com"],
+    domains: ["images.unsplash.com"]
   },
   prefetch: true,
-  integrations: [
-    sitemap(),
-    robotsTxt(),
-    partytown(),
-    expressiveCode(),
-    mdx(),
-    markdoc(),
-    keystatic(),
-    react(),
-    simpleStackForm(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
-  ],
+  integrations: [sitemap(), robotsTxt(), partytown(), expressiveCode(), mdx(), markdoc(), keystatic(), react(), simpleStackForm(), tailwind({
+    applyBaseStyles: false
+  }), icon()],
   output: "hybrid",
   adapter: node({
-    mode: "standalone",
+    mode: "standalone"
   }),
   // Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
   // adapter: cloudflare({
   //   platformProxy: true,
   //   imageService: "passthrough"
   // }),
-  plugins: [],
+  plugins: []
 });
