@@ -1,6 +1,4 @@
 ---
-import { ViewTransitions } from "astro:transitions";
-
 import { siteConfig } from "@/config/site";
 
 const { title, description } = Astro.props;
@@ -58,10 +56,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 />
 
 <!-- Analytics -->
-<script is:inline type="text/partytown" src="analytics.js"></script>
+<script
+  defer
+  type="text/partytown"
+  data-domain="v3frankie.me"
+  src="https://analytics.v3frankie.site/js/script.js"></script>
 
 <!-- Pagefind -->
- <script is:inline src="pagefind/pagefind-ui.js"></script>
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
 
 <!-- Dark mode -->
 <script is:inline>
@@ -114,6 +116,3 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
   document.addEventListener("astro:after-swap", setTheme);
 </script>
-
-<!-- View transitions -->
-<ViewTransitions />
