@@ -1,4 +1,6 @@
 ---
+// import { ViewTransitions } from "astro:transitions";
+
 import Head from "@/components/Head.astro";
 import type { SiteMeta } from "@/utils/types";
 
@@ -18,6 +20,7 @@ const {
 <html lang="en">
   <head>
     <Head title={title} description={description} />
+    <!-- <ViewTransitions fallback="none" /> -->
   </head>
   <body>
     <Header />

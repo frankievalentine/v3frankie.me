@@ -7,12 +7,10 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import keystatic from "@keystatic/astro";
 import expressiveCode from "astro-expressive-code";
-// import icon from "astro-icon";
+import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
 import simpleStackForm from "simple-stack-form";
-
-import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,9 +20,7 @@ export default defineConfig({
     domains: ["images.unsplash.com"]
   },
   prefetch: true,
-  integrations: [sitemap(), robotsTxt(), partytown(), expressiveCode(), mdx(), markdoc(), keystatic(), react(), simpleStackForm(), tailwind({
-    applyBaseStyles: false
-  }), icon()],
+  integrations: [sitemap(), robotsTxt(), partytown(), expressiveCode(), mdx(), markdoc(), ...(process.env.SKIP_KEYSTATIC ? [] : [keystatic()]), react(), simpleStackForm(), tailwind(), icon()],
   output: "hybrid",
   adapter: node({
     mode: "standalone"

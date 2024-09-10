@@ -1,17 +1,17 @@
 // keystatic.config.ts
-import { config, fields, collection } from "@keystatic/core"
+import { collection, config, fields } from "@keystatic/core"
 
 export default config({
-  // storage: {
-  //   kind: "local",
-  // },
   storage: {
-    kind: "github",
-    repo: {
-      owner: "frankievalentine",
-      name: "v3frankie.me",
-    },
+    kind: "local",
   },
+  // storage: {
+  //   kind: "github",
+  //   repo: {
+  //     owner: "frankievalentine",
+  //     name: "v3frankie.me",
+  //   },
+  // },
   collections: {
     posts: collection({
       label: "Posts",
@@ -25,10 +25,10 @@ export default config({
           label: "Content",
           options: {
             // Use Astro Image component for uploaded images
-            image: {
-              directory: "src/assets/images/posts",
-              publicPath: "@assets/images/posts/",
-            },
+            // image: {
+            //   directory: "src/assets/images/posts",
+            //   publicPath: "@assets/images/posts/",
+            // },
           },
         }),
       },
