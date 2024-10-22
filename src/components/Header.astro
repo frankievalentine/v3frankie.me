@@ -1,0 +1,26 @@
+---
+const url = new URL(Astro.request.url);
+import Search from "@/components/Search.astro";
+---
+
+<header
+  class="mb-12 grid lg:fixed lg:z-10 lg:top-12 lg:bottom-auto lg:left-auto lg:right-20"
+>
+  <div class="flex sm:flex-row">
+    <Search />
+    <a href="/" aria-current={url.pathname === "/" ? "page" : false}>
+      <span class="absolute h-3 w-3">
+        <span
+          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+        ></span>
+        <span class="absolute inline-flex rounded-full h-3 w-3 bg-green-500"
+        ></span>
+      </span>
+      <img
+        class="w-12 h-12 p-1 rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
+        src="/images/avatar.jpg"
+        alt="Bordered avatar"
+      />
+    </a>
+  </div>
+</header>

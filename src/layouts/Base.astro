@@ -1,0 +1,30 @@
+---
+// import { ViewTransitions } from "astro:transitions";
+
+import Head from "@/components/Head.astro";
+import type { SiteMeta } from "@/utils/types";
+
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import { siteConfig } from "@/config/site";
+
+interface Props {
+  meta: SiteMeta;
+}
+
+const {
+  meta: { title, description = siteConfig.description },
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <Head title={title} description={description} />
+    <!-- <ViewTransitions fallback="none" /> -->
+  </head>
+  <body>
+    <Header />
+    <main><slot /></main>
+    <Footer />
+  </body>
+</html>

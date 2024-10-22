@@ -1,0 +1,66 @@
+{
+  "name": "v3frankie.me",
+  "type": "module",
+  "description": "My personal website.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frankievalentine/v3frankie.me"
+  },
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "preview": "astro preview",
+    "predev": "pagefind --site dist --output-path ./public/pagefind",
+    "build": "astro telemetry disable && astro check && astro build",
+    "production": "node ./dist/server/entry.mjs",
+    "postbuild": "pagefind --site dist",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/markdoc": "^0.11.5",
+    "@astrojs/mdx": "^3.1.8",
+    "@astrojs/node": "^8.3.4",
+    "@astrojs/partytown": "^2.1.2",
+    "@astrojs/react": "^3.6.2",
+    "@astrojs/rss": "^4.0.9",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.2",
+    "@keystatic/astro": "^5.0.2",
+    "@keystatic/core": "^0.5.38",
+    "astro": "^4.16.5",
+    "astro-expressive-code": "^0.35.6",
+    "astro-icon": "^1.1.1",
+    "astro-robots-txt": "^1.0.0",
+    "astro-seo": "^0.8.4",
+    "class-variance-authority": "^0.7.0",
+    "drizzle-orm": "^0.32.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sharp": "^0.33.5",
+    "simple-stack-form": "^0.1.12",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@iconify-json/line-md": "^1.2.2",
+    "@pagefind/default-ui": "^1.1.1",
+    "@tailwindcss/typography": "^0.5.15",
+    "@types/node": "^22.7.5",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "better-sqlite3": "^11.3.0",
+    "drizzle-kit": "^0.23.2",
+    "pagefind": "^1.1.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@iconify/tools": "^4.0.4"
+    }
+  },
+  "packageManager": "pnpm@9.7.0"
+}

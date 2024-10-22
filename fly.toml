@@ -1,0 +1,27 @@
+# fly.toml app configuration file generated for v3frankie-me on 2024-04-02T15:19:06-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'v3frankie-me'
+primary_region = 'sjc'
+
+[build]
+
+[http_service]
+  internal_port = 4321
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+[[restart]]
+  policy = "on-failure"
+  retries = 5
+  processes = ["app"]

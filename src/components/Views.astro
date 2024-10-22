@@ -1,0 +1,17 @@
+<!-- ---
+import { db, Views, eq } from "astro:db"
+interface Props {
+  slug: string
+}
+
+const { slug } = Astro.props
+const found = await db
+  .select({
+    count: Views.count,
+  })
+  .from(Views)
+  .where(eq(Views.slug, slug))
+const count = found[0]?.count || 0
+---
+
+<span>Views: {count}</span> -->

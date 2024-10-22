@@ -1,0 +1,67 @@
+---
+import Socials from "@/components/Socials.astro";
+import BaseLayout from "@/layouts/Base";
+
+import Newsletter from "@/components/Newsletter.astro";
+import Photos from "@/components/Photos.astro";
+import { getCollection } from "astro:content";
+const posts = await getCollection("posts");
+---
+
+<BaseLayout meta={{ title: "Home" }}>
+  <section>
+    <h1 class="title mb-6">Hey, I'm Frankie —</h1>
+    <p class="mb-8 max-w-xl">
+      <span class="mr-3 text-3xl">Founder of</span>
+      <a
+        href="https://v3digital.studio"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block"
+      >
+        <button
+          class="px-2 py-1 border border-black bg-transparent text-black dark:border-white relative group transition duration-200"
+        >
+          <div
+            class="absolute -bottom-2 -right-2 bg-yellow-300 h-full w-full -z-10 group-hover:bottom-0 group-hover:right-0 transition-all duration-200 dark:bg-[#152028]"
+          >
+          </div>
+          <span class="relative dark:text-gray-200">V3 Digital Studio</span>
+        </button>
+      </a>
+    </p>
+    <p class="mb-4 max-w-xl text-3xl">
+      I've been a pixel perfectionist, research extraordinaire, performance
+      obsessed, developer and designer for over 8 years. I have a passion for
+      making the web a faster and more optimized experience for all. I run my
+      own shop. I am currently seeking new clients.
+    </p>
+    <p class="mb-4 max-w-xl text-3xl">
+      Below is a glimpse into my journey and the experiences that have shaped my
+      career.
+    </p>
+    <Socials />
+  </section>
+  <section aria-label="Post list" class="mt-16">
+    <h2 class="title mb-1 text-xl font-bold tracking-normal">Posts</h2>
+    <ul>
+      {
+        posts.map((post: { slug: any; data: { title: unknown; }; }) => (
+          <li>
+            <a class="hover:underline text-lg" href={`/posts/${post.slug}`}>
+              {post.data.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+  <section class="mt-16">
+    <h2 class="title mb-2 text-xl font-bold tracking-normal">Newsletter</h2>
+    <Newsletter />
+  </section>
+  <section class="mt-16">
+    <h2 class="title mb-2 text-xl font-bold tracking-normal">Photos</h2>
+    <Photos />
+  </section>
+</BaseLayout>

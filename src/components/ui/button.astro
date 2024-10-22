@@ -1,0 +1,71 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { cva, type VariantProps } from "class-variance-authority";
+
+const button = cva("button", {
+  variants: {
+    intent: {
+      primary: [
+        "text-sm",
+        "font-bold",
+        "border",
+        "rounded-lg",
+        "p-2",
+        "bg-[#152028]",
+        "text-white",
+        "hover:bg-gray-800",        
+      ],
+      secondary: [
+        "bg-white",
+        "text-gray-800",
+        "border-gray-400",
+        "hover:bg-gray-100",
+      ],
+      simple: [
+        "rounded-md",
+        "border",
+        "border-neutral-300 ",
+        "bg-neutral-100",
+        "text-neutral-500",
+        "hover:-translate-y-1",
+        "transform",
+        "transition",
+        "duration-200",
+        "hover:shadow-md",
+      ],
+      sketch: [
+        "rounded-md",
+        "border",
+        "border-black ",
+        "bg-white",
+        "text-black",
+        "hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)]",
+        "transition",
+        "duration-200",
+        "dark:bg-black",
+        "dark:text-white",
+        "dark:border-white"
+      ],
+    },
+    size: {
+      small: ["text-sm", "py-1", "px-2"],
+      medium: ["text-base", "py-2", "px-4"],
+    },
+  },
+  compoundVariants: [{ intent: "primary", size: "medium", class: "uppercase" }],
+});
+
+export interface Props
+  extends HTMLAttributes<"button">,
+    VariantProps<typeof button> {}
+
+/**
+ * For Astro components, we recommend setting your defaultVariants within
+ * Astro.props (which are `undefined` by default)
+ */
+const { intent = "primary", size = "medium" } = Astro.props;
+---
+
+<button class={button({ intent, size })}>
+  <slot />
+</button>

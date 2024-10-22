@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html body {
+    @apply mx-auto flex min-h-screen max-w-[1520px] flex-col px-8 pt-16 leading-10 tracking-tight text-3xl font-normal antialiased dark:bg-black dark:text-white;
+  }
+}
+
+.dark .nav-links a {
+  color: #fff;
+}

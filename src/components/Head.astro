@@ -1,0 +1,120 @@
+---
+import "../styles/global.css";
+
+import { siteConfig } from "@/config/site";
+
+const { title, description } = Astro.props;
+
+const titleSeparator = "•";
+const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!-- Meta -->
+<meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>{siteTitle}</title>
+<!-- <meta name="generator" content={Astro.generator} /> -->
+
+<!-- Primary Meta Tags -->
+<meta name="title" content={siteTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={siteConfig.author} />
+
+<!-- Icons / Favicon -->
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> -->
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content={siteConfig.title} />
+<meta property="og:locale" content={siteConfig.ogLocale} />
+<meta property="article:author" content={siteConfig.author} />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- RSS auto-discovery -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={siteConfig.title}
+  href="/rss.xml"
+/>
+
+<!-- Analytics -->
+<script is:inline
+  defer
+  type="text/partytown"
+  data-domain="v3frankie.me"
+  src="https://analytics.v3frankie.site/js/script.js"></script>
+
+<!-- Pagefind -->
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+
+<!-- Dark mode -->
+<script is:inline>
+  // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+  if (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+
+  // Whenever the user explicitly chooses light mode
+  localStorage.theme = "light";
+
+  // Whenever the user explicitly chooses dark mode
+  localStorage.theme = "dark";
+
+  // Whenever the user explicitly chooses to respect the OS preference
+  localStorage.removeItem("theme");
+</script>
+
+<script is:inline>
+  const setTheme = () => {
+    const theme = (() => {
+      if (
+        typeof localStorage !== "undefined" &&
+        localStorage.getItem("theme")
+      ) {
+        return localStorage.getItem("theme");
+      }
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "dark";
+      }
+      return "light";
+    })();
+
+    if (theme === "light") {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+
+    window.localStorage.setItem("theme", theme || "light");
+  };
+
+  setTheme();
+
+  document.addEventListener("astro:after-swap", setTheme);
+</script>
