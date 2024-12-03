@@ -11,6 +11,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "preview": "astro preview",
+    "cfpreview": "wrangler pages dev ./dist",
     "predev": "pagefind --site dist --output-path ./public/pagefind",
     "build": "astro telemetry disable && astro check && astro build",
     "production": "node ./dist/server/entry.mjs",
@@ -58,7 +59,8 @@
     "prettier": "^3.4.1",
     "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^3.4.16",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^3.91.0"
   },
   "packageManager": "pnpm@9.14.4"
 }

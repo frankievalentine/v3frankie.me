@@ -1,4 +1,3 @@
-
 name: Deploy
 
 on:
@@ -17,3 +16,4 @@ jobs:
             
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          packageManager: pnpm
