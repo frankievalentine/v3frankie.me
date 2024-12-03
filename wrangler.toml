@@ -1,7 +1,7 @@
 compatibility_flags = ["nodejs_compat"]
 
 name = "v3frankie-me-site-worker"
-main = "src/pages/index.astro"
+main = "./astro.config.mjs"
 
 [[d1_databases]]
 binding = "DB"
