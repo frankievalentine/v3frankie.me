@@ -12,14 +12,17 @@ const newsletterForm = createForm({
 const res = await Astro.locals.form.getData(newsletterForm);
 
 if (res?.data) {
-  const response = await fetch(Astro.url.origin + "/api/waitlist", {
-    method: "POST",
-    headers: {
-      Accept: "application.json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(res.data),
-  });
+  const response = await fetch(
+    Astro.url.origin + "https://newsletter.v3frankie.me/api/subscribers",
+    {
+      method: "POST",
+      headers: {
+        Accept: "application.json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(res.data),
+    }
+  );
   const data = await response.json();
 
   if (data.message === "success") {
@@ -99,9 +102,7 @@ const size = "medium" as const;
             </path>
           </g>
         </svg>
-        <h1 class="text-base font-bold tracking-relaxed">
-          Subscribe to my newsletter
-        </h1>
+        <h1 class="text-lg tracking-relaxed">Subscribe to my newsletter</h1>
         <p class="text-sm text-muted-foreground">
           <!-- <b>{count} people</b> already joined the newsletter! -->
         </p>
@@ -119,7 +120,7 @@ const size = "medium" as const;
           >
           <input
             id="email"
-            class="p-1 text-base w-[300px] border border-3 shadow-sm rounded-md bg-inherit dark:text-white placeholder:text-base placeholder:text-gray-900 placeholder:dark:text-white mb-2"
+            class="p-1 text-base w-[300px] border border-3 shadow-sm rounded-md bg-inherit dark:text-white placeholder:text-sm placeholder:text-gray-900 placeholder:dark:text-white mb-2"
             autocomplete="off"
             placeholder="user@example.com"
             {...newsletterForm.inputProps.email}

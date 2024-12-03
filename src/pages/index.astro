@@ -1,10 +1,13 @@
 ---
+export const prerender = false;
+
 import Socials from "@/components/Socials.astro";
 import BaseLayout from "@/layouts/Base";
 
 import Newsletter from "@/components/Newsletter.astro";
 import Photos from "@/components/Photos.astro";
 import { getCollection } from "astro:content";
+
 const posts = await getCollection("posts");
 ---
 
@@ -43,10 +46,12 @@ const posts = await getCollection("posts");
     <Socials />
   </section>
   <section aria-label="Post list" class="mt-16">
-    <h2 class="title mb-1 text-xl font-bold tracking-normal">Posts</h2>
+    <a href="/posts" class="title mb-1 text-xl font-bold tracking-normal"
+      >Posts</a
+    >
     <ul>
       {
-        posts.map((post: { slug: any; data: { title: unknown; }; }) => (
+        posts.map((post: { slug: any; data: { title: unknown } }) => (
           <li>
             <a class="hover:underline text-lg" href={`/posts/${post.slug}`}>
               {post.data.title}

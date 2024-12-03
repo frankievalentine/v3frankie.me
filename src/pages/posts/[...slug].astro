@@ -1,28 +1,57 @@
 ---
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+// @ts-nocheck
 
+import FormattedDate from "@/components/FormattedDate.astro";
+import BackToPrev from "@/components/ui/backtoprev.astro";
+import BaseLayout from "@/layouts/Base";
 // import ViewCounter from "@components/ViewCounter.astro"
-import { getAllPosts } from "@/data/posts";
-import PostLayout from "@/layouts/Blog";
+import { readingTime } from "@/utils/index";
+import { type CollectionEntry, getCollection } from "astro:content";
 
-export const getStaticPaths = (async () => {
-  const blogEntries = await getAllPosts();
-  return blogEntries.map((entry: { slug: any }) => ({
-    params: { slug: entry.slug },
-    props: { entry },
+export async function getStaticPaths() {
+  const posts = (await getCollection("posts"))
+    .filter((post: { data: { draft: any } }) => !post.data.draft)
+    .sort(
+  
+      (a: { data: { date: number } }, b: { data: { date: number } }) =>
+        b.data.date.valueOf() - a.data.date.valueOf()
+    );
+  return posts.map((post: { slug: any }) => ({
+    params: { slug: post.slug },
+    props: post,
   }));
-}) satisfies GetStaticPaths;
+}
+type Props = CollectionEntry<"posts">;
 
-export const prerender = true;
-
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-const { entry } = Astro.props;
-// @ts-ignore
-const { Content } = await entry.render();
+const post = Astro.props;
+const { Content } = await post.render();
 ---
 
-<PostLayout post={entry}>
-  <Content />
-  <!-- <ViewCounter slug={entry.slug} /> -->
-</PostLayout>
+<BaseLayout meta={{ title: post.data.title }}>
+  <div class="max-w-2xl">
+    <div>
+      <BackToPrev href="/posts"> Back to all posts </BackToPrev>
+    </div>
+    <div class="space-y-1 my-10">
+      <div class="flex items-center gap-1.5">
+        <div class="font-base text-sm">
+          <FormattedDate date={post.data.date} />
+        </div>
+        &bull;
+        <div class="font-base text-sm">
+          {readingTime(post.body)}
+        </div>
+        &bull;
+        <!-- <Views slug={entry.slug} /> -->
+      </div>
+      <!-- <div class="text-2xl font-semibold text-black dark:text-white">
+        {post.data.title}
+      </div> -->
+    </div>
+    <article
+      class="max-w-full text-lg leading-relaxed tracking-normal mb-56 prose dark:prose-invert prose-img:mx-auto prose-img:my-auto"
+    >
+      <Content />
+    </article>
+  </div>
+</BaseLayout>

@@ -1,9 +1,9 @@
 ---
-import { Image } from 'astro:assets'
 import { photos } from '@/data/photos'
+import { Image } from 'astro:assets'
 ---
 
-<div class="grid grid-cols-1 gap-1 sm:max-w-2xl sm:grid-cols-3 lg:max-w-[48rem]">
+<div class="grid grid-cols-1 gap-1 mb-24 sm:max-w-2xl sm:grid-cols-3 lg:max-w-[48rem]">
   <div class="p-4 space-y-2">
     <div>
       <a href={photos[0]!.link}>

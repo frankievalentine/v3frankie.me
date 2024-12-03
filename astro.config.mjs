@@ -1,6 +1,7 @@
 import markdoc from "@astrojs/markdoc";
 import mdx from "@astrojs/mdx";
-import node from "@astrojs/node";
+// import node from "@astrojs/node";
+import cloudflare from "@astrojs/cloudflare";
 import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -20,15 +21,17 @@ export default defineConfig({
     domains: ["images.unsplash.com"]
   },
   prefetch: true,
-  integrations: [sitemap(), robotsTxt(), partytown(), expressiveCode(), mdx(), markdoc(), ...(process.env.SKIP_KEYSTATIC ? [] : [keystatic()]), react(), simpleStackForm(), tailwind(), icon()],
-  output: "hybrid",
-  adapter: node({
-    mode: "standalone"
-  }),
-  // Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
-  // adapter: cloudflare({
-  //   platformProxy: true,
-  //   imageService: "passthrough"
+  integrations: [sitemap(), robotsTxt(), partytown(), expressiveCode({
+      themes: ['catppuccin-mocha', 'catppuccin-latte'],
+    }), mdx(), markdoc(), ...(process.env.SKIP_KEYSTATIC ? [] : [keystatic()]), react(), simpleStackForm(), tailwind(), icon()],
+  output: "static",
+  // adapter: node({
+  //   mode: "standalone"
   // }),
+  // Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
+  adapter: cloudflare({
+    platformProxy: true,
+    imageService: "passthrough"
+  }),
   plugins: []
 });

@@ -20,7 +20,8 @@ export default config({
       format: { contentField: "content" },
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
-        publishedDate: fields.date({ label: "Published Date" }),
+        description: fields.ignored(),
+        date: fields.date({ label: "Published Date" }),
         content: fields.mdx({
           label: "Content",
           options: {

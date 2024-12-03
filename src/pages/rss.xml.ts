@@ -9,9 +9,10 @@ export const GET = async () => {
     title: siteConfig.title,
     description: siteConfig.description,
     site: siteConfig.url,
-    items: posts.map((post) => ({
+    // @ts-ignore
+    items: posts.map((post: { data: { title: any; date: any; description: any; customData: any }; slug: any }) => ({
       title: post.data.title,
-      pubDate: post.data.publishedDate,
+      date: post.data.date,
       description: post.data.description,
       customData: post.data.customData,
       // Compute RSS link from post `slug`

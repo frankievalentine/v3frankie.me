@@ -1,0 +1,51 @@
+---
+// @ts-nocheck
+
+import ArrowCard from "@/components/ui/arrowcard.astro";
+import BaseLayout from "@/layouts/Base";
+import { type CollectionEntry, getCollection } from "astro:content";
+
+const data = (await getCollection("posts"))
+  .filter((post: { data: { draft: any; }; }) => !post.data.draft)
+  .sort((a: { data: { date: number; }; }, b: { data: { date: number; }; }) => b.data.date.valueOf() - a.data.date.valueOf());
+
+type Acc = {
+  [year: string]: CollectionEntry<"posts">[];
+};
+
+
+const posts = data.reduce((acc: Acc, post: { data: { date: { getFullYear: () => { (): any; new(): any; toString: { (): any; new(): any; }; }; }; }; }) => {
+  const year = post.data.date.getFullYear().toString();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
+---
+
+<BaseLayout meta={{ title: "Posts", description: "Posts homepage" }}>
+  <div class="space-y-10 max-w-xl">
+    <div class="font-semibold text-black dark:text-white">Posts</div>
+    <div class="space-y-4">
+      {
+        years.map((year) => (
+          <section class="space-y-4">
+            <div class="font-semibold text-2xl text-black dark:text-white">{year}</div>
+            <div>
+              <ul class="flex flex-col gap-4">
+                {posts[year].map((post: any) => (
+                  <li>
+                    <ArrowCard entry={post} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
