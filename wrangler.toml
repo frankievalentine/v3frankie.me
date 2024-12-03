@@ -1,6 +1,6 @@
 compatibility_flags = ["nodejs_compat"]
 
-name = "v3frankie site worker"
+name = "v3frankie-me-site-worker"
 main = "src/pages/index.astro"
 
 [[d1_databases]]
