@@ -1,5 +1,8 @@
 compatibility_flags = ["nodejs_compat"]
 
+name = "v3frankie.me worker"
+main = "src/pages/index.astro"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "v3frankie-prod-db"
