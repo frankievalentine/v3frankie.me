@@ -1,7 +1,7 @@
 compatibility_flags = ["nodejs_compat"]
 
 name = "v3frankie-me-site-worker"
-main = "./dist"
+pages_build_output_dir="./dist"
 compatibility_date = "2024-12-03"
 send_metrics = false
 

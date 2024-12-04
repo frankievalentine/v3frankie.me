@@ -6,9 +6,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy v3frankie.me
-    permissions:
-      contents: read
-      deployments: write
     steps:
       - uses: actions/checkout@v4
 
@@ -21,5 +18,4 @@ jobs:
 
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: pages deploy ./dist --project-name=v3frankie-me
           packageManager: pnpm
