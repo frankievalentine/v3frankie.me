@@ -4,11 +4,10 @@
 
 - **Framework**: [Astro](https://astro.build/)
 - **Database**: [Cloudflare D1](https://developers.cloudflare.com/d1/)
-- **Deployment**: [Fly.io](https://fly.io/)
+- **Deployment**: [Cloudflare Pages](https://developers.cloudflare.com/pages/framework-guides/deploy-an-astro-site/)
 - **CMS**: [Keystatic](https://keystatic.com/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Package Manager**: [pnpm](https://pnpm.io/)
-- **CI/CD**: [Github Actions ](https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/)
 
 ## Project Structure
 
@@ -40,18 +39,22 @@ pnpm run dev
 
 ## Deploy your own
 
-Install the [flyctl](https://formulae.brew.sh/formula/flyctl) using Homebrew and authenticate your Fly.io account.
+Install the [wrangler](https://formulae.brew.sh/formula/flyctl) package in your project and authenticate your Cloudflare account.
+
+```bash
+pnpm wrangler login
+```
+
+Then...
+
+```bash
+pnpm wrangler pages deploy
+```
+
+Optional:
 
 Use fly.io's [dockerfile generator](https://github.com/fly-apps/dockerfile-node) to overwrite the current Dockerfile.
 
 ```bash
 pnpx @flydotio/dockerfile@latest
 ```
-
-Then...
-
-```bash
-fly launch
-```
-
-More information on deploying an Astro project with Fly.io [here](https://fly.io/docs/js/frameworks/astro/).
