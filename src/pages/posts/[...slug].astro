@@ -12,7 +12,6 @@ export async function getStaticPaths() {
   const posts = (await getCollection("posts"))
     .filter((post: { data: { draft: any } }) => !post.data.draft)
     .sort(
-  
       (a: { data: { date: number } }, b: { data: { date: number } }) =>
         b.data.date.valueOf() - a.data.date.valueOf()
     );
@@ -34,14 +33,13 @@ const { Content } = await post.render();
     </div>
     <div class="space-y-1 my-10">
       <div class="flex items-center gap-1.5">
-        <div class="font-base text-sm">
-          <FormattedDate date={post.data.date} />
+        <div class="font-base text-base">
+          <FormattedDate date={post.data.date} />&bull;
         </div>
-        &bull;
-        <div class="font-base text-sm">
+
+        <div class="font-base text-base">
           {readingTime(post.body)}
         </div>
-        &bull;
         <!-- <Views slug={entry.slug} /> -->
       </div>
       <!-- <div class="text-2xl font-semibold text-black dark:text-white">
