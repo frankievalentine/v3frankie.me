@@ -63,11 +63,15 @@
     "typescript": "^5.8.2",
     "wrangler": "^3.112.0"
   },
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.6.5",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "esbuild",
       "workerd"
+    ],
+    "onlyBuiltDependencies": [
+      "better-sqlite3",
+      "sharp"
     ]
   }
 }
