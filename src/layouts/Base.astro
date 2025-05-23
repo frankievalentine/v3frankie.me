@@ -9,11 +9,11 @@ import Header from "@/components/Header.astro";
 import { siteConfig } from "@/config/site";
 
 interface Props {
-  meta: SiteMeta;
+	meta: SiteMeta;
 }
 
 const {
-  meta: { title, description = siteConfig.description },
+	meta: { title, description = siteConfig.description },
 } = Astro.props;
 ---
 

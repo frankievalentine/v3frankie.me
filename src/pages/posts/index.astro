@@ -1,29 +1,49 @@
 ---
 // @ts-nocheck
 
+import { type CollectionEntry, getCollection } from "astro:content";
 import ArrowCard from "@/components/ui/arrowcard.astro";
 import BaseLayout from "@/layouts/Base";
-import { type CollectionEntry, getCollection } from "astro:content";
 
 const data = (await getCollection("posts"))
-  .filter((post: { data: { draft: any; }; }) => !post.data.draft)
-  .sort((a: { data: { date: number; }; }, b: { data: { date: number; }; }) => b.data.date.valueOf() - a.data.date.valueOf());
+	.filter((post: { data: { draft: any } }) => !post.data.draft)
+	.sort(
+		(a: { data: { date: number } }, b: { data: { date: number } }) =>
+			b.data.date.valueOf() - a.data.date.valueOf(),
+	);
 
 type Acc = {
-  [year: string]: CollectionEntry<"posts">[];
+	[year: string]: CollectionEntry<"posts">[];
 };
 
+const posts = data.reduce(
+	(
+		acc: Acc,
+		post: {
+			data: {
+				date: {
+					getFullYear: () => {
+						(): any;
+						new (): any;
+						toString: { (): any; new (): any };
+					};
+				};
+			};
+		},
+	) => {
+		const year = post.data.date.getFullYear().toString();
+		if (!acc[year]) {
+			acc[year] = [];
+		}
+		acc[year].push(post);
+		return acc;
+	},
+	{},
+);
 
-const posts = data.reduce((acc: Acc, post: { data: { date: { getFullYear: () => { (): any; new(): any; toString: { (): any; new(): any; }; }; }; }; }) => {
-  const year = post.data.date.getFullYear().toString();
-  if (!acc[year]) {
-    acc[year] = [];
-  }
-  acc[year].push(post);
-  return acc;
-}, {});
-
-const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
+const years = Object.keys(posts).sort(
+	(a, b) => Number.parseInt(b) - Number.parseInt(a),
+);
 ---
 
 <BaseLayout meta={{ title: "Posts", description: "Posts homepage" }}>

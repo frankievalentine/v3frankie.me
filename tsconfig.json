@@ -1,20 +1,20 @@
 {
-  "extends": "astro/tsconfigs/strictest",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "lib": ["es2022", "dom", "dom.iterable"],
-    "allowJs": true,
-    "paths": {
-      "@/assets/*": ["src/assets/*"],
-      "@/components/*": ["src/components/*"],
-      "@/styles/*": ["src/styles/*"],
-      "@/data/*": ["data/*"],
-      "@/layouts/*": ["src/layouts/*.astro"],
-      "@/utils/*": ["utils/*"],
-      "@/config/*": ["config/*"]
-    },
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
-  },
-  "exclude": ["node_modules", "**/node_modules/*", "dist", "public/pagefind"]
+	"extends": "astro/tsconfigs/strictest",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"lib": ["es2022", "dom", "dom.iterable"],
+		"allowJs": true,
+		"paths": {
+			"@/assets/*": ["src/assets/*"],
+			"@/components/*": ["src/components/*"],
+			"@/styles/*": ["src/styles/*"],
+			"@/data/*": ["data/*"],
+			"@/layouts/*": ["src/layouts/*.astro"],
+			"@/utils/*": ["utils/*"],
+			"@/config/*": ["config/*"]
+		},
+		"jsx": "react-jsx",
+		"jsxImportSource": "react"
+	},
+	"exclude": ["node_modules", "**/node_modules/*", "dist", "public/pagefind"]
 }

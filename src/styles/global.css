@@ -1,14 +1,14 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: PPMori-Regular, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-mono: iAWriterMonoV, ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, 'Liberation Mono', 'Courier New', monospace;
+	--font-sans: PPMori-Regular, ui-sans-serif, system-ui, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-mono: iAWriterMonoV, ui-monospace, SFMono-Regular, Menlo, Monaco,
+		Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 /*
@@ -20,21 +20,21 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
 }
 
 @layer base {
-  html body {
-    @apply mx-auto flex min-h-screen max-w-[1520px] flex-col px-8 pt-16 leading-10 tracking-tight text-3xl font-normal antialiased dark:bg-black dark:text-white;
-  }
+	html body {
+		@apply mx-auto flex min-h-screen max-w-[1520px] flex-col px-8 pt-16 leading-10 tracking-tight text-3xl font-normal antialiased dark:bg-black dark:text-white;
+	}
 }
 
 .dark .nav-links a {
-  color: #fff;
+	color: #fff;
 }

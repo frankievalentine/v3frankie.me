@@ -1,24 +1,24 @@
 ---
 // @ts-nocheck
 
+import { type CollectionEntry, getCollection } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
 import BackToPrev from "@/components/ui/backtoprev.astro";
 import BaseLayout from "@/layouts/Base";
 // import ViewCounter from "@components/ViewCounter.astro"
 import { readingTime } from "@/utils/index";
-import { type CollectionEntry, getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("posts"))
-    .filter((post: { data: { draft: any } }) => !post.data.draft)
-    .sort(
-      (a: { data: { date: number } }, b: { data: { date: number } }) =>
-        b.data.date.valueOf() - a.data.date.valueOf()
-    );
-  return posts.map((post: { slug: any }) => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
+	const posts = (await getCollection("posts"))
+		.filter((post: { data: { draft: any } }) => !post.data.draft)
+		.sort(
+			(a: { data: { date: number } }, b: { data: { date: number } }) =>
+				b.data.date.valueOf() - a.data.date.valueOf(),
+		);
+	return posts.map((post: { slug: any }) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
 }
 type Props = CollectionEntry<"posts">;
 

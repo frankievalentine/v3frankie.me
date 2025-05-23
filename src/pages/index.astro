@@ -4,9 +4,9 @@ export const prerender = false;
 import Socials from "@/components/Socials.astro";
 import BaseLayout from "@/layouts/Base";
 
+import { getCollection } from "astro:content";
 import Newsletter from "@/components/Newsletter.astro";
 import Photos from "@/components/Photos.astro";
-import { getCollection } from "astro:content";
 
 const posts = await getCollection("posts");
 ---
