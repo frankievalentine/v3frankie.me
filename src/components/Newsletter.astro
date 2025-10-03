@@ -6,35 +6,35 @@ import z from "zod";
 let error = false;
 
 const newsletterForm = createForm({
-	email: z.string().email(),
+    email: z.email(),
 });
 
 const res = await Astro.locals.form.getData(newsletterForm);
 
 if (res?.data) {
-	const response = await fetch(
-		Astro.url.origin + "https://newsletter.v3frankie.me/api/subscribers",
-		{
-			method: "POST",
-			headers: {
-				Accept: "application.json",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(res.data),
-		},
-	);
-	const data = await response.json();
+    const response = await fetch(
+        Astro.url.origin + "https://newsletter.v3frankie.me/api/subscribers",
+        {
+            method: "POST",
+            headers: {
+                Accept: "application.json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(res.data),
+        },
+    );
+    const data = (await response.json()) as { message: string };
 
-	if (data.message === "success") {
-		Astro.cookies.set("sub-newsletter", "true");
-	} else {
-		error = true;
-	}
+    if (data.message === "success") {
+        Astro.cookies.set("sub-newsletter", "true");
+    } else {
+        error = true;
+    }
 }
 
 const cookie = Astro.cookies.get("sub-newsletter")?.boolean();
 if (cookie) {
-	Astro.cookies.delete("sub-newsletter");
+    Astro.cookies.delete("sub-newsletter");
 }
 
 // Fetch count of all email in waitlist
@@ -50,166 +50,176 @@ const size = "medium" as const;
 ---
 
 <div class="relative flex items-center">
-  <div class="p-6 md:p-12 bg-background border rounded-xl overflow-hidden">
-    <div class="flex flex-col w-full max-w-sm">
-      <div class="space-y-3">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="1em"
-          height="1em"
-          viewBox="0 0 24 24"
-        >
-          <path fill="currentColor" fill-opacity="0" d="M12 11L4 6H20L12 11Z">
-            <animate
-              fill="freeze"
-              attributeName="fill-opacity"
-              begin="1s"
-              dur="0.15s"
-              values="0;0.3"></animate>
-          </path>
-          <g
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-width="2"
-          >
-            <rect
-              width="18"
-              height="14"
-              x="3"
-              y="5"
-              stroke-dasharray="64"
-              stroke-dashoffset="64"
-              rx="1"
-            >
-              <animate
-                fill="freeze"
-                attributeName="stroke-dashoffset"
-                dur="0.6s"
-                values="64;0"></animate>
-            </rect>
-            <path
-              stroke-dasharray="24"
-              stroke-dashoffset="24"
-              d="M3 6.5L12 12L21 6.5"
-            >
-              <animate
-                fill="freeze"
-                attributeName="stroke-dashoffset"
-                begin="0.6s"
-                dur="0.4s"
-                values="24;0"></animate>
-            </path>
-          </g>
-        </svg>
-        <h1 class="text-lg tracking-relaxed">Subscribe to my newsletter</h1>
-        <p class="text-sm text-muted-foreground">
-          <!-- <b>{count} people</b> already joined the newsletter! -->
-        </p>
-
-        <form
-          method="POST"
-          class="flex flex-col items-start w-full"
-          transition:name="form-newsletter"
-          transition:animate="none"
-        >
-          <label
-            for="email"
-            class="text-base peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >Email</label
-          >
-          <input
-            id="email"
-            class="p-1 text-base w-[300px] border shadow-xs rounded-md bg-inherit dark:text-white placeholder:text-sm placeholder:text-gray-900 dark:placeholder:text-white mb-2"
-            autocomplete="off"
-            placeholder="user@example.com"
-            {...newsletterForm.inputProps.email}
-          />
-          <p class="text-xs text-muted-foreground mb-4">
-            Only personal updates, never spam.
-          </p>
-          <!-- {res?.fieldErrors?.email?.map((error) => <p class="text-[#ff6166] text-[13px]">{error}</p>)} -->
-
-          {
-            cookie || res?.fieldErrors?.email || error ? (
-              <div
-                class:list={[
-                  "flex items-center gap-x-2.5 border text-sm w-full p-3 rounded-lg overflow-hidden",
-                  error || res?.fieldErrors?.email
-                    ? "border-[#fdd8d8] dark:border-[#671e21] text-[#ff6166] bg-[#ff6166]/10"
-                    : null,
-                  cookie
-                    ? "border-[#cce6ff] dark:border-[#0d3868] text-[#52A8FF] bg-[#52A8FF]/10"
-                    : null,
-                ]}
-              >
+    <div class="p-6 md:p-12 bg-background border rounded-xl overflow-hidden">
+        <div class="flex flex-col w-full max-w-sm">
+            <div class="space-y-3">
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 24 24"
                 >
-                  <path
-                    fill="currentColor"
-                    fill-opacity="0"
-                    d="M12 11L4 6H20L12 11Z"
-                  >
-                    <animate
-                      fill="freeze"
-                      attributeName="fill-opacity"
-                      begin="1s"
-                      dur="0.15s"
-                      values="0;0.3"
-                    />
-                  </path>
-                  <g
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
-                  >
-                    <rect
-                      width="18"
-                      height="14"
-                      x="3"
-                      y="5"
-                      stroke-dasharray="64"
-                      stroke-dashoffset="64"
-                      rx="1"
-                    >
-                      <animate
-                        fill="freeze"
-                        attributeName="stroke-dashoffset"
-                        dur="0.6s"
-                        values="64;0"
-                      />
-                    </rect>
                     <path
-                      stroke-dasharray="24"
-                      stroke-dashoffset="24"
-                      d="M3 6.5L12 12L21 6.5"
+                        fill="currentColor"
+                        fill-opacity="0"
+                        d="M12 11L4 6H20L12 11Z"
                     >
-                      <animate
-                        fill="freeze"
-                        attributeName="stroke-dashoffset"
-                        begin="0.6s"
-                        dur="0.4s"
-                        values="24;0"
-                      />
+                        <animate
+                            fill="freeze"
+                            attributeName="fill-opacity"
+                            begin="1s"
+                            dur="0.15s"
+                            values="0;0.3"></animate>
                     </path>
-                  </g>
+                    <g
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-width="2"
+                    >
+                        <rect
+                            width="18"
+                            height="14"
+                            x="3"
+                            y="5"
+                            stroke-dasharray="64"
+                            stroke-dashoffset="64"
+                            rx="1"
+                        >
+                            <animate
+                                fill="freeze"
+                                attributeName="stroke-dashoffset"
+                                dur="0.6s"
+                                values="64;0"></animate>
+                        </rect>
+                        <path
+                            stroke-dasharray="24"
+                            stroke-dashoffset="24"
+                            d="M3 6.5L12 12L21 6.5"
+                        >
+                            <animate
+                                fill="freeze"
+                                attributeName="stroke-dashoffset"
+                                begin="0.6s"
+                                dur="0.4s"
+                                values="24;0"></animate>
+                        </path>
+                    </g>
                 </svg>
-                <p>
-                  {cookie ? "You are subscribed!" : null}
-                  {error ? "Something wrong! Try again please." : null}
-                  {res?.fieldErrors?.email ? res?.fieldErrors?.email : null}
+                <h1 class="text-lg tracking-relaxed">
+                    Subscribe to my newsletter
+                </h1>
+                <p class="text-sm text-muted-foreground">
+                    <!-- <b>{count} people</b> already joined the newsletter! -->
                 </p>
-              </div>
-            ) : null
-          }
-          <Button type="submit" {intent} {size}>Submit</Button>
-        </form>
-      </div>
+
+                <form
+                    method="POST"
+                    class="flex flex-col items-start w-full"
+                    transition:name="form-newsletter"
+                    transition:animate="none"
+                >
+                    <label
+                        for="email"
+                        class="text-base peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >Email</label
+                    >
+                    <input
+                        id="email"
+                        class="p-1 text-base w-[300px] border shadow-xs rounded-md bg-inherit dark:text-white placeholder:text-sm placeholder:text-gray-900 dark:placeholder:text-white mb-2"
+                        autocomplete="off"
+                        placeholder="user@example.com"
+                        {...newsletterForm.inputProps.email}
+                    />
+                    <p class="text-xs text-muted-foreground mb-4">
+                        Only personal updates, never spam.
+                    </p>
+                    <!-- {res?.fieldErrors?.email?.map((error) => <p class="text-[#ff6166] text-[13px]">{error}</p>)} -->
+
+                    {
+                        cookie || res?.fieldErrors?.email || error ? (
+                            <div
+                                class:list={[
+                                    "flex items-center gap-x-2.5 border text-sm w-full p-3 rounded-lg overflow-hidden",
+                                    error || res?.fieldErrors?.email
+                                        ? "border-[#fdd8d8] dark:border-[#671e21] text-[#ff6166] bg-[#ff6166]/10"
+                                        : null,
+                                    cookie
+                                        ? "border-[#cce6ff] dark:border-[#0d3868] text-[#52A8FF] bg-[#52A8FF]/10"
+                                        : null,
+                                ]}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="1em"
+                                    height="1em"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        fill="currentColor"
+                                        fill-opacity="0"
+                                        d="M12 11L4 6H20L12 11Z"
+                                    >
+                                        <animate
+                                            fill="freeze"
+                                            attributeName="fill-opacity"
+                                            begin="1s"
+                                            dur="0.15s"
+                                            values="0;0.3"
+                                        />
+                                    </path>
+                                    <g
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-width="2"
+                                    >
+                                        <rect
+                                            width="18"
+                                            height="14"
+                                            x="3"
+                                            y="5"
+                                            stroke-dasharray="64"
+                                            stroke-dashoffset="64"
+                                            rx="1"
+                                        >
+                                            <animate
+                                                fill="freeze"
+                                                attributeName="stroke-dashoffset"
+                                                dur="0.6s"
+                                                values="64;0"
+                                            />
+                                        </rect>
+                                        <path
+                                            stroke-dasharray="24"
+                                            stroke-dashoffset="24"
+                                            d="M3 6.5L12 12L21 6.5"
+                                        >
+                                            <animate
+                                                fill="freeze"
+                                                attributeName="stroke-dashoffset"
+                                                begin="0.6s"
+                                                dur="0.4s"
+                                                values="24;0"
+                                            />
+                                        </path>
+                                    </g>
+                                </svg>
+                                <p>
+                                    {cookie ? "You are subscribed!" : null}
+                                    {error
+                                        ? "Something wrong! Try again please."
+                                        : null}
+                                    {res?.fieldErrors?.email
+                                        ? res?.fieldErrors?.email
+                                        : null}
+                                </p>
+                            </div>
+                        ) : null
+                    }
+                    <Button type="submit" {intent} {size}>Submit</Button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
