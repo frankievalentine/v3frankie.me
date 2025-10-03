@@ -1,7 +1,1 @@
-{
-	"version": "1.4.0",
-	"languages": {
-		"en": { "hash": "en_e162eb581b", "wasm": "en", "page_count": 5 }
-	},
-	"include_characters": ["_", "‿", "⁀", "⁔", "︳", "︴", "﹍", "﹎", "﹏", "＿"]
-}
+{"version":"1.4.0","languages":{"en":{"hash":"en_62eb2c81f7","wasm":"en","page_count":5}},"include_characters":["_","‿","⁀","⁔","︳","︴","﹍","﹎","﹏","＿"]}

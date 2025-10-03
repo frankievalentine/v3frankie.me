@@ -2,7 +2,7 @@ compatibility_flags = ["nodejs_compat"]
 
 name = "v3frankie-me"
 pages_build_output_dir="./dist"
-compatibility_date = "2025-09-22"
+compatibility_date = "2025-09-17"
 send_metrics = false
 
 [[d1_databases]]
