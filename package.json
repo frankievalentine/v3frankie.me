@@ -8,17 +8,14 @@
   },
   "version": "1.0.0",
   "scripts": {
+    "astro": "astro",
     "dev": "astro dev",
-    "start": "astro dev",
-    "preview": "astro preview",
+    "build": "astro telemetry disable && astro check && astro build",
     "cfpreview": "wrangler pages dev ./dist",
     "predev": "pagefind --site dist --output-path ./public/pagefind",
-    "build": "astro telemetry disable && astro check && astro build",
-    "production": "node ./dist/server/entry.mjs",
     "lint": "biome lint --write .",
     "lint:fix": "biome check --write .",
-    "postbuild": "pagefind --site dist",
-    "astro": "astro"
+    "postbuild": "pagefind --site dist"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -40,24 +37,24 @@
     "astro-seo": "^0.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "drizzle-orm": "^0.43.1",
+    "drizzle-orm": "^0.44.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "sharp": "^0.34.4",
     "simple-stack-form": "^0.1.12",
     "tailwind-merge": "^3.3.1",
-    "zod": "^3.25.76"
+    "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.2.5",
     "@iconify-json/line-md": "^1.2.11",
     "@pagefind/default-ui": "^1.4.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.14",
-    "@types/node": "^22.18.8",
+    "@types/node": "^24.6.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
-    "better-sqlite3": "^11.10.0",
+    "better-sqlite3": "^12.4.1",
     "drizzle-kit": "^0.31.5",
     "pagefind": "^1.4.0",
     "tailwindcss": "^4.1.14",
@@ -65,9 +62,9 @@
     "wrangler": "^4.42.0"
   },
   "engines": {
-    "node": ">=18.20.8"
+    "node": ">=20"
   },
-  "packageManager": "pnpm@10.17.1",
+  "packageManager": "pnpm@10.18.0",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "esbuild",
