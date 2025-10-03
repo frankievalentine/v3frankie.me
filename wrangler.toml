@@ -1,10 +1,10 @@
 name = "v3frankie-me"
 pages_build_output_dir = "dist"
-compatibility_date = "2025-09-17"
+compatibility_date = "2025-10-03"
 send_metrics = false
 
 [env.production]
-compatibility_date = "2025-09-17"
+compatibility_date = "2025-10-03"
 compatibility_flags = [ "nodejs_compat" ]
 
 [[env.production.d1_databases]]

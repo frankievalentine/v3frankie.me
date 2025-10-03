@@ -12,6 +12,8 @@
     "dev": "astro dev",
     "build": "astro telemetry disable && astro check && astro build",
     "cfpreview": "wrangler pages dev ./dist",
+    "cfdeploy": "wrangler pages deploy ./dist",
+    "cftypes": "wrangler types",
     "predev": "pagefind --site dist --output-path ./public/pagefind",
     "lint": "biome lint --write .",
     "lint:fix": "biome check --write .",
