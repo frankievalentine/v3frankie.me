@@ -1,6 +1,7 @@
 name = "v3frankie-me"
 pages_build_output_dir = "dist"
 compatibility_date = "2025-09-17"
+send_metrics = false
 
 [env.production]
 compatibility_date = "2025-09-17"
@@ -10,5 +11,3 @@ compatibility_flags = [ "nodejs_compat" ]
 database_id = "d65950fd-c05f-46df-945f-ae3cd531783a"
 binding = "DB"
 database_name = "DB"
-
-send_metrics = false

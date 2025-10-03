@@ -64,17 +64,5 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "pnpm@10.18.0",
-  "pnpm": {
-    "ignoredBuiltDependencies": [
-      "esbuild",
-      "workerd"
-    ],
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "@tailwindcss/oxide",
-      "better-sqlite3",
-      "sharp"
-    ]
-  }
+  "packageManager": "pnpm@10.18.0"
 }
