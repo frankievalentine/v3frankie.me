@@ -11,6 +11,7 @@
     "astro": "astro",
     "dev": "astro dev",
     "build": "astro telemetry disable && astro check && astro build",
+    "node": "node ./dist/_worker.js/index.js",
     "cfpreview": "wrangler pages dev ./dist",
     "cfdeploy": "wrangler pages deploy ./dist",
     "cftypes": "wrangler types",
