@@ -11,7 +11,6 @@
     "astro": "astro",
     "dev": "astro dev",
     "build": "astro telemetry disable && astro check && astro build",
-    "node": "node ./dist/_worker.js/index.js",
     "cfpreview": "wrangler pages dev ./dist",
     "cfdeploy": "wrangler pages deploy ./dist",
     "cftypes": "wrangler types",
@@ -63,9 +62,5 @@
     "tailwindcss": "^4.1.14",
     "typescript": "^5.9.3",
     "wrangler": "^4.42.0"
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "packageManager": "pnpm@10.18.0"
+  }
 }
