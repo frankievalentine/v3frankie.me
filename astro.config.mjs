@@ -15,43 +15,46 @@ import simpleStackForm from "simple-stack-form";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://v3frankie.me",
-	markdown: {},
-	image: {
-		domains: ["images.unsplash.com"],
-	},
-	prefetch: true,
-	integrations: [
-		sitemap(),
-		robotsTxt(),
-		partytown(),
-		expressiveCode({
-			themes: ["catppuccin-mocha", "catppuccin-latte"],
-		}),
-		mdx(),
-		markdoc(),
-		...(process.env.SKIP_KEYSTATIC ? [] : [keystatic()]),
-		react(),
-		simpleStackForm(),
-		icon(),
-	],
-	output: "static",
-	// adapter: node({
-	//   mode: "standalone"
-	// }),
-	// Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
-	adapter: cloudflare({
-		platformProxy: true,
-		imageService: "passthrough",
-	}),
-	vite: {
-		resolve: {
-			// Use react-dom/server.edge instead of react-dom/server.browser for React 19.
-			// Without this, MessageChannel from node:worker_threads needs to be polyfilled.
-			alias: import.meta.env.PROD && {
-				"react-dom/server": "react-dom/server.edge",
-			},
-		},
-		plugins: [tailwindcss()],
-	},
+  site: "https://v3frankie.me",
+  markdown: {},
+  image: {
+    domains: ["images.unsplash.com"],
+  },
+  prefetch: true,
+  integrations: [
+    sitemap(),
+    robotsTxt(),
+    partytown(),
+    expressiveCode({
+      themes: ["catppuccin-mocha", "catppuccin-latte"],
+    }),
+    mdx(),
+    markdoc(),
+    ...(process.env.SKIP_KEYSTATIC ? [] : [keystatic()]),
+    react(),
+    simpleStackForm(),
+    icon(),
+  ],
+  output: "static",
+  // adapter: node({
+  //   mode: "standalone"
+  // }),
+  // Cloudflare D1 platform proxy and use Astro's Image service with passthrough mode
+  adapter: cloudflare({
+    platformProxy: true,
+    imageService: "passthrough",
+  }),
+  vite: {
+    build: {
+      minify: false,
+    },
+    resolve: {
+      // Use react-dom/server.edge instead of react-dom/server.browser for React 19.
+      // Without this, MessageChannel from node:worker_threads needs to be polyfilled.
+      alias: import.meta.env.PROD && {
+        "react-dom/server": "react-dom/server.edge",
+      },
+    },
+    plugins: [tailwindcss()],
+  },
 });
