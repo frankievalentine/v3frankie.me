@@ -21,10 +21,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/cloudflare": "^12.6.9",
-    "@astrojs/markdoc": "^0.15.7",
-    "@astrojs/mdx": "^4.3.6",
-    "@astrojs/node": "^9.4.4",
+    "@astrojs/cloudflare": "^12.6.10",
+    "@astrojs/markdoc": "^0.15.8",
+    "@astrojs/mdx": "^4.3.7",
+    "@astrojs/node": "^9.5.0",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/react": "^4.4.0",
     "@astrojs/rss": "^4.0.12",
@@ -32,7 +32,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@keystatic/astro": "^5.0.6",
     "@keystatic/core": "^0.5.48",
-    "astro": "^5.14.1",
+    "astro": "^5.14.5",
     "astro-expressive-code": "^0.41.3",
     "astro-icon": "^1.1.5",
     "astro-robots-txt": "^1.0.0",
@@ -45,7 +45,7 @@
     "sharp": "^0.34.4",
     "simple-stack-form": "^0.1.12",
     "tailwind-merge": "^3.3.1",
-    "zod": "^4.1.11"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.5",
@@ -53,14 +53,14 @@
     "@pagefind/default-ui": "^1.4.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.14",
-    "@types/node": "^24.6.2",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "better-sqlite3": "^12.4.1",
     "drizzle-kit": "^0.31.5",
     "pagefind": "^1.4.0",
     "tailwindcss": "^4.1.14",
     "typescript": "^5.9.3",
-    "wrangler": "^4.42.0"
+    "wrangler": "^4.43.0"
   }
 }
