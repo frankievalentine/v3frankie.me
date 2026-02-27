@@ -54,6 +54,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="twitter:title" content={siteTitle} />
     <meta property="twitter:description" content={description} />
 
+    <!-- Theme color -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1d1f21" media="(prefers-color-scheme: dark)" />
+
     <!-- Sitemap + RSS -->
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title="Frankie Valentine" href="/rss.xml" />
@@ -78,7 +82,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
     </script>
   </head>
-  <body class="min-h-screen bg-background text-foreground antialiased">
+  <body class="min-h-svh bg-background text-foreground antialiased">
 
     <Search />
 
@@ -268,7 +272,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </aside>
 
     <!-- Sibling of .sidebar — gets auto margin from basecoat sidebar CSS -->
-    <div class="flex flex-col min-h-screen">
+    <div class="flex flex-col min-h-svh">
       <!-- Mobile top bar -->
       <header class="flex items-center gap-3 px-4 h-14 border-b border-border shrink-0 md:hidden" data-pagefind-ignore>
         <button
@@ -283,10 +287,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             <line x1="4" x2="20" y1="18" y2="18"/>
           </svg>
         </button>
-        <span class="text-sm font-semibold">Frankie</span>
       </header>
 
-      <main class="flex-1">
+      <main class="flex-1 pb-16">
         <slot />
       </main>
     </div>
@@ -301,16 +304,34 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       document.addEventListener('astro:before-swap', (e) => {
         const isDark = document.documentElement.classList.contains('dark');
         (e as TransitionBeforeSwapEvent).newDocument.documentElement.classList.toggle('dark', isDark);
+        // Restore body scroll before the page swaps out.
+        document.body.style.overflow = '';
       });
 
       // Re-initialize basecoat after each View Transition page swap.
       // The MutationObserver in basecoat.js watches document.body — when Astro
       // replaces the body element the observer is lost. stop() + initAll() + start()
       // re-attaches it to the new body and re-initializes all components.
+      let sidebarObserver: MutationObserver | null = null;
+
       document.addEventListener('astro:page-load', () => {
         window.basecoat?.stop();
         window.basecoat?.initAll();
         window.basecoat?.start();
+
+        // Lock body scroll while the mobile sidebar is open to prevent Safari
+        // from scrolling the page behind the overlay (which causes the sidebar
+        // footer to disappear due to a fixed-element compositing bug).
+        sidebarObserver?.disconnect();
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) {
+          const syncScroll = () => {
+            document.body.style.overflow = sidebar.hasAttribute('inert') ? '' : 'hidden';
+          };
+          syncScroll();
+          sidebarObserver = new MutationObserver(syncScroll);
+          sidebarObserver.observe(sidebar, { attributes: true, attributeFilter: ['inert'] });
+        }
       });
 
       // Use event delegation on document so listeners survive body swaps.
