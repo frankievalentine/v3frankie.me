@@ -304,9 +304,29 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       document.addEventListener('astro:before-swap', (e) => {
         const isDark = document.documentElement.classList.contains('dark');
         (e as TransitionBeforeSwapEvent).newDocument.documentElement.classList.toggle('dark', isDark);
-        // Restore body scroll before the page swaps out.
-        document.body.style.overflow = '';
+        // Release scroll lock before the page swaps out.
+        unlockScroll();
       });
+
+      // iOS-compatible scroll lock: freeze the body at the current scroll position
+      // using position:fixed so the page can't scroll behind the sidebar overlay.
+      // This avoids overflow:hidden (breaks touch events on fixed elements in Safari)
+      // and touchmove interception (suppresses taps with any finger movement).
+      let savedScrollY = 0;
+
+      const lockScroll = () => {
+        savedScrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${savedScrollY}px`;
+        document.body.style.width = '100%';
+      };
+
+      const unlockScroll = () => {
+        document.body.style.removeProperty('position');
+        document.body.style.removeProperty('top');
+        document.body.style.removeProperty('width');
+        window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+      };
 
       // Re-initialize basecoat after each View Transition page swap.
       // The MutationObserver in basecoat.js watches document.body — when Astro
@@ -319,14 +339,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         window.basecoat?.initAll();
         window.basecoat?.start();
 
-        // Lock body scroll while the mobile sidebar is open to prevent Safari
-        // from scrolling the page behind the overlay (which causes the sidebar
-        // footer to disappear due to a fixed-element compositing bug).
         sidebarObserver?.disconnect();
         const sidebar = document.querySelector('.sidebar');
         if (sidebar) {
           const syncScroll = () => {
-            document.body.style.overflow = sidebar.hasAttribute('inert') ? '' : 'hidden';
+            sidebar.hasAttribute('inert') ? unlockScroll() : lockScroll();
           };
           syncScroll();
           sidebarObserver = new MutationObserver(syncScroll);
