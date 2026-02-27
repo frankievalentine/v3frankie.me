@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About" currentPage="/">
+  <div class="max-w-2xl mx-auto px-6 py-12 md:py-16">
+
+    <!-- Page header -->
+    <div class="mb-10">
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight text-foreground">Frankie</h1>
+        <p class="mt-1 text-muted-foreground">San Francisco, CA</p>
+      </div>
+
+      <!-- Role badges -->
+      <div class="flex flex-wrap gap-2 mt-5">
+        <span class="badge-secondary">Photographer</span>
+        <span class="badge-secondary">Software Engineer</span>
+        <span class="badge-secondary">Open Source</span>
+        <span class="badge-outline">Available for freelance</span>
+      </div>
+    </div>
+
+    <!-- Bio card -->
+    <div class="card mb-6">
+      <header>
+        <h2>About me</h2>
+      </header>
+      <section>
+        <p class="text-sm text-muted-foreground leading-relaxed">
+          I'm a software engineer and photographer based in San Francisco. I build thoughtful
+          digital products during the day and chase light with a camera on weekends. My work
+          sits at the intersection of craft and code — I care deeply about the details in both.
+        </p>
+        <p class="text-sm text-muted-foreground leading-relaxed mt-3">
+          I've spent the last several years working on developer tooling, design systems, and
+          web infrastructure. Outside of that I shoot landscapes, architecture, and the
+          occasional portrait.
+        </p>
+      </section>
+    </div>
+
+    <!-- Now section -->
+    <div class="card mb-6">
+      <header>
+        <h2>Now</h2>
+        <p>What I'm focused on at the moment.</p>
+      </header>
+      <section>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground mt-0.5" aria-hidden="true">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </span>
+            <span class="text-sm text-muted-foreground">Building a new open-source design system for Astro</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground mt-0.5" aria-hidden="true">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                <circle cx="12" cy="13" r="3"/>
+              </svg>
+            </span>
+            <span class="text-sm text-muted-foreground">Shooting a series on urban decay across the Bay Area</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground mt-0.5" aria-hidden="true">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <span class="text-sm text-muted-foreground">Writing a newsletter about creative process and craft</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Contact / CTA -->
+    <div class="flex flex-wrap gap-3">
+      <a href="mailto:hello@frankie.me" class="btn-outline">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect width="20" height="16" x="2" y="4" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        Get in touch
+      </a>
+      <a href="/newsletter" class="btn-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4l11.733 16H20L8.267 4z"/>
+          <path d="M4 20L15.733 4"/>
+        </svg>
+        Subscribe to newsletter
+      </a>
+    </div>
+
+  </div>
+</Layout>

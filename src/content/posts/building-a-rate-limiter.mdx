@@ -1,0 +1,130 @@
+---
+title: Building a Rate Limiter in TypeScript
+description: A practical walkthrough of implementing a sliding window rate limiter using Cloudflare Workers KV.
+date: 2025-02-20
+tags: [typescript, cloudflare, workers]
+---
+
+Rate limiting is one of those things that sounds simple until you actually implement it. A naive counter resets at fixed intervals, which means a burst at the end of one window plus a burst at the start of the next can double your intended limit. A sliding window fixes that.
+
+## The sliding window algorithm
+
+Instead of resetting a counter every minute, we track the timestamps of each request and count only those within the last 60 seconds.
+
+```ts
+type RateLimitResult = {
+  allowed: boolean;
+  remaining: number;
+  resetIn: number; // ms until oldest request falls outside the window
+};
+
+function slidingWindow(
+  timestamps: number[],
+  windowMs: number,
+  limit: number
+): RateLimitResult {
+  const now = Date.now();
+  const windowStart = now - windowMs;
+
+  // Drop timestamps outside the window
+  const recent = timestamps.filter((t) => t > windowStart);
+
+  return {
+    allowed: recent.length < limit,
+    remaining: Math.max(0, limit - recent.length),
+    resetIn: recent.length > 0 ? recent[0]! - windowStart : 0,
+  };
+}
+```
+
+## Persisting state with Cloudflare KV
+
+For a distributed system you need shared state. KV is eventually consistent, but for rate limiting that's an acceptable trade-off — a few extra requests slipping through beats adding a Redis dependency.
+
+```ts
+async function checkRateLimit(
+  kv: KVNamespace,
+  key: string,
+  limit: number,
+  windowMs: number
+): Promise<RateLimitResult> {
+  const stored = await kv.get(key, 'json') as number[] | null;
+  const timestamps = stored ?? [];
+
+  const result = slidingWindow(timestamps, windowMs, limit);
+
+  if (result.allowed) {
+    const now = Date.now();
+    const windowStart = now - windowMs;
+
+    // Persist only the timestamps still in the window, plus this request
+    const updated = [...timestamps.filter((t) => t > windowStart), now];
+    await kv.put(key, JSON.stringify(updated), {
+      expirationTtl: Math.ceil(windowMs / 1000),
+    });
+  }
+
+  return result;
+}
+```
+
+## Wiring it up in a Worker
+
+```ts
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
+    const key = `rate:${ip}`;
+
+    const { allowed, remaining, resetIn } = await checkRateLimit(
+      env.RATE_LIMIT_KV,
+      key,
+      100,        // 100 requests
+      60 * 1000   // per 60 seconds
+    );
+
+    if (!allowed) {
+      return new Response('Too Many Requests', {
+        status: 429,
+        headers: {
+          'Retry-After': String(Math.ceil(resetIn / 1000)),
+          'X-RateLimit-Remaining': '0',
+        },
+      });
+    }
+
+    return new Response('OK', {
+      headers: {
+        'X-RateLimit-Remaining': String(remaining),
+      },
+    });
+  },
+};
+```
+
+## A note on atomicity
+
+This implementation has a race condition: two requests can read the same stale list simultaneously and both pass the limit check. For most APIs this is fine — you're adding friction, not building a vault. If you need hard guarantees, use Durable Objects instead, which give you single-threaded execution per key.
+
+```ts
+// Durable Object approach — no race condition
+export class RateLimiter implements DurableObject {
+  private timestamps: number[] = [];
+
+  async fetch(request: Request): Promise<Response> {
+    const { allowed, remaining } = slidingWindow(
+      this.timestamps,
+      60_000,
+      100
+    );
+
+    if (allowed) {
+      this.timestamps.push(Date.now());
+    }
+
+    return Response.json({ allowed, remaining });
+  }
+}
+```
+
+The tradeoff is cost and latency — each Durable Object request routes to a specific edge location, which can add a round-trip. For most use cases, the KV approach is good enough.
