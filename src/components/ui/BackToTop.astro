@@ -22,26 +22,28 @@
     stroke-linejoin="round"
     aria-hidden="true"
   >
-    <path d="m18 15-6-6-6 6"/>
+    <path d="m18 15-6-6-6 6" />
   </svg>
 </button>
 
 <script>
   function initBackToTop() {
-    const btn = document.getElementById('back-to-top');
-    if (!btn) return;
+    const btn = document.getElementById("back-to-top");
+    if (!btn) {
+      return;
+    }
 
     const onScroll = () => {
-      btn.dataset.visible = window.scrollY > 300 ? 'true' : 'false';
+      btn.dataset.visible = window.scrollY > 300 ? "true" : "false";
     };
 
-    btn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
   }
 
-  document.addEventListener('astro:page-load', initBackToTop);
+  document.addEventListener("astro:page-load", initBackToTop);
 </script>

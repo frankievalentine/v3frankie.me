@@ -1,22 +1,23 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
-import pagefind from 'astro-pagefind';
-import mdx from '@astrojs/mdx';
-import expressiveCode from 'astro-expressive-code';
-import sitemap from '@astrojs/sitemap';
-import partytown from '@astrojs/partytown';
-import cloudflare from '@astrojs/cloudflare';
+
+import cloudflare from "@astrojs/cloudflare";
+import mdx from "@astrojs/mdx";
+import partytown from "@astrojs/partytown";
+import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
+import expressiveCode from "astro-expressive-code";
+import pagefind from "astro-pagefind";
 
 /** @type {import('vite').Plugin} */
 const pagefindExternalPlugin = {
-  name: 'pagefind-external',
-  enforce: 'pre',
+  name: "pagefind-external",
+  enforce: "pre",
   // Mark /pagefind/pagefind.js as external at Vite's resolution layer so neither
   // the dev server nor the production build tries to bundle it. The file is
   // generated post-build by pagefind and served at runtime.
   resolveId(id) {
-    if (id === '/pagefind/pagefind.js') {
+    if (id === "/pagefind/pagefind.js") {
       return { id, external: true };
     }
   },
@@ -24,26 +25,27 @@ const pagefindExternalPlugin = {
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://v3frankie.me',
+  site: "https://v3frankie.me",
   integrations: [
     pagefind(),
     expressiveCode({
-      themes: ['catppuccin-mocha', 'catppuccin-latte'],
+      themes: ["catppuccin-mocha", "catppuccin-latte"],
       useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) => theme.type === 'dark' ? '.dark' : ':root:not(.dark)',
+      themeCssSelector: (theme) =>
+        theme.type === "dark" ? ".dark" : ":root:not(.dark)",
     }),
     mdx(),
     sitemap(),
     partytown({
       config: {
-        forward: ['dataLayer.push'],
+        forward: ["dataLayer.push"],
       },
     }),
   ],
-  output: 'static',
+  output: "static",
   adapter: cloudflare({
     platformProxy: { enabled: true },
-    imageService: 'passthrough',
+    imageService: "passthrough",
   }),
   vite: {
     plugins: [tailwindcss(), pagefindExternalPlugin],

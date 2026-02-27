@@ -12,6 +12,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# dotfiles
+.claude
+.zed
 
 # environment variables
 .env

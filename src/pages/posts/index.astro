@@ -1,28 +1,40 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { formatDate } from "../../utils";
 
-const posts = (await getCollection('posts')).sort(
+const posts = (await getCollection("posts")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
-
-const formatDate = (date: Date) =>
-  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <Layout title="Posts" currentPage="/posts">
   <div class="max-w-2xl mx-auto px-6 py-12 md:py-16">
-
     <!-- Page header -->
     <div class="flex items-center gap-2 mb-3">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground" aria-hidden="true">
-        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
-        <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
-        <path d="M10 9H8"/>
-        <path d="M16 13H8"/>
-        <path d="M16 17H8"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-muted-foreground"
+        aria-hidden="true"
+      >
+        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+        <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+        <path d="M10 9H8" />
+        <path d="M16 13H8" />
+        <path d="M16 17H8" />
       </svg>
-      <span class="text-xs text-muted-foreground font-medium uppercase tracking-wider">Writing</span>
+      <span
+        class="text-xs text-muted-foreground font-medium uppercase tracking-wider"
+        >Writing</span
+      >
     </div>
     <h1 class="text-3xl font-bold tracking-tight mb-2">Posts</h1>
     <p class="text-muted-foreground text-sm mb-10">
@@ -67,6 +79,5 @@ const formatDate = (date: Date) =>
         </a>
       ))}
     </div>
-
   </div>
 </Layout>
