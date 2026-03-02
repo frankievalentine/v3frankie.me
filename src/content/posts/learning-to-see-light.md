@@ -5,7 +5,7 @@ date: 2025-08-19
 tags: [photography]
 ---
 
-The first thing anyone told me about photography was to shoot during the golden hour. This is correct advice. It is also almost useless without a prior understanding of *why*, which takes a long time to build.
+The first thing anyone told me about photography was to shoot during the golden hour. This is correct advice. It is also almost useless without a prior understanding of _why_, which takes a long time to build.
 
 ## Quality vs. quantity
 

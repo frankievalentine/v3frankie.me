@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
-import { formatDate } from "../../utils";
+import { formatDate, readingTime } from "../../utils";
 
 const posts = (await getCollection("posts")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -66,6 +66,8 @@ const posts = (await getCollection("posts")).sort(
                 <time datetime={post.data.date.toISOString()} class="text-xs text-muted-foreground">
                   {formatDate(post.data.date)}
                 </time>
+                <span class="text-border" aria-hidden="true">·</span>
+                <span class="text-xs text-muted-foreground">{readingTime(post.body ?? "")}</span>
                 {post.data.tags && post.data.tags.length > 0 && (
                   <div class="flex gap-1.5 flex-wrap">
                     {post.data.tags.map((tag) => (

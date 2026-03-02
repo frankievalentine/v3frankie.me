@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
-import BackToTop from "../../components/ui/BackToTop.astro";
+import BackToTop from "../../components/ui/back-to-top.astro";
 import Layout from "../../layouts/Layout.astro";
 import { formatDate, readingTime } from "../../utils";
 
@@ -86,14 +86,14 @@ const timeToRead = readingTime(bodyText);
       </div>
     </header>
 
-    <div role="separator" class="border-t border-border mb-8"></div>
+    <hr class="border-border mb-8">
 
     <!-- Post body -->
     <div class="prose prose-sm prose-neutral dark:prose-invert max-w-none">
       <Content />
     </div>
 
-    <div role="separator" class="border-t border-border mt-12 mb-8"></div>
+    <hr class="border-border mt-12 mb-8">
 
     <!-- Footer nav -->
     <a

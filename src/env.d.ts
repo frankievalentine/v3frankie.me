@@ -11,4 +11,19 @@ declare global {
       init: (component: string) => void;
     };
   }
+
+  interface PagefindResult {
+    content: string;
+    excerpt: string;
+    meta: {
+      title?: string;
+      image?: string;
+      image_alt?: string;
+    };
+    url: string;
+  }
+
+  interface PagefindSearchResult {
+    data: () => Promise<PagefindResult>;
+  }
 }

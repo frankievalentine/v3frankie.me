@@ -21,7 +21,7 @@ type RateLimitResult = {
 function slidingWindow(
   timestamps: number[],
   windowMs: number,
-  limit: number
+  limit: number,
 ): RateLimitResult {
   const now = Date.now();
   const windowStart = now - windowMs;
@@ -46,9 +46,9 @@ async function checkRateLimit(
   kv: KVNamespace,
   key: string,
   limit: number,
-  windowMs: number
+  windowMs: number,
 ): Promise<RateLimitResult> {
-  const stored = await kv.get(key, 'json') as number[] | null;
+  const stored = (await kv.get(key, "json")) as number[] | null;
   const timestamps = stored ?? [];
 
   const result = slidingWindow(timestamps, windowMs, limit);
@@ -73,29 +73,29 @@ async function checkRateLimit(
 ```ts
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
+    const ip = request.headers.get("cf-connecting-ip") ?? "unknown";
     const key = `rate:${ip}`;
 
     const { allowed, remaining, resetIn } = await checkRateLimit(
       env.RATE_LIMIT_KV,
       key,
-      100,        // 100 requests
-      60 * 1000   // per 60 seconds
+      100, // 100 requests
+      60 * 1000, // per 60 seconds
     );
 
     if (!allowed) {
-      return new Response('Too Many Requests', {
+      return new Response("Too Many Requests", {
         status: 429,
         headers: {
-          'Retry-After': String(Math.ceil(resetIn / 1000)),
-          'X-RateLimit-Remaining': '0',
+          "Retry-After": String(Math.ceil(resetIn / 1000)),
+          "X-RateLimit-Remaining": "0",
         },
       });
     }
 
-    return new Response('OK', {
+    return new Response("OK", {
       headers: {
-        'X-RateLimit-Remaining': String(remaining),
+        "X-RateLimit-Remaining": String(remaining),
       },
     });
   },
@@ -112,11 +112,7 @@ export class RateLimiter implements DurableObject {
   private timestamps: number[] = [];
 
   async fetch(request: Request): Promise<Response> {
-    const { allowed, remaining } = slidingWindow(
-      this.timestamps,
-      60_000,
-      100
-    );
+    const { allowed, remaining } = slidingWindow(this.timestamps, 60_000, 100);
 
     if (allowed) {
       this.timestamps.push(Date.now());

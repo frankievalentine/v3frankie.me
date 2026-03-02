@@ -73,7 +73,9 @@ import Layout from "../layouts/Layout.astro";
               type="text"
               placeholder="Your name"
               autocomplete="given-name"
+              maxlength="100"
             >
+            <p id="name-error" class="text-xs text-destructive" hidden></p>
           </div>
           <div class="grid gap-2">
             <label for="newsletter-email" class="label">
@@ -86,8 +88,13 @@ import Layout from "../layouts/Layout.astro";
               placeholder="you@example.com"
               autocomplete="email"
               required
+              maxlength="254"
             >
+            <p id="email-error" class="text-xs text-destructive" hidden></p>
           </div>
+          <!-- Invisible Turnstile container — no visible widget rendered -->
+          <div id="turnstile-container" style="display:none" aria-hidden="true"></div>
+          <p id="form-error" class="text-xs text-destructive text-center" hidden></p>
           <button type="submit" class="btn w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -231,40 +238,149 @@ import Layout from "../layouts/Layout.astro";
   </div>
 </Layout>
 
+<!-- Turnstile API — loaded only on this page, not via partytown -->
+<script
+  is:inline
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer></script>
+
 <script>
+  import { z } from "zod";
+
+  // Replace with your actual site key from dash.cloudflare.com/turnstile
+  const TURNSTILE_SITE_KEY = "1x00000000000000000000AA";
+
+  const schema = z.object({
+    email: z
+      .string()
+      .min(1, "Email is required")
+      .email("Please enter a valid email address")
+      .max(254, "Email is too long"),
+    name: z
+      .string()
+      .max(100, "Name must be 100 characters or fewer")
+      .transform((v) => v.trim().replace(/[<>]/g, ""))
+      .optional(),
+  });
+
   const form = document.getElementById(
-    "newsletter-form"
+    "newsletter-form",
   ) as HTMLFormElement | null;
   const success = document.getElementById("newsletter-success");
   const emailInput = document.getElementById(
-    "newsletter-email"
+    "newsletter-email",
   ) as HTMLInputElement | null;
   const nameInput = document.getElementById(
-    "newsletter-name"
+    "newsletter-name",
   ) as HTMLInputElement | null;
   const submitBtn = form?.querySelector(
-    'button[type="submit"]'
+    'button[type="submit"]',
   ) as HTMLButtonElement | null;
+  const emailError = document.getElementById("email-error");
+  const nameError = document.getElementById("name-error");
+  const formError = document.getElementById("form-error");
+  const turnstileContainer = document.getElementById("turnstile-container");
+
+  // Render the invisible Turnstile widget once — widget is hidden, executes on submit.
+  let widgetId: string | undefined;
+  let pendingResolve: ((token: string) => void) | null = null;
+  let pendingReject: ((err: Error) => void) | null = null;
+
+  const renderTurnstile = () => {
+    if (!turnstileContainer || !(window as any).turnstile || widgetId !== undefined) return;
+    widgetId = (window as any).turnstile.render(turnstileContainer, {
+      sitekey: TURNSTILE_SITE_KEY,
+      size: "invisible",
+      execution: "execute",
+      callback: (token: string) => {
+        pendingResolve?.(token);
+        pendingResolve = null;
+        pendingReject = null;
+      },
+      "error-callback": () => {
+        pendingReject?.(new Error("Verification failed. Please try again."));
+        pendingResolve = null;
+        pendingReject = null;
+      },
+    });
+  };
+
+  // Turnstile may load before or after this script — handle both cases.
+  if ((window as any).turnstile) {
+    renderTurnstile();
+  } else {
+    (window as any).__onTurnstileLoad = renderTurnstile;
+  }
+
+  const getToken = (): Promise<string> => {
+    if (widgetId === undefined) {
+      return Promise.reject(new Error("Verification not ready. Please try again."));
+    }
+    return new Promise((resolve, reject) => {
+      pendingResolve = resolve;
+      pendingReject = reject;
+      (window as any).turnstile.reset(widgetId);
+      (window as any).turnstile.execute(widgetId);
+    });
+  };
+
+  const clearErrors = () => {
+    emailInput?.removeAttribute("aria-invalid");
+    nameInput?.removeAttribute("aria-invalid");
+    if (emailError) { emailError.textContent = ""; emailError.hidden = true; }
+    if (nameError) { nameError.textContent = ""; nameError.hidden = true; }
+    if (formError) { formError.textContent = ""; formError.hidden = true; }
+  };
+
+  const showFormError = (msg: string) => {
+    if (formError) { formError.textContent = msg; formError.hidden = false; }
+  };
 
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
+    clearErrors();
 
-    if (!(emailInput?.value && emailInput.checkValidity())) {
-      emailInput?.setAttribute("aria-invalid", "true");
-      emailInput?.focus();
+    const raw = {
+      email: emailInput?.value ?? "",
+      name: nameInput?.value || undefined,
+    };
+
+    const result = schema.safeParse(raw);
+    if (!result.success) {
+      const issues = result.error.flatten().fieldErrors;
+      if (issues.email?.[0]) {
+        emailInput?.setAttribute("aria-invalid", "true");
+        if (emailError) { emailError.textContent = issues.email[0]; emailError.hidden = false; }
+        emailInput?.focus();
+      }
+      if (issues.name?.[0]) {
+        nameInput?.setAttribute("aria-invalid", "true");
+        if (nameError) { nameError.textContent = issues.name[0]; nameError.hidden = false; }
+      }
       return;
     }
 
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.textContent = "Subscribing…";
+      submitBtn.textContent = "Verifying…";
     }
 
+    let token: string;
     try {
-      const body = new URLSearchParams({ email: emailInput.value });
-      if (nameInput?.value) {
-        body.set("name", nameInput.value);
-      }
+      token = await getToken();
+    } catch (err) {
+      showFormError(err instanceof Error ? err.message : "Verification failed. Please try again.");
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Subscribe"; }
+      return;
+    }
+
+    if (submitBtn) submitBtn.textContent = "Subscribing…";
+
+    try {
+      const body = new URLSearchParams({ email: result.data.email });
+      if (result.data.name) body.set("name", result.data.name);
+      body.set("cf-turnstile-response", token);
 
       const res = await fetch("https://newsletter.v3frankie.me/subscribe", {
         method: "POST",
@@ -272,23 +388,23 @@ import Layout from "../layouts/Layout.astro";
         body: body.toString(),
       });
 
-      if (!res.ok) {
-        throw new Error("Request failed");
-      }
+      if (!res.ok) throw new Error("Request failed");
 
       form.setAttribute("hidden", "");
       success?.removeAttribute("hidden");
     } catch {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Subscribe";
-      }
-      // Surface a basic error without a full error UI
-      emailInput?.setAttribute("aria-invalid", "true");
+      showFormError("Something went wrong. Please try again.");
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Subscribe"; }
     }
   });
 
   emailInput?.addEventListener("input", () => {
     emailInput.removeAttribute("aria-invalid");
+    if (emailError) { emailError.textContent = ""; emailError.hidden = true; }
+  });
+
+  nameInput?.addEventListener("input", () => {
+    nameInput.removeAttribute("aria-invalid");
+    if (nameError) { nameError.textContent = ""; nameError.hidden = true; }
   });
 </script>

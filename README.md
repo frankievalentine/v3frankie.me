@@ -14,17 +14,17 @@ Personal website of Frankie Valentine — photographer, engineer, and founder of
 
 ## Project Structure
 
-| Path | Description |
-| :--- | :--- |
-| `public/` | Static assets, favicon, avatar, PWA manifest, robots.txt |
-| `src/layouts/Layout.astro` | Sidebar layout used by all pages |
-| `src/pages/` | All routes — index, posts, photography, newsletter, RSS, 404 |
-| `src/content/posts/` | Blog posts in Markdown and MDX |
-| `src/content.config.ts` | Content collection schema |
-| `src/components/` | Astro components including search and back-to-top |
-| `src/styles/global.css` | Global styles — Tailwind + basecoat imports |
-| `src/utils.ts` | Shared utilities — `formatDate`, `readingTime` |
-| `wrangler.jsonc` | Cloudflare Pages deployment config |
+| Path                       | Description                                                  |
+| :------------------------- | :----------------------------------------------------------- |
+| `public/`                  | Static assets, favicon, avatar, PWA manifest, robots.txt     |
+| `src/layouts/Layout.astro` | Sidebar layout used by all pages                             |
+| `src/pages/`               | All routes — index, posts, photography, newsletter, RSS, 404 |
+| `src/content/posts/`       | Blog posts in Markdown and MDX                               |
+| `src/content.config.ts`    | Content collection schema                                    |
+| `src/components/`          | Astro components including search and back-to-top            |
+| `src/styles/global.css`    | Global styles — Tailwind + basecoat imports                  |
+| `src/utils.ts`             | Shared utilities — `formatDate`, `readingTime`               |
+| `wrangler.jsonc`           | Cloudflare Pages deployment config                           |
 
 ## Running locally
 
@@ -45,14 +45,14 @@ bun run dev
 
 ## Commands
 
-| Command | Action |
-| :--- | :--- |
-| `bun run dev` | Start local dev server at `localhost:4321` |
-| `bun run build` | Build production site to `./dist/` |
-| `bun run preview` | Preview the production build locally |
+| Command             | Action                                        |
+| :------------------ | :-------------------------------------------- |
+| `bun run dev`       | Start local dev server at `localhost:4321`    |
+| `bun run build`     | Build production site to `./dist/`            |
+| `bun run preview`   | Preview the production build locally          |
 | `bun run cfpreview` | Preview via Wrangler against Cloudflare Pages |
-| `bun run cfdeploy` | Deploy to Cloudflare Pages |
-| `bun run cftypes` | Generate Cloudflare Workers types |
+| `bun run cfdeploy`  | Deploy to Cloudflare Pages                    |
+| `bun run cftypes`   | Generate Cloudflare Workers types             |
 
 ## Deploy
 

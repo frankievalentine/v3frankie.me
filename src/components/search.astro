@@ -3,7 +3,6 @@
   id="search-dialog"
   class="command-dialog"
   aria-label="Search pages and posts"
-  onclick="if(event.target===this)this.close()"
 >
   <div class="command">
     <header>
@@ -52,7 +51,16 @@
 </style>
 
 <script>
-  let pagefind: any = null;
+  interface Pagefind {
+    debouncedSearch: (
+      query: string,
+      options?: object,
+      timeout?: number
+    ) => Promise<{ results: PagefindSearchResult[] } | null>;
+    init: () => Promise<void>;
+  }
+
+  let pagefind: Pagefind | null = null;
 
   const getDialog = () =>
     document.getElementById("search-dialog") as HTMLDialogElement | null;
@@ -67,8 +75,10 @@
       return;
     }
     try {
-      pagefind = await import("/pagefind/pagefind.js");
-      await pagefind.init();
+      // @ts-expect-error: pagefind index is generated post-build and absent at type-check time
+      const pf = (await import("/pagefind/pagefind.js")) as Pagefind;
+      pagefind = pf;
+      await pf.init();
     } catch {
       console.warn("Pagefind index not found. Run `bun run build` first.");
     }
@@ -84,7 +94,7 @@
     await ensurePagefind();
   };
 
-  const renderResults = (items: any[]) => {
+  const renderResults = (items: PagefindResult[]) => {
     const menu = getMenu();
     if (!menu) {
       return;
@@ -144,7 +154,7 @@
       }
 
       const data = await Promise.all(
-        result.results.slice(0, 8).map((r: any) => r.data())
+        result.results.slice(0, 8).map((r: PagefindSearchResult) => r.data())
       );
       renderResults(data);
     });
@@ -160,6 +170,14 @@
       } else {
         openSearch();
       }
+    }
+  });
+
+  // Close when clicking the backdrop (outside the dialog content)
+  document.addEventListener("click", (e) => {
+    const dialog = getDialog();
+    if (dialog?.open && e.target === dialog) {
+      dialog.close();
     }
   });
 

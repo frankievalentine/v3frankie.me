@@ -13,7 +13,7 @@ I've done this enough times to have developed a strong prior toward boring tools
 
 Boring doesn't mean bad. It means: mature, widely understood, with a large surface area of documented failure modes. PostgreSQL is boring. Git is boring. HTTP is boring. These tools have had their rough edges worn smooth by decades of use in hostile conditions.
 
-The interesting property of boring tools isn't that they're simple — it's that their failure modes are *legible*. When something goes wrong, the answer is probably on the first page of search results, or in a colleague's memory, or in a ten-year-old Stack Overflow post that still applies because the tool hasn't changed in ways that invalidate it.
+The interesting property of boring tools isn't that they're simple — it's that their failure modes are _legible_. When something goes wrong, the answer is probably on the first page of search results, or in a colleague's memory, or in a ten-year-old Stack Overflow post that still applies because the tool hasn't changed in ways that invalidate it.
 
 ## The cost of the new
 

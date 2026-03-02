@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
-import Search from "../components/Search.astro";
+import Search from "../components/search.astro";
 
 interface Props {
     title?: string;
@@ -248,6 +248,30 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                                     <span>Newsletter</span>
                                 </a>
                             </li>
+                            <li>
+                                <a
+                                    href="/uses"
+                                    aria-current={currentPage === "/uses"
+                                        ? "page"
+                                        : undefined}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                                        ></path>
+                                    </svg>
+                                    <span>Uses</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </section>
@@ -264,10 +288,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                         >
                             <!-- Avatar -->
                             <img
+                                id="sidebar-avatar"
                                 class="size-8 shrink-0 rounded-lg object-cover ring-1 ring-sidebar-border"
                                 src="/avatar.jpg"
                                 alt="Frankie"
-                                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
                             />
                             <div
                                 class="size-8 shrink-0 rounded-full bg-sidebar-accent text-sidebar-accent-foreground items-center justify-center text-sm font-semibold ring-1 ring-sidebar-border"
@@ -503,18 +527,33 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             import "basecoat-css/all";
             import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
 
+            // Cleanup previous module instance — prevents duplicate listeners when HMR
+            // re-evaluates this module during a dev session. Without this, each hot reload
+            // adds a new set of astro:page-load handlers and the popover gets double-toggled.
+            (window as any).__layoutCleanup?.();
+            const ac = new AbortController();
+            const { signal } = ac;
+            (window as any).__layoutCleanup = () => ac.abort();
+
             // Transfer the dark class to the incoming document before the swap so the
             // theme never flashes. The new page's <html> is server-rendered without the
             // class; astro:before-swap lets us patch it before it hits the DOM.
-            document.addEventListener("astro:before-swap", (e) => {
-                const isDark =
-                    document.documentElement.classList.contains("dark");
-                (
-                    e as TransitionBeforeSwapEvent
-                ).newDocument.documentElement.classList.toggle("dark", isDark);
-                // Release scroll lock before the page swaps out.
-                unlockScroll();
-            });
+            document.addEventListener(
+                "astro:before-swap",
+                (e) => {
+                    const isDark =
+                        document.documentElement.classList.contains("dark");
+                    (
+                        e as TransitionBeforeSwapEvent
+                    ).newDocument.documentElement.classList.toggle(
+                        "dark",
+                        isDark,
+                    );
+                    // Release scroll lock before the page swaps out.
+                    unlockScroll();
+                },
+                { signal },
+            );
 
             // iOS-compatible scroll lock: freeze the body at the current scroll position
             // using position:fixed so the page can't scroll behind the sidebar overlay.
@@ -547,12 +586,37 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             let firstLoad = true;
 
             const initPage = () => {
+                // Belt-and-suspenders theme restore — covers the case where
+                // astro:before-swap didn't fire (full-page reload fallback, timing edge).
+                const prefersDark = window.matchMedia(
+                    "(prefers-color-scheme: dark)",
+                ).matches;
+                const isDark =
+                    localStorage.theme === "dark" ||
+                    (!("theme" in localStorage) && prefersDark);
+                document.documentElement.classList.toggle("dark", isDark);
+
                 if (!firstLoad) {
                     window.basecoat?.stop();
                     window.basecoat?.initAll();
                     window.basecoat?.start();
                 }
                 firstLoad = false;
+
+                // Avatar fallback: show initials div if the image fails to load
+                const avatar = document.getElementById(
+                    "sidebar-avatar",
+                ) as HTMLImageElement | null;
+                if (avatar) {
+                    avatar.onerror = () => {
+                        avatar.style.display = "none";
+                        const fallback =
+                            avatar.nextElementSibling as HTMLElement | null;
+                        if (fallback) {
+                            fallback.style.display = "flex";
+                        }
+                    };
+                }
 
                 // Set up the mobile sidebar scroll-lock observer.
                 // astro:before-swap always calls unlockScroll() before a navigation,
@@ -566,9 +630,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                         !window.matchMedia("(min-width: 768px)").matches;
                     sidebarObserver = new MutationObserver(() => {
                         if (!isMobile()) return;
-                        sidebar.hasAttribute("inert")
-                            ? unlockScroll()
-                            : lockScroll();
+                        if (sidebar.hasAttribute("inert")) {
+                            unlockScroll();
+                        } else {
+                            lockScroll();
+                        }
                     });
                     sidebarObserver.observe(sidebar, {
                         attributes: true,
@@ -577,29 +643,33 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 }
             };
 
-            document.addEventListener("astro:page-load", initPage);
+            document.addEventListener("astro:page-load", initPage, { signal });
 
             // Use event delegation on document so listeners survive body swaps.
-            document.addEventListener("click", (e) => {
-                const target = e.target as Element;
+            document.addEventListener(
+                "click",
+                (e) => {
+                    const target = e.target as Element;
 
-                if (target.closest("#theme-toggle")) {
-                    document.documentElement.classList.toggle("dark");
-                    localStorage.theme =
-                        document.documentElement.classList.contains("dark")
-                            ? "dark"
-                            : "light";
-                }
+                    if (target.closest("#theme-toggle")) {
+                        document.documentElement.classList.toggle("dark");
+                        localStorage.theme =
+                            document.documentElement.classList.contains("dark")
+                                ? "dark"
+                                : "light";
+                    }
 
-                if (target.closest("#search-trigger")) {
-                    (
-                        document.getElementById(
-                            "search-dialog",
-                        ) as HTMLDialogElement
-                    )?.showModal();
-                    document.getElementById("search-input")?.focus();
-                }
-            });
+                    if (target.closest("#search-trigger")) {
+                        (
+                            document.getElementById(
+                                "search-dialog",
+                            ) as HTMLDialogElement
+                        )?.showModal();
+                        document.getElementById("search-input")?.focus();
+                    }
+                },
+                { signal },
+            );
         </script>
     </body>
 </html>
