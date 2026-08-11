@@ -1,0 +1,58 @@
+---
+title: "What's in My Homelab?"
+description: A practical tour of the virtualization, container, networking, monitoring, storage, and media tools that shape my homelab.
+date: 2026-07-30
+tags: [homelab, self-hosting, proxmox, docker]
+---
+
+My homelab is less a finished appliance and more a place where I can make infrastructure choices at my own pace. Some parts are dependable enough to fade into the background. Others are there because I want to compare tools, understand the tradeoffs, or see whether an idea is worth keeping.
+
+The useful way to describe it is not as one enormous list of containers. It is a handful of layers: virtualization, container management, networking, observability, storage, and the services that sit on top.
+
+## The foundation: Proxmox
+
+[Proxmox](https://www.proxmox.com/en/) is the foundation I reach for when I want a host to run a mix of virtual machines and Linux containers. It gives each experiment a boundary without making me dedicate a physical machine to every idea.
+
+That separation matters in a lab. I can keep an infrastructure service apart from an application, rebuild one environment without disturbing another, and decide whether a workload makes more sense in a VM or an LXC. [Unraid](https://unraid.net/product) is a paid alternative I have considered, especially when thinking about storage, but Proxmox is the center of this setup.
+
+## Managing containers without hiding Docker
+
+Most application-level services fit naturally into Docker Compose. I still like using the Docker CLI for direct control, but I do not need every routine edit to happen in a terminal.
+
+[Dockge](https://github.com/louislam/dockge) is my preferred way to manage Compose files. It stays close to the Compose model, which makes it easy to understand what will actually run. [Portainer](https://www.portainer.io/) is the more flexible option when I want a broader container-management interface, including support for Docker, Swarm, and Kubernetes.
+
+I think of those tools as interfaces, not replacements for understanding containers. The Compose file should remain readable, and I should still be able to inspect or operate the stack from the CLI when needed.
+
+[Watchtower](https://containrrr.dev/watchtower/) is another tool in this layer. Its job is narrower: automating updates to container base images. Automatic updates are convenient, but they also change running software, so it is the kind of automation I want to introduce deliberately rather than simply enable everywhere.
+
+## Remote access and local names
+
+Remote access is where a small lab can become more complicated than the services themselves. [Cloudflare Tunnel](https://github.com/cloudflare/cloudflared) offers a way to connect a hostname to a service through a tunnel. Dynamic DNS tools such as [cloudflare-ddns](https://github.com/favonia/cloudflare-ddns) address the related problem of keeping DNS current when a home connection does not have a static IP.
+
+Inside the network, [Nginx Proxy Manager](https://nginxproxymanager.com/) is an approachable option for putting friendly hostnames and HTTPS in front of services. For local certificates, I prefer [mkcert](https://github.com/FiloSottile/mkcert). A self-signed certificate can be perfectly fine for local development, but it is not trusted automatically; mkcert makes locally trusted certificates much less tedious to create.
+
+The important distinction for me is between something being reachable and something being intentionally exposed. A tunnel, a DNS record, and a certificate solve different pieces of the problem. None of them removes the need to decide which services should stay private.
+
+## Seeing whether anything is healthy
+
+A lab is much nicer to live with when I do not have to click through every service to find out whether it is running. [Uptime Kuma](https://github.com/louislam/uptime-kuma) is the simple status layer in my toolbox. Grafana and InfluxDB cover the deeper monitoring side when a basic up-or-down check is not enough.
+
+I like that split. Most of the time, I only need a clear signal that something failed. When I am investigating a pattern or trying to understand resource use, dashboards and time-series data become more useful.
+
+## Storage, databases, and media
+
+The storage side opens up several paths. Nextcloud and ownCloud are options for managing files, while TrueNAS CORE and [TrueNAS SCALE](https://www.truenas.com/truenas-scale/) approach the lab from the NAS side. MariaDB fills the ordinary database role for services that need one.
+
+Media is another natural homelab workload. Plex and [Jellyfin](https://docs.linuxserver.io/images/docker-jellyfin) are both on my list, with ffmpeg handling the underlying media-processing work where needed. These are good examples of why I prefer keeping services modular: the media server, storage, and supporting tools can evolve independently.
+
+## A smaller lab on my Mac
+
+Not every experiment needs to reach the main host. On macOS, [OrbStack](https://orbstack.dev) is my preferred option for local Linux virtual machines and containers. [Lima](https://github.com/lima-vm/lima) and UTM are alternatives when I want a different route to a Linux VM.
+
+For local Kubernetes work, [minikube](https://minikube.sigs.k8s.io/docs/) provides a way to run Kubernetes locally on macOS, Windows, or Linux. I do not treat Kubernetes as a requirement for a homelab, though. It is another environment to learn when the problem calls for it, not a mandatory upgrade from Compose.
+
+## The part I actually value
+
+The software changes, but the structure stays fairly consistent: isolate workloads, keep the container definitions understandable, make remote access intentional, and add enough monitoring that failures are visible.
+
+That is what I want from a homelab. It gives me room to try a different container manager, compare storage options, or run a local cluster without pretending every experiment belongs in production. The result is useful infrastructure, but the freedom to take it apart is still the best feature.

@@ -1,0 +1,28 @@
+---
+layout: ../../../layouts/HomelabPage.astro
+title: Services
+description: Shared internal services, dependencies, and service ownership across my homelab.
+currentPage: /homelab/services
+---
+
+The services section is for the tools that make my homelab useful day to day but do not need a whole architecture page yet. Komodo is the backbone for managing those services, while the rest are a mix of personal utilities, development tools, and supporting infrastructure.
+
+This page should stay practical: what the service is for, where it runs, what data it owns, and what has to be backed up before it can be considered disposable.
+
+## Current Direction
+
+- [Komodo](https://komo.do/) for server and container management.
+- [Forgejo](https://forgejo.org/) for self-hosted Git and internal project history.
+- [Syncthing](https://syncthing.net/) for direct file synchronization.
+- [RustDesk Server](https://rustdesk.com/docs/en/) for self-hosted remote desktop support.
+- Supporting utilities that are useful, but not important enough to become their own top-level section.
+
+## Setup
+
+New services should earn their place. Before something becomes part of the stable lab, it needs a home, a name, a backup answer, and a reason to exist beyond "it looked interesting."
+
+- Decide whether it belongs in Proxmox, TrueNAS apps, or somewhere else.
+- Name it consistently in DNS and routing.
+- Put persistent data somewhere intentional.
+- Keep secrets out of repos and notes.
+- Add the smallest useful health check before relying on it.

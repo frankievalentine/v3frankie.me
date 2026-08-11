@@ -1,0 +1,130 @@
+---
+title: "Running a Multi-Host Homelab with Traefik"
+description: How I route, secure, and start services across my internal and external homelab.
+date: 2026-05-15T12:00:00.000Z
+tags: [homelab, traefik, self-hosting]
+---
+
+Running a homelab is easy until it isn't. What starts as a single Raspberry Pi running Pi-hole can turn into a dozen services spread across [Proxmox](https://www.proxmox.com/en/) containers, virtual machines, bare-metal servers, and cloud tunnels. At some point, you need a traffic layer that can keep up with where those services actually live.
+
+This post walks through how I run a multi-service, multi-host homelab with [**Traefik**](https://traefik.io/traefik/) as the routing layer, [**Docker Compose**](https://docs.docker.com/compose/) for service packaging, [**Traefik Kop**](https://github.com/jittering/traefik-kop) for cross-host discovery, and [**systemd**](https://systemd.io/) for predictable startup after a reboot.
+
+> All domains and IP ranges in this article are placeholders. This setup is built for a personal network, not a public SaaS platform.
+
+## The Architecture at a Glance
+
+The network is split into two tiers: an **internal** side for services I only access at home, and an **external** side for the few services exposed to the internet. Each tier has its own Traefik instance, but both use the same service-discovery pattern.
+
+### Internal
+
+- **Purpose:** Home automation, media, monitoring, and infrastructure dashboards.
+- **Auth:** [Tinyauth](https://tinyauth.app/) Forward Auth.
+- **Entrypoint:** `https://*.homelab.internal`.
+
+### External
+
+- **Purpose:** Public portfolio, auth portal, and external APIs.
+- **Auth:** [Authentik](https://goauthentik.io/) OIDC and outpost-based Forward Auth.
+- **Entrypoint:** [Cloudflare Tunnel](https://developers.cloudflare.com/tunnel/) to Traefik.
+
+Keeping those tiers separate means a mistake on the public side does not automatically expose my NAS, hypervisor, or monitoring tools to the internet.
+
+## Why Traefik?
+
+Traefik is often described as a "cloud-native" reverse proxy, but the part that matters most in a homelab is its **dynamic configuration** model. Instead of editing NGINX virtual hosts every time I start a new container, Traefik watches Docker labels and [Redis](https://redis.io/) keys, then updates its routing table automatically.
+
+In my setup, Traefik is configured with three providers:
+
+1. **Docker Provider** — for services running on the same host as the Traefik container.
+2. **Redis Provider** — for services running on *other* hosts, pushed into a shared Redis instance by Traefik Kop.
+3. **File Provider** — for bare-metal appliances (TrueNAS, Proxmox, UniFi) that will never run inside Docker.
+
+```yaml
+# traefik.yml (simplified)
+providers:
+  docker:
+    exposedByDefault: false
+  redis:
+    endpoints:
+      - "traefik-internal-redis:6379"
+    rootKey: "traefik"
+  file:
+    directory: /config/dynamic
+    watch: true
+```
+
+## Cross-Host Discovery with Traefik Kop
+
+The hardest part of a multi-host homelab is not proxying traffic — it is **knowing where the traffic should go**. I run services across several Proxmox LXCs and VMs. Each host has its own Docker daemon, and I do not want to mount the Docker socket from one host into a container on another.
+
+**Traefik Kop** handles that nicely. On each remote host, a small container watches the local Docker socket, converts container labels into Traefik-compatible Redis keys, and publishes them to a shared Redis instance. The internal and external Traefik instances read from Redis, so they learn about new routes within seconds of a container starting anywhere on the network.
+
+This means I can deploy a service on any host with nothing more than Docker Compose labels, and the proxy layer updates itself automatically:
+
+```yaml
+# docker-compose.yml on a remote host
+services:
+  my-app:
+    image: my-app:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.my-app.rule: "Host(`app.homelab.internal`)"
+      kop.namespace: "internal"
+```
+
+## Authentication
+
+Internal services are protected by **Tinyauth**, a lightweight Forward Auth middleware. When a request hits an internal route, Traefik checks with Tinyauth first. If the user is not signed in, they see a login page. If they are signed in, Tinyauth returns the right headers and Traefik sends the request to the service. It is simple, stateless, and a good fit for a family-sized network.
+
+External services use **Authentik**, a full-featured identity provider. It handles OIDC flows, external user directories, and outpost-based Forward Auth for public-facing routes. Because public services have a different risk profile, I wanted session management, event auditing, and multi-factor support there.
+
+## Security Layers Beyond the Proxy
+
+Routing and auth are only part of the setup. Two additional layers help protect the public edge:
+
+- [**CrowdSec**](https://docs.crowdsec.net/) — an open-source intrusion prevention system. It reads Traefik access logs, looks for suspicious patterns like brute-force attempts or known-bad IPs, and sends block decisions back to the external Traefik instance through a plugin.
+- [**Cloudflare Tunnel**](https://github.com/cloudflare/cloudflared) — the external Traefik instance does not listen on a public IP directly. Instead, a Cloudflare Tunnel daemon on the same host keeps an outbound connection open to Cloudflare's edge. Public traffic enters through Cloudflare first, which handles DDoS mitigation and edge TLS before the request reaches my home network.
+
+## The Boot Problem (and the Systemd Fix)
+
+For months, the weak spot in this setup was **reliability after a reboot**. Docker Compose has good dependency management *within* a single `compose.yaml`, but it does not understand ordering across separate Compose projects. On boot, Docker would try to restart everything at once based on each container's `restart` policy. Some containers would fail because shared networks were not ready yet, or because Redis was not accepting connections.
+
+The manual fix was tedious: start the Traefik instances first, wait for Redis to report healthy, then start Kop, then Crowdsec, then the apps. That worked, but it was exactly the kind of checklist a homelab should not need after every power outage.
+
+The fix was to wrap each Compose stack in a **systemd service** with explicit dependencies:
+
+```ini
+# /etc/systemd/system/traefik-internal.service
+[Unit]
+Description=Traefik Internal Proxy
+Requires=docker.service homelab-networks.service
+After=docker.service homelab-networks.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory=/opt/traefik-internal
+ExecStart=/usr/bin/docker compose up -d
+ExecStop=/usr/bin/docker compose down
+Restart=on-failure
+RestartSec=15
+TimeoutStartSec=300
+```
+
+A dedicated `homelab-networks.service` runs first, making sure shared Docker networks exist before any container tries to attach to them. Then each stack starts in order: proxies first, then discovery, then security, then applications. If a transient network error causes a service to fail, systemd retries it automatically after fifteen seconds.
+
+## Lessons Learned
+
+1. **Keep internal and external traffic separate.** Internal and external proxies should be distinct services with distinct auth backends. Convenience is not worth accidentally exposing private tools.
+2. **Do not rely on Docker restarts alone.** If you have shared networks, multiple Compose projects, or health-checked sidecars, you need something that understands dependency order. systemd is already there — use it.
+3. **Let routing update itself.** Whether you use Traefik Kop, Consul, or another discovery mechanism, manually maintaining upstream URLs across a dozen hosts is a recipe for drift.
+
+## Closing Thoughts
+
+The goal is not to make the homelab feel enterprise. It is to make normal maintenance less fragile. I want to be able to move a service, reboot a host, or add a new route without rebuilding a mental map every time.
+
+Traefik is useful here because it keeps the routing layer honest. Docker labels describe containerized services, file config handles the appliances, Redis gives remote hosts a way to participate, and systemd makes startup boring. None of those pieces are especially flashy, but together they make the lab easier to trust.
+
+---
+
+*This architecture powers a personal network of ~20+ services across multiple Proxmox hosts, all reachable through a single, internally-managed domain namespace.*

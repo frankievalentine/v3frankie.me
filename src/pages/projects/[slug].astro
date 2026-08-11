@@ -1,0 +1,158 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import BackToTop from "../../components/ui/back-to-top.astro";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout
+  title={project.data.title}
+  description={project.data.description}
+  currentPage={`/projects/${project.id}`}
+>
+  <div class="max-w-2xl mx-auto px-6 py-12 md:py-16">
+    <a
+      href="/projects"
+      class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m12 19-7-7 7-7" />
+        <path d="M19 12H5" />
+      </svg>
+      All projects
+    </a>
+
+    <header class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class="badge text-xs" data-variant="outline">{project.data.kind}</span>
+        <span class="badge text-xs" data-variant="secondary">{project.data.status}</span>
+      </div>
+
+      <h1
+        class="text-3xl font-bold tracking-tight text-foreground leading-tight mb-3"
+      >
+        {project.data.title}
+      </h1>
+
+      <p class="text-muted-foreground leading-relaxed mb-4">
+        {project.data.description}
+      </p>
+
+      <div class="flex flex-wrap gap-1.5">
+        {project.data.stack.map((item) => (
+          // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's HTML attributes do not type-check the JSX key prop.
+          <span class="badge text-xs" data-variant="secondary">{item}</span>
+        ))}
+      </div>
+
+      {project.data.links && (
+        <div class="flex flex-wrap gap-3 mt-6">
+          {project.data.links.website && (
+            <a href={project.data.links.website} class="btn" data-variant="outline">
+              Visit site
+            </a>
+          )}
+          {project.data.links.repository && (
+            <a href={project.data.links.repository} class="btn" data-variant="secondary">
+              View repository
+            </a>
+          )}
+        </div>
+      )}
+    </header>
+
+    <hr class="border-border mb-8" />
+
+    <div class="project-prose prose prose-sm prose-neutral dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+    <hr class="border-border mt-12 mb-8" />
+
+    <a
+      href="/projects"
+      class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m12 19-7-7 7-7" />
+        <path d="M19 12H5" />
+      </svg>
+      Back to all projects
+    </a>
+  </div>
+
+  <BackToTop />
+</Layout>
+
+<style is:global>
+  @reference "../../styles/global.css";
+
+  .project-prose h2 {
+    @apply text-xl font-semibold text-foreground mt-8 mb-3;
+  }
+
+  .project-prose h3 {
+    @apply text-base font-semibold text-foreground mt-6 mb-2;
+  }
+
+  .project-prose p {
+    @apply text-sm text-muted-foreground leading-relaxed mb-4;
+  }
+
+  .project-prose ul {
+    @apply text-sm text-muted-foreground list-disc pl-5 mb-4 space-y-1;
+  }
+
+  .project-prose ol {
+    @apply text-sm text-muted-foreground list-decimal pl-5 mb-4 space-y-1;
+  }
+
+  .project-prose strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .project-prose a {
+    @apply text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors;
+  }
+
+  .project-prose blockquote {
+    @apply border-l-2 border-border pl-4 italic text-muted-foreground;
+  }
+ </style>

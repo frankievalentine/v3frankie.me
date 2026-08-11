@@ -1,0 +1,192 @@
+---
+import BackToTop from "../components/ui/back-to-top.astro";
+import Layout from "./Layout.astro";
+
+interface Frontmatter {
+  title?: string;
+  description?: string;
+  currentPage?: string;
+}
+
+interface Props {
+  frontmatter?: Frontmatter;
+  title?: string;
+  description?: string;
+  currentPage?: string;
+}
+
+const {
+  frontmatter,
+  title = frontmatter?.title ?? "Homelab",
+  description = frontmatter?.description ?? "",
+  currentPage = frontmatter?.currentPage ?? "/homelab",
+} = Astro.props;
+
+const isRootPage = currentPage === "/homelab";
+---
+
+<Layout title={title} description={description} currentPage={currentPage}>
+  <div class="max-w-2xl mx-auto px-6 py-12 md:py-16">
+    {!isRootPage && (
+      <a
+        href="/homelab"
+        class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>
+        Homelab
+      </a>
+    )}
+
+    <header class="mb-8">
+      <p class="text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground mb-3">
+        Homelab
+      </p>
+      <h1
+        class="text-3xl font-bold tracking-tight text-foreground leading-tight mb-3"
+      >
+        {title}
+      </h1>
+      {description && (
+        <p class="text-muted-foreground leading-relaxed">{description}</p>
+      )}
+    </header>
+
+    <hr class="border-border mb-8" />
+
+    <div class="homelab-prose prose prose-sm prose-neutral dark:prose-invert max-w-none">
+      <slot />
+    </div>
+
+    {!isRootPage && (
+      <>
+        <hr class="border-border mt-12 mb-8" />
+        <a
+          href="/homelab"
+          class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+          </svg>
+          Back to homelab
+        </a>
+      </>
+    )}
+  </div>
+
+  <BackToTop />
+</Layout>
+
+<style is:global>
+  @reference "../styles/global.css";
+
+  .homelab-prose h2 {
+    @apply text-xl font-semibold text-foreground mt-8 mb-3;
+  }
+
+  .homelab-prose h3 {
+    @apply text-base font-semibold text-foreground mt-6 mb-2;
+  }
+
+  .homelab-prose p {
+    @apply text-sm text-muted-foreground leading-relaxed mb-4;
+  }
+
+  .homelab-prose ul {
+    @apply text-sm text-muted-foreground list-disc pl-5 mb-4 space-y-1;
+  }
+
+  .homelab-prose ol {
+    @apply text-sm text-muted-foreground list-decimal pl-5 mb-4 space-y-1;
+  }
+
+  .homelab-prose strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .homelab-prose a {
+    @apply text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors;
+  }
+
+  .homelab-prose code:not(pre code) {
+    @apply rounded bg-muted px-1.5 py-0.5 text-xs text-foreground;
+  }
+
+  .homelab-prose blockquote {
+    @apply border-l-2 border-border pl-4 italic text-muted-foreground;
+  }
+
+  .homelab-prose .homelab-canvas-shell {
+    @apply relative my-8 h-[560px] overflow-hidden rounded-lg border border-border bg-white dark:bg-black;
+    background-image:
+      linear-gradient(to right, rgba(128, 128, 128, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(128, 128, 128, 0.07) 1px, transparent 1px);
+    background-size: 20px 20px;
+    width: calc(100% + 12rem);
+    margin-left: -6rem;
+    max-width: none;
+  }
+
+  .homelab-prose .homelab-canvas-controls {
+    @apply absolute right-3 top-3 z-10 flex overflow-hidden rounded-md border border-border bg-background/90 text-xs shadow-sm backdrop-blur;
+  }
+
+  .homelab-prose .homelab-canvas-controls button {
+    @apply flex h-8 min-w-8 items-center justify-center border-r border-border px-2 text-foreground transition-colors hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .homelab-prose .homelab-canvas-controls button:last-child {
+    @apply border-r-0;
+  }
+
+  .homelab-prose .expressive-code {
+    @apply mb-4;
+  }
+
+  .homelab-prose .expressive-code pre {
+    @apply text-xs;
+  }
+
+  /* React Flow overrides */
+  .homelab-prose .homelab-canvas-shell .react-flow__attribution {
+    display: none;
+  }
+
+  .homelab-prose .homelab-canvas-shell .react-flow__edge-textbg {
+    fill: transparent;
+  }
+
+  .homelab-prose .homelab-canvas-shell .react-flow__node {
+    border: none;
+    box-shadow: none;
+  }
+
+  .homelab-prose .homelab-canvas-shell .react-flow__node.selected {
+    box-shadow: none;
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+title: "Building OpenPrexo: A Home for Image Generation"
+description: Why I am building a consistent image-generation workflow that keeps the creative process and its history close at hand.
+date: 2026-07-30
+tags: [openprexo, ai, image-generation, local-first]
+---
+
+AI image generation often feels more scattered than creative. Different tools expect different settings, results land in different places, and recreating an image can depend on whether I remembered to save the prompt, model, and seed.
+
+I started **OpenPrexo** because I wanted one consistent workflow for that process. My goal is to make generating an image, following its progress, and finding it again feel like parts of the same experience—not separate chores tied to whichever service or local tool produced it.
+
+## Local ownership as the anchor
+
+The part I care about most is keeping the library close to the person creating it. OpenPrexo is being shaped around local configuration, image files, and a local record of prompts and generation details. That makes the history useful beyond a single session and gives me a stable place to organize the work.
+
+Local ownership does not mean every generation is fully offline. A local image engine still needs to be installed and configured, and any remote provider has its own connection requirements. The point is that the workflow and its library can remain mine even when the source of an image changes.
+
+## One rhythm for different tools
+
+I want the basic rhythm to stay familiar: choose a configured provider, describe the image, watch the job progress, and save the result with enough context to understand it later. The early command-line flow, local service, configuration, and image history are the first pieces of that idea.
+
+There are also experiments for terminal and desktop experiences, but they are not yet one polished, fully integrated product. I would rather let those interfaces grow from the same dependable foundation than rush several disconnected versions into the world.
+
+## Phase 1, honestly
+
+OpenPrexo is currently in **Phase 1: an early foundation**. The repository has meaningful building blocks for generation, provider connections, local storage, and browsing image records, but setup is still part of using it and provider support is not universal.
+
+Managed cloud access is part of the longer-term direction, not a live OpenPrexo cloud service I can promise today. The same is true of a complete cross-platform desktop experience. Keeping that distinction clear lets me focus on the less flashy work that will make later stages coherent.
+
+For now, OpenPrexo is my attempt to give image generation a reliable home: one workflow I can understand, a history I can keep, and a foundation that can expand without giving up local ownership.

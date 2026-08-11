@@ -4,12 +4,17 @@ import type { APIContext } from "astro";
 
 export async function GET(context: APIContext) {
   const posts = await getCollection("posts");
+  const site = context.site;
+
+  if (!site) {
+    throw new Error("Astro.site must be configured to generate the RSS feed.");
+  }
 
   return rss({
     title: "Frankie Valentine",
     description:
       "Frankie Valentine's writing on creative process, photography, and building things on the web.",
-    site: context.site!,
+    site,
     items: posts
       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
       .map((post) => ({

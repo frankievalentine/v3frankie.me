@@ -1,0 +1,26 @@
+---
+layout: ../../../layouts/HomelabPage.astro
+title: AdGuard
+description: DNS filtering role, client behavior, and upstream resolver strategy for my homelab.
+currentPage: /homelab/adguard
+---
+
+[AdGuard Home](https://adguard.com/en/adguard-home/overview.html) is the filtering layer for local DNS. It sits in front of the resolver path so clients get cleaner DNS responses without needing custom setup on every device.
+
+This is one of those services where boring is good: clients should resolve names quickly, local records should be obvious, and upstream behavior should be easy to reason about when something fails.
+
+## Role
+
+- Client-facing DNS filtering.
+- Local rewrites for internal services.
+- A cleaner view of which devices are asking for what.
+- A front door to [Unbound](https://nlnetlabs.nl/projects/unbound/about/) when recursive resolution is preferred.
+
+## Setup
+
+AdGuard should not be the first thing clients depend on until upstream DNS, local records, and fallback behavior are tested. Once the path is stable, DHCP can hand it out as the default resolver.
+
+- Start with conservative blocklists.
+- Add local rewrites for internal hostnames.
+- Point upstream resolution at Unbound or trusted fallback resolvers.
+- Move clients over in batches so DNS problems are easy to spot.

@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import ProjectCard from "../../components/ProjectCard.astro";
+import Layout from "../../layouts/Layout.astro";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Layout title="Currently Building" currentPage="/projects">
+  <div class="max-w-2xl mx-auto px-6 py-12 md:py-16">
+    <div class="flex items-center gap-2 mb-3">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-muted-foreground"
+        aria-hidden="true"
+      >
+        <path d="m3 7 9-4 9 4-9 4-9-4Z" />
+        <path d="m3 12 9 4 9-4" />
+        <path d="m3 17 9 4 9-4" />
+      </svg>
+      <span class="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+        Projects
+      </span>
+    </div>
+
+    <h1 class="text-3xl font-bold tracking-tight mb-2">Currently Building</h1>
+    <p class="text-muted-foreground text-sm mb-10 leading-relaxed">
+      A running snapshot of the products, tools, and experiments I am building
+      right now.
+    </p>
+
+    <div class="grid gap-4">
+      {projects.map((project) => (
+        // biome-ignore lint/correctness/useJsxKeyInIterable: Astro components do not type-check the JSX key prop.
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  </div>
+</Layout>

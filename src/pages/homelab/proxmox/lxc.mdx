@@ -1,0 +1,48 @@
+---
+layout: ../../../layouts/HomelabPage.astro
+title: Proxmox LXC/VM
+description: Container and virtual machine placement inside the Proxmox stack.
+currentPage: /homelab/proxmox/lxc
+---
+
+This page tracks the workloads that live directly under `Proxmox`. The split is simple: use `LXC` containers for small Linux services that should be easy to move or rebuild, and use VMs when the full operating system is part of the product.
+
+## LXC Containers
+
+These are the small, focused services that benefit from being close to the Proxmox host without needing a full VM around each one.
+
+### Tailscale
+
+[Tailscale](https://tailscale.com/) gives the lab a private access path without making every management interface public.
+
+### Komodo
+
+[Komodo](https://komo.do/) keeps an eye on servers and manages container-based services from one place.
+
+### RustDesk Server
+
+[RustDesk Server](https://rustdesk.com/docs/en/) provides self-hosted remote desktop infrastructure so remote support and remote access stay under local control.
+
+### Forgejo
+
+[Forgejo](https://forgejo.org/) is the self-hosted Git service for internal development workflows.
+
+### Syncthing
+
+[Syncthing](https://syncthing.net/) handles direct file synchronization across systems in my homelab.
+
+### AdGuard
+
+[AdGuard Home](https://adguard.com/en/adguard-home/overview.html) handles DNS filtering and client-facing resolver control.
+
+### Unbound
+
+[Unbound](https://nlnetlabs.nl/projects/unbound/about/) is the upstream recursive resolver behind the DNS filtering layer.
+
+### Unifi OS Server
+
+[UniFi Network Server](https://ui.com/) manages the network stack and UniFi devices.
+
+## Virtual Machines
+
+[Home Assistant OS](https://www.home-assistant.io/installation/) is the sole VM on `Proxmox` because the appliance-style operating system is part of the expected experience.

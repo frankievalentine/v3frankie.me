@@ -1,0 +1,40 @@
+---
+layout: ../../../layouts/HomelabPage.astro
+title: Proxmox
+description: Virtualization layer, host roles, and workload placement for my homelab.
+currentPage: /homelab/proxmox
+---
+
+[Proxmox](https://www.proxmox.com/en/) is the compute layer for the lab. It is where the small infrastructure services live, where heavier workloads can be isolated, and where experiments can happen without turning the whole network into a science project.
+
+Most services run as lightweight containers because they are easy to back up, easy to move, and quick to rebuild. Full VMs are reserved for systems that genuinely need that boundary, like [Home Assistant OS](https://www.home-assistant.io/installation/).
+
+## What Runs Here
+
+- `LXC` containers for small infrastructure services, including [Tailscale](https://tailscale.com/), [Komodo](https://komo.do/), [RustDesk Server](https://rustdesk.com/docs/en/), [Forgejo](https://forgejo.org/), [Syncthing](https://syncthing.net/), [AdGuard Home](https://adguard.com/en/adguard-home/overview.html), [Unbound](https://nlnetlabs.nl/projects/unbound/about/), and UniFi.
+- A small number of VMs where the operating system matters more than the app process.
+- `Traefik` for routing web traffic to internal services with consistent names and certificates.
+- Management tooling that benefits from being close to the hosts it controls.
+
+## Setup
+
+The baseline setup is about getting the host stable before adding workloads. That means storage is named clearly, networking is predictable, updates are pointed at the right repositories, and access is set up in a way that does not depend on a single browser session or local-only path.
+
+- Install Proxmox and confirm the host can be reached from the management network.
+- Configure repositories, updates, and any subscription-related defaults.
+- Set up storage locations for containers, VMs, backups, and ISOs.
+- Bring up the first management containers before adding optional services.
+- Confirm snapshot and backup behavior before treating anything as permanent.
+
+## Hardware
+
+This host is built as a compact compute box rather than a storage-heavy server. It has enough CPU and memory for infrastructure services, but the bulk data responsibilities stay with `TrueNAS`.
+
+- Case: Jonsbo C6 Black with handle
+- CPU Cooler: Thermalright AXP90-X47 Cooler
+- Motherboard: ASUS Prime B450M-A II
+- CPU: Ryzen 1700x
+- RAM: 32GB DDR4 Corsair mixed
+- SSD: 240GB NVME SSD
+- HDD: 1TB WD BLUE
+- PSU: Fractal 650W SFX-L

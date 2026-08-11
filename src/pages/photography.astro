@@ -1,4 +1,5 @@
 ---
+import BackToTop from "../components/ui/back-to-top.astro";
 import Layout from "../layouts/Layout.astro";
 
 const photos = [
@@ -96,14 +97,15 @@ const photos = [
       <h1 class="text-3xl font-bold tracking-tight">Selected frames</h1>
       <p class="mt-2 text-muted-foreground text-sm leading-relaxed">
         A curated collection shot exclusively on Fujifilm XM-5, iPhone 17, and
-        Panasonic GM-7 from life and my travels. You can find more on my
-        Unsplash.
+        Panasonic GM-7 from life and my travels. Clicking on the photos takes
+        you to my Unsplash.
       </p>
     </div>
 
     <!-- Masonry grid via CSS columns -->
     <div class="columns-1 sm:columns-2 lg:columns-3 gap-4">
       {photos.map((photo) => (
+        // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's HTML attributes do not type-check the JSX key prop.
         <div class="break-inside-avoid mb-4">
           <a href={photo.link} target="_blank" rel="noopener noreferrer">
             <img
@@ -120,4 +122,6 @@ const photos = [
       ))}
     </div>
   </div>
+
+  <BackToTop showAfter={600} />
 </Layout>

@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignoreUnknown": true
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+  // Astro support is experimental in Biome, but this enables linting and
+  // formatting across the HTML, CSS, and script portions of .astro files.
+  "html": {
+    "experimentalFullSupportEnabled": true
+  }
+}

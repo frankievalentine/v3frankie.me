@@ -78,7 +78,8 @@ const timeToRead = readingTime(bodyText);
             <span class="text-border" aria-hidden="true">·</span>
             <div class="flex gap-1.5 flex-wrap">
               {post.data.tags.map((tag) => (
-                <span class="badge-outline text-xs">{tag}</span>
+                // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's HTML attributes do not type-check the JSX key prop.
+                <span class="badge text-xs" data-variant="outline">{tag}</span>
               ))}
             </div>
           </>
@@ -148,6 +149,18 @@ const timeToRead = readingTime(bodyText);
   }
   .prose blockquote {
     @apply border-l-2 border-border pl-4 italic text-muted-foreground;
+  }
+  .prose table {
+    @apply w-full table-fixed text-sm text-muted-foreground mb-4;
+  }
+  .prose th {
+    @apply text-left font-semibold text-foreground border-b border-border px-3 py-2;
+  }
+  .prose td {
+    @apply border-b border-border px-3 py-2 align-top break-words;
+  }
+  .prose td code {
+    overflow-wrap: anywhere;
   }
 
   /* Expressive Code block overrides — harmonize with prose sizing */

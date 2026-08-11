@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import SidebarNav from "../components/SidebarNav.astro";
 import Search from "../components/search.astro";
 
 interface Props {
@@ -37,7 +38,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
         <!-- Icons -->
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link
+            rel="icon"
+            href="/favicon-light.svg"
+            type="image/svg+xml"
+            media="(prefers-color-scheme: light)"
+        />
+        <link
+            rel="icon"
+            href="/favicon-dark.svg"
+            type="image/svg+xml"
+            media="(prefers-color-scheme: dark)"
+        />
+        <link
+            id="theme-favicon"
+            rel="icon"
+            href="/favicon-light.svg"
+            type="image/svg+xml"
+        />
         <link rel="manifest" href="/manifest.webmanifest" />
 
         <!-- Open Graph -->
@@ -87,10 +105,27 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
         <ClientRouter />
         <script is:inline>
-            if (
+            const faviconMedia = window.matchMedia(
+                "(prefers-color-scheme: dark)",
+            );
+            const resolvePreferredTheme = () =>
                 localStorage.theme === "dark" ||
-                (!("theme" in localStorage) &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+                (!("theme" in localStorage) && faviconMedia.matches);
+            const syncFavicon = () => {
+                document
+                    .getElementById("theme-favicon")
+                    ?.setAttribute(
+                        "href",
+                        resolvePreferredTheme()
+                            ? "/favicon-dark.svg"
+                            : "/favicon-light.svg",
+                    );
+            };
+            syncFavicon();
+            faviconMedia.addEventListener("change", syncFavicon);
+
+            if (
+                resolvePreferredTheme()
             ) {
                 document.documentElement.classList.add("dark");
             }
@@ -99,8 +134,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <body class="min-h-svh bg-background text-foreground antialiased">
         <Search />
 
-        <aside class="sidebar" data-side="left" data-pagefind-ignore>
-            <nav>
+        <aside
+            id="site-sidebar"
+            class="sidebar"
+            data-side="left"
+            data-pagefind-ignore
+        >
+            <nav aria-label="Primary navigation">
                 <section class="scrollbar">
                     <!-- Search trigger -->
                     <div class="px-2 pt-2">
@@ -135,145 +175,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                         </button>
                     </div>
 
-                    <div role="group">
-                        <ul>
-                            <li>
-                                <a
-                                    href="/"
-                                    aria-current={currentPage === "/"
-                                        ? "page"
-                                        : undefined}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                                        ></path>
-                                        <polyline points="9 22 9 12 15 12 15 22"
-                                        ></polyline>
-                                    </svg>
-                                    <span>About</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/posts"
-                                    aria-current={currentPage === "/posts" ||
-                                    currentPage.startsWith("/posts/")
-                                        ? "page"
-                                        : undefined}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                        ></path>
-                                        <path d="M14 2v4a2 2 0 0 0 2 2h4"
-                                        ></path>
-                                        <path d="M10 9H8"></path>
-                                        <path d="M16 13H8"></path>
-                                        <path d="M16 17H8"></path>
-                                    </svg>
-                                    <span>Posts</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/photography"
-                                    aria-current={currentPage === "/photography"
-                                        ? "page"
-                                        : undefined}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"
-                                        ></path>
-                                        <circle cx="12" cy="13" r="3"></circle>
-                                    </svg>
-                                    <span>Photography</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/newsletter"
-                                    aria-current={currentPage === "/newsletter"
-                                        ? "page"
-                                        : undefined}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        aria-hidden="true"
-                                    >
-                                        <rect
-                                            width="20"
-                                            height="16"
-                                            x="2"
-                                            y="4"
-                                            rx="2"></rect>
-                                        <path
-                                            d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
-                                        ></path>
-                                    </svg>
-                                    <span>Newsletter</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/uses"
-                                    aria-current={currentPage === "/uses"
-                                        ? "page"
-                                        : undefined}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
-                                        ></path>
-                                    </svg>
-                                    <span>Uses</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <SidebarNav currentPage={currentPage} />
                 </section>
 
                 <footer>
@@ -290,7 +192,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                             <img
                                 id="sidebar-avatar"
                                 class="size-8 shrink-0 rounded-lg object-cover ring-1 ring-sidebar-border"
-                                src="/avatar.jpg"
+                                src="/avatar-close.webp"
                                 alt="Frankie"
                             />
                             <div
@@ -309,7 +211,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                                 >
                                 <span
                                     class="truncate text-xs text-muted-foreground"
-                                    >Founder @ V3 Digital Studio</span
+                                    >Software engineer</span
                                 >
                             </div>
                             <!-- Chevron up indicator -->
@@ -342,7 +244,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                             <!-- Social links -->
                             <div class="py-1">
                                 <a
-                                    href="https://github.com"
+                                    href="https://github.com/frankievalentine"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     class="flex items-center gap-2.5 px-3 py-2 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -368,7 +270,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                                     GitHub
                                 </a>
                                 <a
-                                    href="https://x.com"
+                                    href="https://x.com/v3frankie"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     class="flex items-center gap-2.5 px-3 py-2 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -393,7 +295,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                                     X
                                 </a>
                                 <a
-                                    href="https://instagram.com"
+                                    href="https://instagram.com/v3frankie"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     class="flex items-center gap-2.5 px-3 py-2 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -495,9 +397,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             >
                 <button
                     type="button"
-                    onclick="document.dispatchEvent(new CustomEvent('basecoat:sidebar'))"
+                    data-mobile-sidebar-trigger
+                    aria-controls="site-sidebar"
+                    aria-expanded="false"
                     aria-label="Open menu"
-                    class="inline-flex size-8 items-center justify-center rounded-md hover:bg-accent transition-colors"
+                    class="inline-flex size-8 items-center justify-center rounded-md outline-none ring-ring hover:bg-accent focus-visible:ring-2 transition-colors"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -527,13 +431,31 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             import "basecoat-css/all";
             import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
 
+            interface BasecoatApi {
+                stop: () => void;
+                initAll: () => void;
+                start: () => void;
+            }
+
+            interface SidebarElement extends HTMLElement {
+                close?: () => void;
+                toggle?: () => void;
+            }
+
+            type WindowWithLayoutState = Window & {
+                __layoutCleanup?: () => void;
+                basecoat?: BasecoatApi;
+            };
+
+            const appWindow = window as WindowWithLayoutState;
+
             // Cleanup previous module instance — prevents duplicate listeners when HMR
             // re-evaluates this module during a dev session. Without this, each hot reload
             // adds a new set of astro:page-load handlers and the popover gets double-toggled.
-            (window as any).__layoutCleanup?.();
+            appWindow.__layoutCleanup?.();
             const ac = new AbortController();
             const { signal } = ac;
-            (window as any).__layoutCleanup = () => ac.abort();
+            appWindow.__layoutCleanup = () => ac.abort();
 
             // Transfer the dark class to the incoming document before the swap so the
             // theme never flashes. The new page's <html> is server-rendered without the
@@ -575,6 +497,48 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 window.scrollTo({ top: savedScrollY, behavior: "instant" });
             };
 
+            const syncSidebarBranch = (
+                button: HTMLButtonElement,
+                open: boolean,
+            ) => {
+                button.setAttribute("aria-expanded", open ? "true" : "false");
+
+                const controlsId = button.getAttribute("aria-controls");
+                const subtree = controlsId
+                    ? document.getElementById(controlsId)
+                    : null;
+
+                if (subtree) {
+                    subtree.hidden = !open;
+                }
+
+                const icon = button.querySelector("svg");
+                icon?.classList.toggle("rotate-90", open);
+            };
+
+            const getMobileSidebarTrigger = () =>
+                document.querySelector<HTMLButtonElement>(
+                    "[data-mobile-sidebar-trigger]",
+                );
+
+            const getSidebar = () =>
+                document.getElementById(
+                    "site-sidebar",
+                ) as SidebarElement | null;
+
+            const syncMobileSidebarTrigger = (sidebar: SidebarElement) => {
+                const open =
+                    sidebar.getAttribute("aria-hidden") === "false" &&
+                    !sidebar.hasAttribute("inert");
+                const trigger = getMobileSidebarTrigger();
+                trigger?.setAttribute("aria-expanded", String(open));
+                trigger?.setAttribute(
+                    "aria-label",
+                    open ? "Close menu" : "Open menu",
+                );
+                return open;
+            };
+
             // Re-initialize basecoat after each View Transition page swap.
             // basecoat's own DOMContentLoaded handler handles the initial page load.
             // We only need to call stop/initAll/start after a body swap (navigation),
@@ -595,11 +559,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                     localStorage.theme === "dark" ||
                     (!("theme" in localStorage) && prefersDark);
                 document.documentElement.classList.toggle("dark", isDark);
+                document
+                    .getElementById("theme-favicon")
+                    ?.setAttribute(
+                        "href",
+                        isDark ? "/favicon-dark.svg" : "/favicon-light.svg",
+                    );
 
                 if (!firstLoad) {
-                    window.basecoat?.stop();
-                    window.basecoat?.initAll();
-                    window.basecoat?.start();
+                    appWindow.basecoat?.stop();
+                    appWindow.basecoat?.initAll();
+                    appWindow.basecoat?.start();
                 }
                 firstLoad = false;
 
@@ -618,20 +588,36 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                     };
                 }
 
+                document
+                    .querySelectorAll<HTMLButtonElement>("[data-sidebar-toggle]")
+                    .forEach((button) => {
+                        syncSidebarBranch(
+                            button,
+                            button.getAttribute("aria-expanded") === "true",
+                        );
+                    });
+
                 // Set up the mobile sidebar scroll-lock observer.
                 // astro:before-swap always calls unlockScroll() before a navigation,
                 // so we only need to observe future inert changes — no initial sync needed.
                 // The lock only applies on mobile where the sidebar is a full-screen overlay;
                 // on desktop the sidebar is always visible and inert is never toggled.
                 sidebarObserver?.disconnect();
-                const sidebar = document.querySelector(".sidebar");
+                const sidebar = getSidebar();
                 if (sidebar) {
+                    syncMobileSidebarTrigger(sidebar);
                     const isMobile = () =>
                         !window.matchMedia("(min-width: 768px)").matches;
                     sidebarObserver = new MutationObserver(() => {
                         if (!isMobile()) return;
+                        const wasOpen =
+                            getMobileSidebarTrigger()?.getAttribute(
+                                "aria-expanded",
+                            ) === "true";
+                        syncMobileSidebarTrigger(sidebar);
                         if (sidebar.hasAttribute("inert")) {
                             unlockScroll();
+                            if (wasOpen) getMobileSidebarTrigger()?.focus();
                         } else {
                             lockScroll();
                         }
@@ -653,10 +639,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
                     if (target.closest("#theme-toggle")) {
                         document.documentElement.classList.toggle("dark");
-                        localStorage.theme =
-                            document.documentElement.classList.contains("dark")
-                                ? "dark"
-                                : "light";
+                        const isDark =
+                            document.documentElement.classList.contains("dark");
+                        localStorage.theme = isDark ? "dark" : "light";
+                        document
+                            .getElementById("theme-favicon")
+                            ?.setAttribute(
+                                "href",
+                                isDark
+                                    ? "/favicon-dark.svg"
+                                    : "/favicon-light.svg",
+                            );
                     }
 
                     if (target.closest("#search-trigger")) {
@@ -667,6 +660,55 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                         )?.showModal();
                         document.getElementById("search-input")?.focus();
                     }
+
+                    const mobileSidebarTrigger = target.closest(
+                        "[data-mobile-sidebar-trigger]",
+                    ) as HTMLButtonElement | null;
+                    if (mobileSidebarTrigger) {
+                        e.preventDefault();
+                        const sidebar = getSidebar();
+                        sidebar?.toggle?.();
+                        if (sidebar && syncMobileSidebarTrigger(sidebar)) {
+                            requestAnimationFrame(() =>
+                                sidebar
+                                    .querySelector<HTMLElement>(
+                                        "button, a[href]",
+                                    )
+                                    ?.focus(),
+                            );
+                        }
+                    }
+
+                    const sidebarToggle = target.closest(
+                        "[data-sidebar-toggle]",
+                    ) as HTMLButtonElement | null;
+                    if (sidebarToggle) {
+                        e.preventDefault();
+                        syncSidebarBranch(
+                            sidebarToggle,
+                            sidebarToggle.getAttribute("aria-expanded") !==
+                                "true",
+                        );
+                    }
+                },
+                { signal },
+            );
+
+            document.addEventListener(
+                "keydown",
+                (e) => {
+                    if (
+                        e.key !== "Escape" ||
+                        window.matchMedia("(min-width: 768px)").matches
+                    )
+                        return;
+                    const sidebar = getSidebar();
+                    if (!sidebar || !syncMobileSidebarTrigger(sidebar)) return;
+
+                    e.preventDefault();
+                    sidebar.close?.();
+                    syncMobileSidebarTrigger(sidebar);
+                    getMobileSidebarTrigger()?.focus();
                 },
                 { signal },
             );

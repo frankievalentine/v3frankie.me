@@ -1,0 +1,41 @@
+---
+title: "Building Powerhouse: Reusing the Instructions I Kept Rewriting"
+description: How I started turning my repeatable expectations for AI-assisted web development into a portable, reusable toolkit.
+date: 2026-07-30
+tags: [ai, project-powerhouse, developer-tools, web-development]
+---
+
+I kept having the same conversation with coding assistants.
+
+Use the project's existing patterns. Keep the change focused. Check accessibility. Run the relevant tests. Read the diff before calling the work done. None of those requests were unusual, but I was rewriting some version of them every time I opened a new chat or tried a different tool.
+
+**Powerhouse** started as my attempt to stop losing those expectations between sessions. Instead of leaving useful instructions buried in chat history, I began putting them into files I could keep in a repository, review, and reuse.
+
+## From repeated prompts to a toolkit
+
+The basic idea is pretty simple: if I expect to say something again, it probably belongs somewhere more durable than a prompt box.
+
+Powerhouse currently collects a few kinds of material:
+
+- **Skills** for topics such as TypeScript, accessibility, Next.js, web performance, and GitHub workflows.
+- **Workflows** for repeatable jobs like reviewing a pull request, creating a component, checking test coverage, or preparing a preview deployment.
+- **Commands** that provide a shorter way to start common tasks where an assistant supports them.
+- **Assistant-specific configurations** that reshape the shared ideas for tools including Claude Code, OpenCode, Codex, Gemini, Continue, Copilot, and Cursor.
+
+That last part matters because these assistants do not all read the same files or expose the same features. The repository is not one universal configuration that behaves identically everywhere. It is closer to a set of shared notes with different adapters around them.
+
+## Making expectations portable
+
+What I wanted to carry between projects was not a giant prompt. It was a small collection of useful defaults: understand the task before editing, avoid unrelated changes, account for loading and error states, verify the result, and report what was actually checked.
+
+Keeping those ideas as ordinary text files makes them easy to inspect and change. I can borrow one workflow without adopting the whole repository, adjust a skill to fit a project's conventions, or compare how the same expectation is expressed for different assistants.
+
+There is also an installer that can copy selected skills and commands into an assistant's configuration directory. I still treat that as a convenience rather than magic: I can read the files first, choose what I want, and update copied files deliberately later.
+
+## Still early, still changing
+
+Powerhouse is an early toolkit, and that is the useful framing for it. Some assistants have richer command and skill setups than others. Some instructions will need to change as the tools and the web platform change. A reusable workflow can make my intent clearer, but it cannot guarantee the assistant's output or replace my review.
+
+The repository is already useful to me because it gives repeated decisions a home. When I improve a review checklist or find a clearer way to describe a component workflow, that lesson no longer has to stay trapped in one conversation.
+
+That is really what I am building: a portable shelf of the instructions I want nearby when I work with an AI assistant. Not a finished system and not an answer to every project, just a practical way to reuse the parts of my process that are worth repeating.

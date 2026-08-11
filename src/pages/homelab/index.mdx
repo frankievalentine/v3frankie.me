@@ -1,0 +1,32 @@
+---
+layout: ../../layouts/HomelabPage.astro
+title: Homelab
+description: Overview of the stack, network, and self-hosted services that power my home infrastructure.
+currentPage: /homelab
+---
+
+import HomelabCanvas from "../../components/homelab/HomelabCanvas";
+
+<HomelabCanvas client:only="react" />
+
+This section is the working map of my homelab: what runs where, how the major systems fit together, and what I want documented well enough to rebuild without guesswork.
+
+The goal is not to document every toggle in every dashboard. It is to keep a clear record of the choices that matter: where the data lives, which machines run which jobs, what breaks if something is offline, and how the lab can be rebuilt without depending on memory.
+
+## The Shape of It
+
+- `Proxmox` runs the compute side of the lab: containers, virtual machines, ingress, and small infrastructure services.
+- `TrueNAS` handles the storage layer, including bulk storage, app storage, shares, and data protection.
+- `Network` is the connective tissue: routing, DNS, DHCP, private access, and the hardware that makes the rest reachable.
+- `Home Assistant` is where infrastructure meets the house, with automations that should keep working even when the internet is unreliable.
+- `AdGuard` and `Unbound` keep local DNS predictable and block the obvious junk before it reaches clients.
+- `Services` collects the useful internal tools that do not need their own top-level architecture page yet.
+- `Servarr` covers the media automation stack and the storage, download, and ingress assumptions around it.
+
+## Operating Ideas
+
+- Prefer boring, replaceable parts over clever one-off setups.
+- Keep management services close to the infrastructure they control.
+- Make remote access private first, usually through [Tailscale](https://tailscale.com/), instead of exposing admin panels directly.
+- Put anything important in a place that has a clear backup or rebuild path.
+- Use the main pages for the baseline story, and reserve subsections for details that deserve their own space.

@@ -1,5 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const externalLinkClass =
+  "underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:text-muted-foreground";
 ---
 
 <Layout title="Uses" currentPage="/uses">
@@ -65,11 +68,16 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                MacBook Pro 14" M3 Pro
+                <a
+                  href="https://www.apple.com/macbook-air/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>MacBook Air 15" M4</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
-                Primary machine. The jump from Intel was significant; the M3 is
-                barely worth upgrading from M1/M2 unless you're GPU-bound.
+                Laptop. The jump from Intel was significant; the M4 is barely
+                worth upgrading from M1/M2 unless you're GPU-bound.
               </p>
             </div>
           </li>
@@ -93,7 +101,45 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                LG UltraFine 27" 4K
+                <a
+                  href="https://www.apple.com/mac-mini/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Mac mini M4</a
+                >
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                Desktop machine. Quiet, tiny, and more than enough for longer
+                builds, exports, and anything I want to leave docked.
+              </p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-muted-foreground shrink-0 mt-0.5"
+              aria-hidden="true"
+            >
+              <rect width="20" height="14" x="2" y="3" rx="2" />
+              <line x1="8" x2="16" y1="21" y2="21" />
+              <line x1="12" x2="12" y1="17" y2="21" />
+            </svg>
+            <div>
+              <p class="text-sm font-medium text-foreground">
+                <a
+                  href="https://www.msi.com/Monitors"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>MSI 27" OLED</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
                 External display. Good enough for photo editing; not a
@@ -121,11 +167,16 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                Keychron Q2 Pro
+                <a
+                  href="https://www.gloriousgaming.com/products/gmmk-pro"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Glorious GMMK Pro Keyboard</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
-                75% layout, Gateron G Pro Red switches. Wireless when I need it,
-                wired otherwise.
+                75% layout, Gateron Yellow switches. Wired, sturdy, and built
+                like a tank.
               </p>
             </div>
           </li>
@@ -150,11 +201,16 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                Sony A7C II
+                <a
+                  href="https://www.fujifilm-x.com/en-us/products/cameras/x-m5/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Fujifilm X-M5</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
-                Daily carry camera. Compact full-frame with great AF. Paired
-                mostly with the 35mm f/1.8.
+                Daily carry camera. Compact APS-C body with great AF. Paired
+                mostly with the 35mm f/1.8 or the stock lens.
               </p>
             </div>
           </li>
@@ -188,11 +244,16 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                VS Code + Neovim
+                <a
+                  href="https://zed.dev/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Zed</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
-                VS Code for anything with heavy tooling requirements, Neovim for
-                everything else. Still switching between them too often.
+                Zed is my text editor of choice for anything with heavy tooling
+                requirements. I still switch editors too often.
               </p>
             </div>
           </li>
@@ -218,10 +279,24 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                Ghostty
+                <a
+                  href="https://ghostty.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Ghostty</a
+                >
+                {" + "}
+                <a
+                  href="https://github.com/alvinunreal/oh-my-opencode-slim"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Opencode Slim</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
-                Replaced iTerm2. Fast, native, and the config format is sane.
+                Ghostty replaced iTerm2, with Opencode Slim coordinating
+                specialized agents for research, review, UI work, and focused
+                implementation.
               </p>
             </div>
           </li>
@@ -246,7 +321,19 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                TypeScript + Bun
+                <a
+                  href="https://www.typescriptlang.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>TypeScript</a
+                >
+                {" + "}
+                <a
+                  href="https://bun.sh/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Bun</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
                 TypeScript everywhere. Bun as runtime, package manager, and test
@@ -273,7 +360,26 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                Astro + React + Tailwind CSS
+                <a
+                  href="https://astro.build/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Astro</a
+                >
+                {" + "}
+                <a
+                  href="https://react.dev/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>React</a
+                >
+                {" + "}
+                <a
+                  href="https://tailwindcss.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Tailwind CSS</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
                 Astro for content sites and static work, React when I need
@@ -301,7 +407,19 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                Cloudflare Pages + Workers
+                <a
+                  href="https://pages.cloudflare.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Cloudflare Pages</a
+                >
+                {" + "}
+                <a
+                  href="https://workers.cloudflare.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Workers</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
                 Default deployment target. The edge network and free tier make
@@ -338,10 +456,17 @@ import Layout from "../layouts/Layout.astro";
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
             </svg>
             <div>
-              <p class="text-sm font-medium text-foreground">Notion</p>
+              <p class="text-sm font-medium text-foreground">
+                <a
+                  href="https://www.raycast.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Raycast</a
+                >
+              </p>
               <p class="text-xs text-muted-foreground mt-0.5">
-                Project planning and long-form notes. Would prefer something
-                local-first but haven't found a good replacement yet.
+                A quick launcher for apps, commands, and the small actions that
+                keep my day moving.
               </p>
             </div>
           </li>
@@ -366,10 +491,18 @@ import Layout from "../layouts/Layout.astro";
               />
             </svg>
             <div>
-              <p class="text-sm font-medium text-foreground">Arc</p>
+              <p class="text-sm font-medium text-foreground">
+                <a
+                  href="https://helium.computer/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Helium</a
+                >
+              </p>
               <p class="text-xs text-muted-foreground mt-0.5">
-                Primary browser. Spaces keep work and personal contexts
-                separate. Using it less aggressively as development slows.
+                Best privacy and unbiased ad-blocking by default. Handy
+                features like native !bangs and split view. No adware, no
+                bloat, no noise.
               </p>
             </div>
           </li>
@@ -394,12 +527,16 @@ import Layout from "../layouts/Layout.astro";
             </svg>
             <div>
               <p class="text-sm font-medium text-foreground">
-                Lightroom Classic
+                <a
+                  href="https://www.blackmagicdesign.com/products/davinciresolve"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>DaVinci Resolve 21</a
+                >
               </p>
               <p class="text-xs text-muted-foreground mt-0.5">
                 Still the best cataloging and editing workflow for high-volume
-                shooting. Capture One is better technically; the library
-                management isn't.
+                shooting. Great Lightroom alternative now.
               </p>
             </div>
           </li>
@@ -420,10 +557,17 @@ import Layout from "../layouts/Layout.astro";
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
             <div>
-              <p class="text-sm font-medium text-foreground">Linear</p>
+              <p class="text-sm font-medium text-foreground">
+                <a
+                  href="https://obsidian.md/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class={externalLinkClass}>Obsidian</a
+                >
+              </p>
               <p class="text-xs text-muted-foreground mt-0.5">
-                Issue tracking for client work and larger personal projects.
-                Opinionated in the right ways.
+                Notes, references, and anything I want to keep local-first.
+                Plain files, fast search, and no pressure to over-structure it.
               </p>
             </div>
           </li>

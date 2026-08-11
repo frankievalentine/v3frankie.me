@@ -1,26 +1,16 @@
 ---
+import { getCollection } from "astro:content";
+import ProjectCard from "../components/ProjectCard.astro";
 import Layout from "../layouts/Layout.astro";
+
+const featuredProjects = (await getCollection("projects"))
+  .sort((a, b) => a.data.order - b.data.order)
+  .filter((project) => project.data.featured)
+  .slice(0, 3);
 ---
 
 <Layout title="About" currentPage="/">
   <div class="max-w-2xl mx-auto px-6 py-12 md:py-16">
-    <!-- Page header -->
-    <div class="mb-10">
-      <div>
-        <h1 class="text-3xl font-bold tracking-tight text-foreground">
-          Frankie Valentine
-        </h1>
-        <p class="mt-1 text-muted-foreground">Nevada</p>
-      </div>
-
-      <!-- Role badges -->
-      <div class="flex flex-wrap gap-2 mt-5">
-        <span class="badge-secondary">Software Engineer</span>
-        <span class="badge-secondary">Open Source</span>
-        <span class="badge-secondary">Photographer</span>
-      </div>
-    </div>
-
     <!-- Bio card -->
     <div class="card mb-6">
       <header>
@@ -28,12 +18,78 @@ import Layout from "../layouts/Layout.astro";
       </header>
       <section>
         <p class="text-sm text-muted-foreground leading-relaxed">
-          I'm a software engineer first and Founder of V3 Digital Studio based
-          in Nevada. I've been a pixel perfectionist, research extraordinaire,
-          performance obsessed, developer and designer for over 8 years. I have
-          a passion for making the web a faster and more optimized experience
-          for all. I run my own shop. I am currently seeking new clients.
+          My name is Frankie and I'm based in Nevada. I'm a software engineer and founder of <a
+            href="https://v3digital.studio"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
+          >V3 Digital Studio</a>. I've spent the last eight
+          years working across design and code, with a particular focus on
+          performance and the details that make products feel considered. I
+          care about building websites and software that are fast, useful, and
+          well made. I run my own studio and work with clients on select
+          projects.
         </p>
+
+        <div class="mt-5 h-14 flex items-center">
+          <img
+            src="/signature-transparent.png"
+            width="1022"
+            height="416"
+            alt="Frankie Valentine signature"
+            class="block h-auto w-32 sm:w-36 dark:hidden"
+            loading="lazy"
+            decoding="async"
+          />
+          <img
+            src="/signature-dark.png"
+            width="1022"
+            height="416"
+            alt="Frankie Valentine signature"
+            class="hidden h-auto w-32 sm:w-36 dark:block"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <div class="flex flex-wrap gap-3 mt-4">
+          <a href="mailto:hello@v3frankie.me" class="btn" data-variant="outline">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m22 2-7 20-4-9-9-4Z"></path>
+              <path d="M22 2 11 13"></path>
+            </svg>
+            Get in touch
+          </a>
+          <a href="/newsletter" class="btn" data-variant="outline">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            Subscribe to newsletter
+          </a>
+        </div>
       </section>
     </div>
 
@@ -41,7 +97,6 @@ import Layout from "../layouts/Layout.astro";
     <div class="card mb-6">
       <header>
         <h2>Now</h2>
-        <!-- <p>What I'm focused on at the moment.</p> -->
       </header>
       <section>
         <ul class="space-y-3">
@@ -65,32 +120,8 @@ import Layout from "../layouts/Layout.astro";
               </svg>
             </span>
             <span class="text-sm text-muted-foreground"
-              >Building a new open-source design system for Astro</span
-            >
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="mt-0.5 shrink-0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-muted-foreground mt-0.5"
-                aria-hidden="true"
-              >
-                <path
-                  d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"
-                ></path>
-                <circle cx="12" cy="13" r="3"></circle>
-              </svg>
-            </span>
-            <span class="text-sm text-muted-foreground"
-              >Shooting a series on urban decay across the Bay Area</span
+              >Building V3 Digital Studio and making thoughtful,
+              high-performance products clients love</span
             >
           </li>
           <li class="flex items-start gap-3">
@@ -109,55 +140,94 @@ import Layout from "../layouts/Layout.astro";
                 aria-hidden="true"
               >
                 <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                <path
+                  d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                ></path>
               </svg>
             </span>
             <span class="text-sm text-muted-foreground"
-              >Writing a newsletter about creative process and craft</span
+              >Working on Quipthread for self-hosted comments and openprexo for
+              unified AI image generation across CLI and desktop</span
+            >
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 shrink-0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-muted-foreground mt-0.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5Z"
+                ></path>
+                <path d="M3 12.5 12 17l9-4.5"></path>
+                <path d="M3 17.5 12 22l9-4.5"></path>
+              </svg>
+            </span>
+            <span class="text-sm text-muted-foreground"
+              >Developing powerhouse and spritedeck for AI-native environments
+              and agent workflows</span
+            >
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 shrink-0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-muted-foreground mt-0.5"
+                aria-hidden="true"
+              >
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="M10 9H8"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path>
+              </svg>
+            </span>
+            <span class="text-sm text-muted-foreground"
+              >Using this site to publish project notes, updates, and longer
+              writing as the work develops</span
             >
           </li>
         </ul>
       </section>
     </div>
 
-    <!-- Contact / CTA -->
-    <div class="flex flex-wrap gap-3">
-      <a href="mailto:hello@frankie.me" class="btn-outline">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
+    <div class="mb-6">
+      <div class="flex items-center justify-between gap-4 mb-4">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Featured projects
+        </h2>
+
+        <a
+          href="/projects"
+          class="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          <path d="m22 2-7 20-4-9-9-4Z"></path>
-          <path d="M22 2 11 13"></path>
-        </svg>
-        Get in touch
-      </a>
-      <a href="/newsletter" class="btn-secondary">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-        </svg>
-        Subscribe to newsletter
-      </a>
+          View all
+        </a>
+      </div>
+
+      <div class="grid gap-4">
+        {featuredProjects.map((project) => (
+          // biome-ignore lint/correctness/useJsxKeyInIterable: Astro components do not type-check the JSX key prop.
+          <ProjectCard project={project} />
+        ))}
+      </div>
     </div>
   </div>
 </Layout>

@@ -1,0 +1,183 @@
+---
+title: "AI Coding Proficiency: A Practical Guide with Powerhouse"
+description: How I use reusable AI-assistant instructions without giving up the fundamentals, careful review, testing, or engineering judgment.
+date: 2026-07-30
+tags: [ai, learning, software-development, developer-tools]
+---
+
+AI coding proficiency is not the ability to ask for an entire application and accept whatever appears. For me, it is the ability to direct an assistant, inspect its work, and decide whether that work belongs in the codebase.
+
+That distinction matters. An assistant can produce code quickly, but speed does not tell me whether the code solves the right problem, follows the project's conventions, handles failure safely, or remains understandable six months later. Those judgments still depend on software fundamentals and on a deliberate working process.
+
+I built **Powerhouse** around that process. It is an early repository of reusable skills, workflows, commands, and assistant-specific configurations focused on web development. It is not a formal course, a substitute for documentation, or a guarantee that generated code will be correct. I think of it as a practical instruction shelf: instead of rewriting the same expectations in every conversation, I can give an assistant a maintained set of directions for tasks such as TypeScript work, accessibility checks, test coverage, component creation, and pull request review.
+
+This guide explains how I use that shelf while continuing to do the learning and verification that good software requires.
+
+## Fundamentals still set the ceiling
+
+The durable lesson from learning web development has not changed: learn well before trying to learn fast. A framework or assistant can hide syntax, but it cannot give me a reliable mental model of the browser, the network, data, state, or the language I am using.
+
+If I do not understand functions, objects, asynchronous work, HTTP, semantic HTML, CSS layout, the command line, and version control, I cannot reliably judge generated changes involving those things. I may recognize that the code looks plausible without knowing whether it is correct. That is a dangerous middle ground.
+
+I therefore use AI to support progressive practice, not skip it. I might ask an assistant to explain an unfamiliar function, compare the explanation with the language or framework documentation, change one small behavior, and then predict what the tests should show. I learn more from that loop than from generating a large project I cannot explain.
+
+The sequence matters:
+
+1. Learn the vocabulary and basic mechanics.
+2. Build a small thing from scratch.
+3. Use an assistant on a narrow improvement.
+4. Read every change and test the result.
+5. Rebuild or extend it with less help.
+
+Confusion and failed experiments are part of the work. They expose gaps in my model. If an assistant removes every moment of friction, it may also remove the moment when I would have learned why the code behaves as it does.
+
+## What Powerhouse actually provides
+
+Powerhouse currently organizes shared material under `global/` and adaptations under `agents/`. Its global skills cover TypeScript, the Next.js App Router, shadcn/ui, web performance, GitHub workflows, and accessibility. Its workflows include pull request review, component creation, test coverage, and preview deployment. There are also commands for common tasks, with availability depending on the assistant configuration.
+
+The repository contains configurations for several named assistants, including Claude Code, OpenCode, Antigravity, OpenAI Codex, Continue.dev, GitHub Copilot, and Cursor. That is a specific list, not a claim that Powerhouse works with every assistant. Formats and capabilities differ, so I check the relevant directory and the assistant's current documentation rather than assuming that a command or skill behaves identically everywhere.
+
+The useful idea is simpler than any one integration: store repeatable engineering instructions as files, review them like code, and invoke the relevant instructions when a task needs them. A skill supplies domain guidance. A workflow supplies an ordered process. A project context file supplies local rules. Together, they can make expectations more consistent, but they do not make the assistant accountable. I remain accountable for the result.
+
+## Start every task with a contract
+
+Vague requests create vague results. Before I ask an assistant to edit code, I write a compact task contract with four parts:
+
+- **Scope:** the exact behavior or files that may change.
+- **Constraints:** architecture, dependencies, compatibility, security, or style rules that must remain true.
+- **Acceptance criteria:** observable conditions that define success.
+- **Verification:** the commands and manual checks that must pass.
+
+For example:
+
+```text
+Add an empty state to the invoices list.
+
+Scope:
+- Change the invoices list component and its existing tests only.
+
+Constraints:
+- Do not add dependencies or change the API response.
+- Use semantic HTML and the existing design-system components.
+- Preserve keyboard navigation and the loading state.
+
+Acceptance criteria:
+- An accessible message appears when the invoice array is empty.
+- Existing loading, error, and populated states still work.
+
+Verification:
+- Run the focused tests, type checker, and linter.
+- Report the files changed and any checks not run.
+```
+
+This gives the assistant less room to solve a neighboring problem or refactor unrelated code. It also gives me a review checklist. Powerhouse's component workflow begins with similar questions about purpose, inputs, states, accessibility, and whether code needs to run on the client. I can reuse that structure without treating every suggestion in the workflow as mandatory for every project.
+
+The project remains the authority on its own conventions. If a generic skill says one thing and the repository's established pattern says another, I stop and resolve the conflict rather than silently mixing approaches.
+
+## Build in slices I can verify
+
+Large generations are hard to understand and expensive to review. I prefer the smallest change that produces useful evidence.
+
+For a feature, that could mean defining the data shape first, then implementing the core behavior, then handling errors, then adding the interface. For a bug, it could mean reproducing the failure with a test before changing the implementation. Each slice should leave the project in a state I can inspect and, ideally, run.
+
+This approach is slower than a one-shot prompt only if I count typing as the entire job. Once review, debugging, and rework are included, small steps are usually easier to control. They also preserve learning: I can explain why each layer exists before adding the next one.
+
+I ask the assistant to pause when assumptions are unresolved. If a database field may be nullable, an endpoint's authorization is unclear, or a UI state is not specified, confident invention is not progress. The correct next step is to inspect the schema, documentation, tests, or product requirement.
+
+## The diff is the real response
+
+I do not review an assistant's summary as proof of work. I review the diff.
+
+My first pass asks whether the change stayed inside the contract:
+
+- Are only expected files present?
+- Is unrelated formatting or refactoring mixed in?
+- Were dependencies, generated files, or configuration changed?
+- Did any test disappear or become less strict?
+- Did the implementation alter public behavior beyond the request?
+
+My second pass reads the logic. I trace inputs, state changes, outputs, error paths, and side effects. I look for invented APIs, swallowed errors, unsafe defaults, unnecessary complexity, and code that duplicates an existing abstraction. If I cannot explain a block in plain language, I do not approve it yet. I ask for an explanation, consult the source documentation, or rewrite the part myself.
+
+Powerhouse's pull request workflow reinforces this order: understand intent and scope, run static checks, inspect logic and side effects, and then give clear feedback. That is useful for my own changes too. Before committing, I review the diff as if it came from someone else.
+
+Version control makes this practical. I start from a clean working tree, use a short-lived branch when appropriate, and keep commits focused. I never let an assistant discard unknown local changes, rewrite history, force-push, or commit secrets. A small, meaningful commit gives me a recovery point and makes later review much easier.
+
+## Verification is more than a green test command
+
+Generated code should earn trust through evidence. I begin with the narrowest useful check and expand outward:
+
+1. Reproduce the original problem or define the expected behavior.
+2. Run a focused test for the changed path.
+3. Exercise edge cases and failure states.
+4. Run the project's type checker and linter.
+5. Run the broader test suite when the change can affect other areas.
+6. Build or manually exercise the application when compilation alone is not enough.
+
+Tests are not ceremonial. A test that only confirms a component rendered may miss the behavior that matters. I prioritize business rules, changed branches, validation, empty data, invalid input, network failure, authorization boundaries, and recovery behavior. Coverage can reveal untested areas, but a percentage does not tell me whether the right assertions exist.
+
+When a check fails, I do not repeatedly ask the assistant to “fix tests” with no context. I read the first meaningful error, reproduce it, form a hypothesis, and make one controlled change. I ask the assistant to explain the cause and evidence, not merely suppress the symptom. Weakening an assertion, adding a broad type cast, ignoring a lint rule, or catching every error can turn red output green while leaving the defect intact.
+
+Manual verification still matters for interaction. I use the keyboard, resize or zoom the page, trigger loading and error states, and watch the network and console. Automated checks are evidence, not the whole user experience.
+
+## Documentation outranks confident output
+
+An assistant's memory can be incomplete or stale. The official documentation for the exact version in the project is my authority for APIs, configuration, and supported behavior. Types and source code are useful authorities too, especially when documentation is ambiguous.
+
+I ask the assistant to identify which documentation supports a non-obvious choice. Then I verify it myself. This is particularly important for authentication, framework rendering behavior, caching, database migrations, and deployment configuration, where a plausible mistake can survive a casual review.
+
+Powerhouse should be treated the same way. Its skills are reusable guidance, not standards handed down forever. I inspect an instruction before adopting it, compare it with current official documentation and the target repository, and update it when reality changes. Reusable instructions are valuable precisely because they can be versioned and corrected.
+
+## Keep quality requirements in every task
+
+Security, accessibility, and performance are not cleanup phases. If I postpone them until the end, they become expensive and easy to omit. I include the relevant requirements in the task contract from the beginning.
+
+For **security**, I ask where data comes from, who is allowed to act, what must be validated on the server, and whether logs or diffs expose secrets. I review dependency additions, avoid placing credentials in prompts, and treat generated shell commands, migrations, and destructive operations as untrusted until inspected. An assistant should not receive production data merely because it would make an example convenient.
+
+For **accessibility**, I start with native semantic HTML, labels, heading order, visible focus, and complete keyboard operation. I test dynamic announcements and error handling rather than assuming an ARIA attribute solved the experience. Powerhouse includes accessibility guidance and a component checklist, but no checklist replaces trying the interface with a keyboard and appropriate assistive tooling.
+
+For **performance**, I measure before optimizing. I watch bundle changes, network requests, image behavior, caching, layout movement, and interaction delay. I am wary of generated memoization, lazy loading, or caching added without evidence; an optimization that complicates code without improving a measured problem is not free.
+
+These concerns belong in acceptance criteria. “The form submits” is incomplete if it submits twice, leaks private data, cannot be used without a mouse, or blocks the page while processing.
+
+## Using Powerhouse safely
+
+I can read and adapt the repository without installing anything. That is often the best first step: copy a relevant workflow into a prompt, compare it with the project, and see whether it improves the result.
+
+If I decide to use the installer, I inspect both the repository and `install.sh` before running it:
+
+```bash
+git clone https://github.com/frankievalentine/powerhouse.git
+cd powerhouse
+
+# Read README.md and the entire install.sh before executing anything.
+# Check each selected assistant's destination and back up local configuration.
+less README.md
+less install.sh
+
+./install.sh
+```
+
+That review is important. The current script interactively selects assistants, downloads repository content, and copies skills or configurations into directories under my home folder. Some destinations may already contain personal configuration, and a copied configuration can replace an existing file. I back up anything important and select only the integrations I have inspected.
+
+The installer does not create a live link to the repository, and installation does not imply automatic updates. Installed files are copies; I need to review and apply future changes deliberately. I also recheck the current repository rather than assuming this description will remain exact as an early project evolves.
+
+## A routine for deliberate AI-assisted work
+
+My practical routine looks like this:
+
+1. **State what I know.** Identify the relevant code, fundamentals, and gaps in my understanding.
+2. **Read local instructions and authoritative documentation.** Learn the project's actual rules before requesting changes.
+3. **Write the task contract.** Set scope, constraints, acceptance criteria, and verification.
+4. **Choose the smallest relevant skill or workflow.** Use Powerhouse as context, not as a replacement for project knowledge.
+5. **Generate one reviewable slice.** Stop when an assumption needs a decision.
+6. **Read the complete diff.** Trace behavior and reject unrelated or unexplained changes.
+7. **Test and debug from evidence.** Cover success, failure, and edge cases; run static and broader checks.
+8. **Check security, accessibility, and performance.** Verify them in proportion to the risk of the change.
+9. **Commit a focused change.** Preserve a readable history and a safe rollback point.
+10. **Capture what should be reusable.** Improve the instruction when a lesson applies beyond this task.
+
+The final step is where a repository like Powerhouse becomes more useful over time. A good correction should not remain buried in one chat. If I repeatedly need to remind an assistant to inspect the diff, preserve accessibility, or report checks it could not run, that expectation belongs in a versioned instruction.
+
+AI coding proficiency, as I see it, is disciplined collaboration with a tool that can be fast, useful, and wrong. Fundamentals let me recognize the difference. Clear contracts keep work bounded. Documentation, diffs, tests, and version control provide evidence. Reusable instructions reduce repetition.
+
+Powerhouse is my early attempt to collect those instructions in one place. It cannot guarantee good engineering, but it can make a good engineering process easier to repeat—and easier to inspect when it needs to improve.

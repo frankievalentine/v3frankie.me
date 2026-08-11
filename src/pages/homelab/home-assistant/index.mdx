@@ -1,0 +1,26 @@
+---
+layout: ../../../layouts/HomelabPage.astro
+title: Home Assistant
+description: Automation platform, integrations, and operational boundaries for the smart home stack.
+currentPage: /homelab/home-assistant
+---
+
+[Home Assistant](https://www.home-assistant.io/) is where the lab overlaps with the house. It is less about collecting every possible smart device and more about making the repeated parts of the house feel reliable and boring.
+
+The best automations are the ones that disappear into the background. This page keeps track of the integrations, helper entities, and backup decisions that make that possible.
+
+## What Belongs Here
+
+- Core integrations that the house actually depends on.
+- Automations that should keep working without cloud services.
+- Helper entities and naming conventions that make the setup easier to maintain.
+- Backup and restore notes for upgrades, device swaps, and broken experiments.
+
+## Setup
+
+`Home Assistant OS` runs as a VM because the appliance model is the least surprising path. Add-ons, backups, and supervisor-managed updates are part of the reason to use it instead of rebuilding the stack as loose containers.
+
+- Keep secrets out of automations where possible.
+- Add integrations slowly enough that broken devices are easy to identify.
+- Back up before major version updates.
+- Prefer local control for anything that affects lights, access, or comfort.

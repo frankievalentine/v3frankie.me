@@ -1,0 +1,47 @@
+---
+layout: ../../../layouts/HomelabPage.astro
+title: TrueNAS
+description: Storage topology, dataset layout, and data protection patterns for my homelab.
+currentPage: /homelab/truenas
+---
+
+[TrueNAS](https://www.truenas.com/) is the storage backbone for the lab. It holds the bulk data, exposes shares to the rest of the network, and gives app data a place to live that is separate from the compute hosts.
+
+The main job here is boring reliability: clear datasets, sensible permissions, predictable shares, and snapshots that make mistakes survivable.
+
+## Storage Role
+
+- Bulk storage for media, archives, and long-lived files.
+- App storage for services that should survive container rebuilds.
+- SMB/NFS shares for machines and services that need network storage.
+- Snapshot and backup policy for data that would be painful or impossible to recreate.
+
+## Setup
+
+Setup starts with the pool layout and dataset structure, because those decisions shape every share and app mount that follows. The goal is to make the common paths obvious and keep permissions from becoming a maze.
+
+- Install TrueNAS and confirm the boot device is separate from data storage.
+- Create pools and datasets around how the data is used, not just what disk it sits on.
+- Set SMB/NFS shares only where they are needed.
+- Configure snapshots before the datasets become busy.
+- Add alerts and backup targets before trusting it with anything important.
+
+## Hardware
+
+This machine is built around compact storage with enough CPU headroom for apps and occasional GPU-assisted work.
+
+- Case: Jonsbo N3
+- CPU Cooler: Noctua U9s CPU cooler
+- Motherboard: ASRock B450 Fatality
+- RAM: 64GB DDR4 Corsair Vengeance
+- CPU: Ryzen 5600GT
+- Fans:
+  - 1x Noctua 92mmx14mm fan
+  - 1x Noctua 92mmx24mm fan
+  - 2x Arctic 80mm fans
+- SSD:
+  - 120GB SSD for boot drive
+  - Samsung 970 512GB NVME for application pool
+- GPU: Nvidia Founders Edition 3060ti
+- PSU: 500W SFX Seasonic ($66)
+- HDD: 2x 8TB Red Pro

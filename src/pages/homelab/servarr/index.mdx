@@ -1,0 +1,27 @@
+---
+layout: ../../../layouts/HomelabPage.astro
+title: Servarr
+description: Media automation stack, workflow boundaries, and supporting service relationships.
+currentPage: /homelab/servarr
+---
+
+The `Servarr` stack is the media automation side of the lab. It is useful because it connects requests, downloads, organization, and library updates into one flow, but it can get messy quickly if paths and permissions are allowed to drift.
+
+The important part is not the number of apps. It is that every app agrees about where files live and what each folder means.
+
+## Shape
+
+- Request and indexer tools handle discovery.
+- Download clients handle transfer work.
+- Media managers organize completed files.
+- Libraries read from stable storage paths, ideally backed by `TrueNAS`.
+- Ingress and authentication stay consistent with the rest of the lab.
+
+## Setup
+
+The setup is mostly about shared assumptions: paths, users, permissions, and which service is allowed to move or rename files. If those are clear, the individual apps are much easier to replace.
+
+- Define shared media and download paths first.
+- Keep container volume mappings consistent across the stack.
+- Use service accounts or permissions that match the actual workflow.
+- Validate one complete request-to-library path before adding more automation.

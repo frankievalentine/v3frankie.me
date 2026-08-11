@@ -1,0 +1,166 @@
+---
+import {
+  getSidebarSubtreeId,
+  isNavItemActive,
+  isNavItemCurrent,
+  sidebarNavigation,
+  type SidebarNavItem,
+} from "../navigation";
+import SidebarIcon from "./SidebarIcon.astro";
+
+interface Props {
+  currentPage: string;
+}
+
+const { currentPage } = Astro.props;
+
+const topLevelLinkClass = (active: boolean, withToggle = false) =>
+  [
+    "flex min-w-0 items-center gap-2 px-2 py-2 text-sm outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2",
+    withToggle ? "flex-1 rounded-l-md rounded-r-sm" : "w-full rounded-md",
+    active
+      ? "bg-sidebar-accent text-sidebar-accent-foreground"
+      : "text-muted-foreground",
+  ].join(" ");
+
+const topLevelToggleClass = (active: boolean) =>
+  [
+    "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-l-sm rounded-r-md outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2",
+    active
+      ? "bg-sidebar-accent text-sidebar-accent-foreground"
+      : "text-muted-foreground",
+  ].join(" ");
+
+const nestedLinkClass = (active: boolean, depth: 0 | 1) =>
+  [
+    "flex w-full min-w-0 items-center rounded-md px-2 py-1.5 outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent/70 hover:text-sidebar-accent-foreground focus-visible:ring-2",
+    depth === 0 ? "text-sm" : "text-xs",
+    active
+      ? "bg-sidebar-accent/60 font-medium text-sidebar-foreground"
+      : "text-muted-foreground",
+  ].join(" ");
+
+const chevronClass = (open: boolean) =>
+  [
+    "size-4 shrink-0 transition-transform",
+    open ? "rotate-90" : "",
+  ].join(" ");
+
+const isOpenByDefault = (item: SidebarNavItem) =>
+  item.collapsible ? isNavItemActive(item, currentPage) : true;
+---
+
+<div>
+  <ul class="space-y-1 px-2 py-2">
+    {sidebarNavigation.map((item) => {
+      const active = isNavItemActive(item, currentPage);
+      const current = isNavItemCurrent(item, currentPage);
+      const open = isOpenByDefault(item);
+      const hasChildren = Boolean(item.children?.length);
+      const subtreeId = hasChildren ? getSidebarSubtreeId(item.href) : undefined;
+
+      return (
+        // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's li attributes do not type-check the JSX key prop.
+        <li class="space-y-1">
+          {item.children && item.collapsible ? (
+            <div class="flex items-center gap-1">
+              <a
+                href={item.href}
+                aria-current={current ? "page" : undefined}
+                class={topLevelLinkClass(active, true)}
+              >
+                {item.icon && <SidebarIcon name={item.icon} class="size-4 shrink-0" />}
+                <span class="truncate">{item.label}</span>
+              </a>
+              <button
+                type="button"
+                data-sidebar-toggle
+                aria-expanded={open ? "true" : "false"}
+                aria-controls={subtreeId}
+                aria-label={`Toggle ${item.label} section`}
+                class={topLevelToggleClass(active)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class={chevronClass(open)}
+                  aria-hidden="true"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              aria-current={current ? "page" : undefined}
+              class={topLevelLinkClass(active)}
+            >
+              {item.icon && <SidebarIcon name={item.icon} class="size-4 shrink-0" />}
+              <span class="truncate">{item.label}</span>
+            </a>
+          )}
+
+          {hasChildren && (
+            <ul
+              id={subtreeId}
+              hidden={!open}
+              class="ml-4 space-y-1 border-l border-sidebar-border/70 pl-4"
+            >
+              {(item.children ?? []).map((child) => {
+                const childActive = isNavItemActive(child, currentPage);
+                const childCurrent = isNavItemCurrent(child, currentPage);
+
+                return (
+                  // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's li attributes do not type-check the JSX key prop.
+                  <li class="space-y-1 py-0.5">
+                    <a
+                      href={child.href}
+                      aria-current={childCurrent ? "page" : undefined}
+                      class={nestedLinkClass(childActive, 0)}
+                    >
+                      <span class="truncate">{child.label}</span>
+                    </a>
+
+                    {child.children?.length && (
+                      <ul class="space-y-1 pl-3">
+                        {child.children.map((grandchild) => {
+                          const grandchildActive = isNavItemActive(
+                            grandchild,
+                            currentPage,
+                          );
+                          const grandchildCurrent = isNavItemCurrent(
+                            grandchild,
+                            currentPage,
+                          );
+
+                          return (
+                            // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's li attributes do not type-check the JSX key prop.
+                            <li>
+                              <a
+                                href={grandchild.href}
+                                aria-current={grandchildCurrent ? "page" : undefined}
+                                class={nestedLinkClass(grandchildActive, 1)}
+                              >
+                                <span class="truncate">{grandchild.label}</span>
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+</div>

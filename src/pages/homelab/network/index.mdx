@@ -1,0 +1,35 @@
+---
+layout: ../../../layouts/HomelabPage.astro
+title: Network
+description: Core topology, segmentation, and traffic flow across my homelab.
+currentPage: /homelab/network
+---
+
+The network section is the map for how everything talks to everything else. [UniFi OS](https://ui.com/) is the backbone of my network infrastructure, covering the practical pieces: which systems hand out addresses, where DNS lives, how remote access gets in, and what should stay private.
+
+This is intentionally written as a working reference, not a certification study guide. The useful question is usually "what depends on this?" rather than "how many acronyms can fit in the diagram?"
+
+## Shape
+
+- Gateway, switching, and wireless provide the physical path.
+- DNS and DHCP keep clients predictable.
+- [Tailscale](https://tailscale.com/) provides private remote access for management and travel.
+- Service routing stays internal unless there is a clear reason to publish something.
+
+## Setup
+
+The setup order matters because DNS, DHCP, and remote access become dependencies for everything else. The network should be understandable from the outside in: how a device gets an address, how a hostname resolves, and how a service is reached from home or away.
+
+- Define the address plan and any subnet boundaries before services are placed.
+- Bring up DHCP and DNS in a way that has an obvious fallback.
+- Confirm local hostnames resolve before adding reverse proxies or app routes.
+- Add remote access through Tailscale before relying on external exposure.
+- Keep firewall rules tied to real service needs, not imagined future ones.
+
+## Hardware
+
+The physical network inventory belongs here so port maps, uplinks, and replacement work stay connected to the actual hardware in the lab.
+
+- Router, switch, and AP inventory
+- Port maps and uplink relationships
+- Cabling notes and spare capacity
