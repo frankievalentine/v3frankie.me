@@ -8,8 +8,7 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"cfpreview": "bun run build && astro preview",
-		"cfdeploy": "bun run build && wrangler pages deploy ./dist/client --project-name v3frankie-me --branch main",
-		"cftypes": "wrangler types",
+		"cfdeploy": "bun run build && wrangler pages deploy ./dist --project-name v3frankie-me --branch main",
 		"check": "astro check && biome lint .",
 		"typecheck": "astro check",
 		"lint": "biome lint .",
@@ -17,7 +16,6 @@
 		"fix": "biome lint --write ."
 	},
 	"dependencies": {
-		"@astrojs/cloudflare": "^14.1.7",
 		"@astrojs/mdx": "^7.0.5",
 		"@astrojs/partytown": "^2.1.7",
 		"@astrojs/react": "^6.0.2",

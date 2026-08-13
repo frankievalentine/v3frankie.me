@@ -50,13 +50,13 @@ bun run dev
 | `bun run dev`       | Start local dev server at `localhost:4321`    |
 | `bun run build`     | Build production site to `./dist/`            |
 | `bun run preview`   | Preview the production build locally          |
-| `bun run cfpreview` | Build and preview the Cloudflare Pages site locally |
-| `bun run cfdeploy`  | Build and deploy to Cloudflare Pages                |
-| `bun run cftypes`   | Generate Cloudflare Workers types             |
+| `bun run cfpreview` | Build and preview the static site locally       |
+| `bun run cfdeploy`  | Manually upload `dist` to Cloudflare Pages      |
 
 ## Deploy
 
-To deploy manually, authenticate with Cloudflare and run:
+Cloudflare Pages builds and deploys pushes to `main` automatically. Use manual
+deployment only for recovery or when Git deployment is unavailable:
 
 ```bash
 bunx wrangler login

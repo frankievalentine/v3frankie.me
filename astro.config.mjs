@@ -1,6 +1,5 @@
 // @ts-check
 
-import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
@@ -45,9 +44,6 @@ export default defineConfig({
 		}),
 	],
 	output: "static",
-	adapter: cloudflare({
-		imageService: "passthrough",
-	}),
 	vite: {
 		plugins: [tailwindcss(), pagefindExternalPlugin],
 		optimizeDeps: {
