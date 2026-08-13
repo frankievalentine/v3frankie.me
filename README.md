@@ -50,8 +50,8 @@ bun run dev
 | `bun run dev`       | Start local dev server at `localhost:4321`    |
 | `bun run build`     | Build production site to `./dist/`            |
 | `bun run preview`   | Preview the production build locally          |
-| `bun run cfpreview` | Build and preview the Cloudflare Worker locally |
-| `bun run cfdeploy`  | Build and deploy to Cloudflare Workers         |
+| `bun run cfpreview` | Build and preview the Cloudflare Pages site locally |
+| `bun run cfdeploy`  | Build and deploy to Cloudflare Pages                |
 | `bun run cftypes`   | Generate Cloudflare Workers types             |
 
 ## Deploy

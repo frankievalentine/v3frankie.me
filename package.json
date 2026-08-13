@@ -8,7 +8,7 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"cfpreview": "bun run build && astro preview",
-		"cfdeploy": "bun run build && wrangler deploy",
+		"cfdeploy": "bun run build && wrangler pages deploy ./dist/client --project-name v3frankie-me --branch main",
 		"cftypes": "wrangler types",
 		"check": "astro check && biome lint .",
 		"typecheck": "astro check",
