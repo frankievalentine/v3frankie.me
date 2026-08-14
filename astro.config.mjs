@@ -39,7 +39,10 @@ export default defineConfig({
 		sitemap(),
 		partytown({
 			config: {
+				debug: true,
 				forward: ["dataLayer.push"],
+				logScriptExecution: true,
+				logSendBeaconRequests: true,
 			},
 		}),
 	],
