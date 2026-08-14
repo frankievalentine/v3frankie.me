@@ -1,7 +1,6 @@
 // @ts-check
 
 import mdx from "@astrojs/mdx";
-import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
@@ -37,19 +36,6 @@ export default defineConfig({
 		mdx(),
 		react(),
 		sitemap(),
-		partytown({
-			config: {
-				debug: true,
-				forward: ["dataLayer.push"],
-				logScriptExecution: true,
-				logSendBeaconRequests: true,
-				resolveSendBeaconRequestParameters(url) {
-					if (url.hostname === "analytics.v3frankie.net") {
-						return { keepalive: false };
-					}
-				},
-			},
-		}),
 	],
 	output: "static",
 	vite: {

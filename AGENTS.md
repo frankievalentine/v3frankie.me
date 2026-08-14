@@ -70,6 +70,8 @@
 - `src/components/search.astro` lazy-loads `/pagefind/pagefind.js`. Preserve the
   Pagefind external-resolution plugin in `astro.config.mjs`; Vite must not try
   to bundle that generated file.
+- Rybbit analytics uses a normal deferred main-thread script in `Layout.astro`
+  and natively tracks ClientRouter SPA navigation.
 - The newsletter's browser validation uses Valibot. Turnstile verification and
   the subscription service are external contracts; this repository has no
   newsletter backend.
