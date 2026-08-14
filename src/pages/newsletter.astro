@@ -238,10 +238,14 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <!-- Turnstile API — loaded only on this page, not via partytown -->
+<script is:inline>
+  window.turnstileReady = new Promise((resolve) => {
+    window.onTurnstileLoad = () => resolve();
+  });
+</script>
 <script
   is:inline
-  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-  async
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad"
   defer></script>
 
 <script>
@@ -263,12 +267,15 @@ import Layout from "../layouts/Layout.astro";
     execute: (widgetId: string) => void;
   }
 
-  type TurnstileWindow = Window & {
-    turnstile?: TurnstileApi;
-    __onTurnstileLoad?: () => void;
-  };
+  declare global {
+    interface Window {
+      turnstile?: TurnstileApi;
+      turnstileReady: Promise<void>;
+      onTurnstileLoad: () => void;
+    }
+  }
 
-  const appWindow = window as TurnstileWindow;
+  const appWindow = window;
 
   // Replace with your actual site key from dash.cloudflare.com/turnstile
   const TURNSTILE_SITE_KEY = "0x4AAAAAAClOSfZj9R_ZSuqv";
@@ -335,7 +342,7 @@ import Layout from "../layouts/Layout.astro";
   if (appWindow.turnstile) {
     renderTurnstile();
   } else {
-    appWindow.__onTurnstileLoad = renderTurnstile;
+    void appWindow.turnstileReady.then(renderTurnstile);
   }
 
   const getToken = (): Promise<string> => {
