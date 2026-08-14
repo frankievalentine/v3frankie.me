@@ -103,30 +103,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
         <ClientRouter />
         <script is:inline>
-            const faviconMedia = window.matchMedia(
+            const themeMedia = window.matchMedia(
                 "(prefers-color-scheme: dark)",
             );
-            const resolvePreferredTheme = () =>
+            const isDark =
                 localStorage.theme === "dark" ||
-                (!("theme" in localStorage) && faviconMedia.matches);
-            const syncFavicon = () => {
-                document
-                    .getElementById("theme-favicon")
-                    ?.setAttribute(
-                        "href",
-                        resolvePreferredTheme()
-                            ? "/favicon-dark.svg"
-                            : "/favicon-light.svg",
-                    );
-            };
-            syncFavicon();
-            faviconMedia.addEventListener("change", syncFavicon);
-
-            if (
-                resolvePreferredTheme()
-            ) {
-                document.documentElement.classList.add("dark");
-            }
+                (!("theme" in localStorage) && themeMedia.matches);
+            document.documentElement.classList.toggle("dark", isDark);
+            document
+                .getElementById("theme-favicon")
+                ?.setAttribute(
+                    "href",
+                    isDark ? "/favicon-dark.svg" : "/favicon-light.svg",
+                );
         </script>
     </head>
     <body class="min-h-svh bg-background text-foreground antialiased">
@@ -455,6 +444,32 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             const { signal } = ac;
             appWindow.__layoutCleanup = () => ac.abort();
 
+            const themeMedia = window.matchMedia(
+                "(prefers-color-scheme: dark)",
+            );
+
+            const resolveTheme = () =>
+                localStorage.theme === "dark" ||
+                (!("theme" in localStorage) && themeMedia.matches);
+
+            const applyTheme = (isDark = resolveTheme()) => {
+                document.documentElement.classList.toggle("dark", isDark);
+                document
+                    .getElementById("theme-favicon")
+                    ?.setAttribute(
+                        "href",
+                        isDark ? "/favicon-dark.svg" : "/favicon-light.svg",
+                    );
+            };
+
+            themeMedia.addEventListener(
+                "change",
+                () => {
+                    if (!("theme" in localStorage)) applyTheme();
+                },
+                { signal },
+            );
+
             // Transfer the dark class to the incoming document before the swap so the
             // theme never flashes. The new page's <html> is server-rendered without the
             // class; astro:before-swap lets us patch it before it hits the DOM.
@@ -550,19 +565,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             const initPage = () => {
                 // Belt-and-suspenders theme restore — covers the case where
                 // astro:before-swap didn't fire (full-page reload fallback, timing edge).
-                const prefersDark = window.matchMedia(
-                    "(prefers-color-scheme: dark)",
-                ).matches;
-                const isDark =
-                    localStorage.theme === "dark" ||
-                    (!("theme" in localStorage) && prefersDark);
-                document.documentElement.classList.toggle("dark", isDark);
-                document
-                    .getElementById("theme-favicon")
-                    ?.setAttribute(
-                        "href",
-                        isDark ? "/favicon-dark.svg" : "/favicon-light.svg",
-                    );
+                applyTheme();
 
                 if (!firstLoad) {
                     appWindow.basecoat?.stop();
@@ -636,18 +639,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                     const target = e.target as Element;
 
                     if (target.closest("#theme-toggle")) {
-                        document.documentElement.classList.toggle("dark");
                         const isDark =
-                            document.documentElement.classList.contains("dark");
-                        localStorage.theme = isDark ? "dark" : "light";
-                        document
-                            .getElementById("theme-favicon")
-                            ?.setAttribute(
-                                "href",
-                                isDark
-                                    ? "/favicon-dark.svg"
-                                    : "/favicon-light.svg",
+                            !document.documentElement.classList.contains(
+                                "dark",
                             );
+                        localStorage.theme = isDark ? "dark" : "light";
+                        applyTheme(isDark);
                     }
 
                     if (target.closest("#search-trigger")) {

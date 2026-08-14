@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const showSocialProof = false;
 ---
 
 <Layout title="Newsletter" currentPage="/newsletter">
@@ -32,36 +34,39 @@ import Layout from "../layouts/Layout.astro";
     <div class="card">
       <header>
         <h1>Stay in the loop</h1>
+        <p>Be here for the first issue.</p>
         <p>
           Occasional essays on creative process, photography, and building
-          things on the web. No noise — just signal.
+          things on the web. Sent when there’s something worth sharing.
         </p>
       </header>
       <section>
         <!-- Subscriber count pill -->
-        <div class="flex items-center gap-2 mb-5">
-          <div class="flex -space-x-2">
-            <img
-              class="size-6 rounded-full ring-2 ring-background object-cover"
-              src="https://picsum.photos/seed/sub1/40/40"
-              alt=""
-              aria-hidden="true"
-            >
-            <img
-              class="size-6 rounded-full ring-2 ring-background object-cover"
-              src="https://picsum.photos/seed/sub2/40/40"
-              alt=""
-              aria-hidden="true"
-            >
-            <img
-              class="size-6 rounded-full ring-2 ring-background object-cover"
-              src="https://picsum.photos/seed/sub3/40/40"
-              alt=""
-              aria-hidden="true"
-            >
+        {showSocialProof && (
+          <div class="flex items-center gap-2 mb-5">
+            <div class="flex -space-x-2">
+              <img
+                class="size-6 rounded-full ring-2 ring-background object-cover"
+                src="https://picsum.photos/seed/sub1/40/40"
+                alt=""
+                aria-hidden="true"
+              />
+              <img
+                class="size-6 rounded-full ring-2 ring-background object-cover"
+                src="https://picsum.photos/seed/sub2/40/40"
+                alt=""
+                aria-hidden="true"
+              />
+              <img
+                class="size-6 rounded-full ring-2 ring-background object-cover"
+                src="https://picsum.photos/seed/sub3/40/40"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            <p class="text-xs text-muted-foreground">Join 240+ readers</p>
           </div>
-          <p class="text-xs text-muted-foreground">Join 240+ readers</p>
-        </div>
+        )}
 
         <!-- Form -->
         <form id="newsletter-form" class="grid gap-4" novalidate>
@@ -265,6 +270,7 @@ import Layout from "../layouts/Layout.astro";
     ) => string;
     reset: (widgetId: string) => void;
     execute: (widgetId: string) => void;
+    remove: (widgetId: string) => void;
   }
 
   declare global {
@@ -318,9 +324,25 @@ import Layout from "../layouts/Layout.astro";
   let widgetId: string | undefined;
   let pendingResolve: ((token: string) => void) | null = null;
   let pendingReject: ((err: Error) => void) | null = null;
+  let disposed = false;
+
+  document.addEventListener(
+    "astro:before-swap",
+    () => {
+      disposed = true;
+      if (widgetId !== undefined && appWindow.turnstile) {
+        appWindow.turnstile.remove(widgetId);
+        widgetId = undefined;
+      }
+      pendingReject?.(new Error("Verification was interrupted by navigation."));
+      pendingResolve = null;
+      pendingReject = null;
+    },
+    { once: true },
+  );
 
   const renderTurnstile = () => {
-    if (!turnstileContainer || !appWindow.turnstile || widgetId !== undefined) return;
+    if (disposed || !turnstileContainer || !appWindow.turnstile || widgetId !== undefined) return;
     widgetId = appWindow.turnstile.render(turnstileContainer, {
       sitekey: TURNSTILE_SITE_KEY,
       size: "invisible",
