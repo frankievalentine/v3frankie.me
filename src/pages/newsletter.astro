@@ -414,14 +414,20 @@ import Layout from "../layouts/Layout.astro";
     if (submitBtn) submitBtn.textContent = "Subscribing…";
 
     try {
-      const body = new URLSearchParams({ email: result.output.email });
-      if (result.output.name) body.set("name", result.output.name);
-      body.set("cf-turnstile-response", token);
+      const body: {
+        email: string;
+        name?: string;
+        turnstileToken: string;
+      } = {
+        email: result.output.email,
+        turnstileToken: token,
+      };
+      if (result.output.name) body.name = result.output.name;
 
-      const res = await fetch("https://newsletter.v3frankie.me/subscribe", {
+      const res = await fetch("/api/subscribe", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: body.toString(),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       });
 
       if (!res.ok) throw new Error("Request failed");
