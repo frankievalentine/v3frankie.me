@@ -43,6 +43,11 @@ export default defineConfig({
 				forward: ["dataLayer.push"],
 				logScriptExecution: true,
 				logSendBeaconRequests: true,
+				resolveSendBeaconRequestParameters(url) {
+					if (url.hostname === "analytics.v3frankie.net") {
+						return { keepalive: false };
+					}
+				},
 			},
 		}),
 	],
