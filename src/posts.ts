@@ -1,7 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
-export const POSTS_PER_PAGE = 6;
+const POSTS_PER_PAGE = 6;
 
 export type Post = CollectionEntry<"posts">;
 

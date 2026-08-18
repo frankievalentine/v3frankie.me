@@ -1,0 +1,19 @@
+{
+	"$schema": "https://unpkg.com/knip@6/schema-jsonc.json",
+	"entry": ["functions/**/*.ts"],
+	"ignoreUnresolved": ["/pagefind/pagefind.js"],
+	"astro": {
+		"entry": [
+			"src/content/config.ts",
+			"src/content.config.ts",
+			"src/pages/**/*.{astro,mdx,js,ts}",
+			"!src/pages/**/_*",
+			"!src/pages/**/_*/**",
+			"src/content/**/*.mdx",
+			"src/middleware.{js,ts}",
+			"src/middleware/index.{js,ts}",
+			"src/actions/index.{js,ts}",
+			"src/layouts/**/*.astro"
+		]
+	}
+}

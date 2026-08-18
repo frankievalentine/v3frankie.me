@@ -11,6 +11,7 @@
 		"cfdeploy": "bun run build && wrangler pages deploy ./dist --project-name v3frankie-me --branch main",
 		"check": "astro check && biome lint .",
 		"typecheck": "astro check",
+		"knip": "knip",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"fix": "biome lint --write ."
@@ -35,6 +36,7 @@
 		"@astrojs/check": "^0.9.10",
 		"@biomejs/biome": "^2.5.8",
 		"agentation": "^3.0.2",
+		"knip": "^6.32.2",
 		"typescript": "6.0.3",
 		"wrangler": "^4.123.0"
 	},

@@ -1,4 +1,4 @@
-export type HomelabCanvasNodeKind =
+type HomelabCanvasNodeKind =
 	| "app"
 	| "control"
 	| "device"
