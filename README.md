@@ -2,14 +2,14 @@
 
 ![Astro](https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
+![Cloudflare Pages](https://img.shields.io/badge/Cloudflare_Pages-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
 
 Personal website of Frankie Valentine — photographer, engineer, and founder of [V3 Digital Studio](https://v3digital.studio).
 
-- **Framework**: [Astro 6](https://astro.build/)
+- **Framework**: [Astro 7](https://astro.build/)
 - **UI Components**: [basecoat-css](https://basecoat-css.com/)
 - **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
-- **Deployment**: [Cloudflare Workers](https://developers.cloudflare.com/workers/)
+- **Deployment**: [Cloudflare Pages](https://pages.cloudflare.com/)
 - **Package Manager**: [Bun](https://bun.sh/)
 
 ## Project Structure
@@ -21,10 +21,10 @@ Personal website of Frankie Valentine — photographer, engineer, and founder of
 | `src/pages/`               | All routes — index, posts, photography, newsletter, RSS, 404 |
 | `src/content/posts/`       | Blog posts in Markdown and MDX                               |
 | `src/content.config.ts`    | Content collection schema                                    |
-| `src/components/`          | Astro components including search and back-to-top            |
+| `src/components/`          | Astro components for navigation, project cards, and search   |
 | `src/styles/global.css`    | Global styles — Tailwind + basecoat imports                  |
 | `src/utils.ts`             | Shared utilities — `formatDate`, `readingTime`               |
-| `wrangler.jsonc`           | Cloudflare Workers deployment config                         |
+| `astro.config.mjs`         | Astro integrations, site metadata, and build configuration   |
 
 ## Running locally
 

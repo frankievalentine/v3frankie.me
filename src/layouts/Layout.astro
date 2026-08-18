@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import { Agentation } from "agentation";
 import SidebarNav from "../components/SidebarNav.astro";
 import Search from "../components/search.astro";
 
@@ -413,6 +414,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 <slot />
             </main>
         </div>
+
+        {
+            import.meta.env.DEV && (
+                <Agentation
+                    client:load
+                    endpoint="http://localhost:4747"
+                />
+            )
+        }
 
         <script>
             import "basecoat-css/all";
