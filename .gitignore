@@ -17,6 +17,8 @@ pnpm-debug.log*
 .agents
 .claude
 .zed
+.opencode
+.codex
 
 # environment variables
 .env
