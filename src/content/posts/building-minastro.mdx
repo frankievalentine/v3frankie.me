@@ -5,9 +5,9 @@ date: 2026-09-11
 tags: [minastro, astro, cloudflare, cms, self-hosting]
 ---
 
-I have kept a personal site for years, and the workflow has never felt settled. Static files are simple to host but awkward for anyone else to edit. Hosted platforms are easier to edit but harder to own. I built **Minastro** to explore the middle ground: a personal-site template that stays editable without moving the writing onto a hosted content service.
+I have kept a personal site for years, and the workflow has never felt settled. Static files are simple to host but awkward for anyone else to edit. Hosted platforms are easier to edit but harder to own. I built **minastro** to explore the middle ground: a personal-site template that stays editable without moving the writing onto a hosted content service.
 
-Minastro is built with Astro. The site runs server-side on Cloudflare Workers, and content is managed through EmDash, a Git-free CMS that stores entries in Cloudflare D1 and media in R2. The public site and the admin are served from the same project, so there is no separate content product to keep in sync. They are not the same runtime surface: the public site renders through Astro, while the admin is a separate area of the Worker.
+minastro is built with Astro. The site runs server-side on Cloudflare Workers, and content is managed through EmDash, a Git-free CMS that stores entries in Cloudflare D1 and media in R2. The public site and the admin are served from the same project, so there is no separate content product to keep in sync. They are not the same runtime surface: the public site renders through Astro, while the admin is a separate area of the Worker.
 
 ## A clear split between writing and presentation
 
@@ -25,6 +25,6 @@ Setup is local-first. Before `cf:dev` you set a bootstrap secret, and the first 
 
 ## What I am not claiming
 
-Minastro is a template, not a hosted product, and there is no separate Minastro website. Running it in production means using your own Cloudflare account and operating the database and storage yourself. Passkeys registered on localhost do not transfer to production.
+minastro is a template, not a hosted product, and there is no separate minastro website. Running it in production means using your own Cloudflare account and operating the database and storage yourself. Passkeys registered on localhost do not transfer to production.
 
 Out of the box it includes a blog, a project portfolio, CMS-managed pages, search, RSS, tags, comments, and an optional newsletter. It is still early, but it is a starting point for personal sites that want a real content model without giving up the simplicity of a small Astro project.

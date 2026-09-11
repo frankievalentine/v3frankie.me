@@ -7,9 +7,9 @@ featured: false
 order: 4
 stack:
   - mise
-  - Tool Registry
-  - Profiles
-  - Domains
+  - tool registry
+  - profiles
+  - domains
 ---
 
 powermise is about reducing the friction between an idea and a working AI-native development environment. Instead of hand-assembling every machine, toolchain, and workflow from scratch, it builds on [mise](https://mise.jdx.dev/installing-mise.html) and starts from a curated registry of tools, profiles, and domains.

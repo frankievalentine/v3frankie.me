@@ -1,16 +1,16 @@
 ---
 title: primecms
-description: A modular content platform monorepo, with packages for content parsing, editing, codecs, and Astro, Vite, CLI, AI, and MCP integrations.
+description: A modular content management system built to work with Astro Content Collections.
 kind: Content Platform
 status: In progress
 featured: true
 order: 1
 stack:
-  - Astro
-  - Vite
-  - Tiptap
-  - MCP
-  - AI
+  - astro
+  - vite
+  - tiptap
+  - mcp
+  - ai
 ---
 
 primecms is a modular content platform organized as a monorepo. The work spans a core content model and parsing, an editor, codecs, and the integrations that connect content to real projects: a Vite plugin, a CLI, import tooling, a Tiptap editor layer, AI and MCP packages, an Astro integration, and an admin UI.

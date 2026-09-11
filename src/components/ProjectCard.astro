@@ -16,7 +16,13 @@ const href = `/projects/${project.id}`;
         <div class="min-w-0 flex-1">
           <div class="flex flex-wrap items-center gap-2 mb-2 -ml-1">
             <span class="badge text-[11px]" data-variant="outline">{project.data.kind}</span>
-            <span class="badge text-[11px]" data-variant="secondary">
+            <span
+              class:list={[
+                "badge text-[11px]",
+                { "border-green-200 bg-green-100 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200": project.data.status === "Available" },
+              ]}
+              data-variant="secondary"
+            >
               {project.data.status}
             </span>
           </div>

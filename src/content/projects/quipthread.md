@@ -2,13 +2,13 @@
 title: Quipthread
 description: A minimal, self-hostable comment system with multi-provider authentication, a WYSIWYG editor, and a clean admin dashboard.
 kind: Comment System
-status: In progress
+status: Available
 featured: true
 order: 2
 stack:
-  - Authentication
-  - WYSIWYG
-  - Admin UI
+  - authentication
+  - wysiwyg
+  - admin ui
 ---
 
 Quipthread is a comment system for people who want something clean, self-hostable, and practical. It is designed to cover the common needs without feeling bloated: sign-in, moderation, writing tools, and a dashboard that does not make routine tasks harder than they need to be.

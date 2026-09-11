@@ -5,9 +5,9 @@ date: 2026-09-11
 tags: [primecms, astro, cms, markdown, ai]
 ---
 
-Content tools tend to come in two shapes. Hosted platforms keep your writing in their database and charge a monthly fee. File-based tools keep content next to the code and offer a smaller feature set. I started **Prime CMS** because I wanted the second shape with more of the editing experience people expect from the first.
+Content tools tend to come in two shapes. Hosted platforms keep your writing in their database and charge a monthly fee. File-based tools keep content next to the code and offer a smaller feature set. I started **primecms** because I wanted the second shape with more of the editing experience people expect from the first.
 
-Prime is a compact, file-based CMS for Astro. Its canonical content stays in the repository as Markdown, MDX, JSON, and YAML. There is no content database. The integration registers a collection loader, injects an admin route into the development server, and reads the configured content collections, so existing `getCollection()` and `getEntry()` calls keep working.
+primecms is a compact, file-based CMS for Astro. Its canonical content stays in the repository as Markdown, MDX, JSON, and YAML. There is no content database. The integration registers a collection loader, injects an admin route into the development server, and reads the configured content collections, so existing `getCollection()` and `getEntry()` calls keep working.
 
 ## An editor over the files
 
@@ -27,6 +27,6 @@ The project is organized as separate packages: `core` for schema, file I/O, and 
 
 ## Early and private
 
-Prime is an early, private project at version 0.0.1. The local editing and staged review paths exist, but important work is unfinished: remote GitHub editing and deployment reporting are not done, repository media is still incomplete, and creating new entries in imported Astro collections remains open. I am treating it as work in progress rather than software to depend on.
+primecms is an early, private project at version 0.0.1. The local editing and staged review paths exist, but important work is unfinished: remote GitHub editing and deployment reporting are not done, repository media is still incomplete, and creating new entries in imported Astro collections remains open. I am treating it as work in progress rather than software to depend on.
 
 What I want to prove first is the boundary: content stays in the repository, the editor improves it without owning it, and every change is reviewed before it becomes a file.

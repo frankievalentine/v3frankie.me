@@ -6,9 +6,9 @@ status: In progress
 featured: false
 order: 7
 stack:
-  - Business Records
-  - Self-hosted
-  - Data Ownership
+  - business records
+  - self-hosted
+  - data ownership
 ---
 
 ledgerkit is a business records tool for people who run small internet businesses and want a system they can actually understand. It is aimed at solo developers, consultants, indie hackers, and small SaaS operators who need clear records without handing over control of their data to a black-box platform.

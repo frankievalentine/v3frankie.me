@@ -51,7 +51,13 @@ const { Content } = await render(project);
     <header class="mb-8">
       <div class="flex flex-wrap items-center gap-2 mb-4">
         <span class="badge text-xs" data-variant="outline">{project.data.kind}</span>
-        <span class="badge text-xs" data-variant="secondary">{project.data.status}</span>
+        <span
+          class:list={[
+            "badge text-xs",
+            { "border-green-200 bg-green-100 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200": project.data.status === "Available" },
+          ]}
+          data-variant="secondary"
+        >{project.data.status}</span>
       </div>
 
       <h1

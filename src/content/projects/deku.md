@@ -6,9 +6,9 @@ status: In progress
 featured: false
 order: 6
 stack:
-  - Rust
-  - Angie
-  - Astro
+  - rust
+  - angie
+  - astro
 ---
 
 Deku is a self-hosted platform for shipping apps without taking on the weight and complexity of a larger platform stack. It borrows the directness that made Dokku appealing, then rebuilds the experience with a more modern foundation.

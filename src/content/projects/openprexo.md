@@ -1,14 +1,14 @@
 ---
 title: openprexo
-description: A unified CLI and desktop application for AI image generation.
+description: A unified CLI and desktop application for AI image and video generation.
 kind: Creative Tooling
 status: In progress
 featured: true
 order: 3
 stack:
-  - CLI
-  - Desktop App
-  - Image Generation
+  - cli
+  - desktop app
+  - image generation
 ---
 
 openprexo is a single product surface for AI image generation across the command line and a desktop application. The point is not just to expose models. It is to make the workflow around prompting, iteration, and output management feel coherent no matter which interface you start from.

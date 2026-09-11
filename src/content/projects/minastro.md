@@ -2,15 +2,15 @@
 title: minastro
 description: An Astro personal-site template powered by EmDash, with CMS-managed content and media on Cloudflare Workers, D1, and R2.
 kind: Site Template
-status: In progress
+status: Available
 featured: false
 order: 5
 stack:
-  - Astro
-  - EmDash
-  - Cloudflare Workers
-  - D1
-  - R2
+  - astro
+  - emdash
+  - cloudflare workers
+  - d1
+  - r2
 links:
   repository: https://github.com/frankievalentine/minastro
 ---
