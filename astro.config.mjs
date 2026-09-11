@@ -25,6 +25,10 @@ const pagefindExternalPlugin = {
 // https://astro.build/config
 export default defineConfig({
 	site: "https://v3frankie.me",
+	// Permanent redirect so the renamed project keeps its old public URL working.
+	redirects: {
+		"/projects/powerhouse/": "/projects/powermise/",
+	},
 	integrations: [
 		pagefind(),
 		expressiveCode({

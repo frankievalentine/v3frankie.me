@@ -1,7 +1,6 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
-import AgentationIsland from "../components/AgentationIsland";
 import SidebarNav from "../components/SidebarNav.astro";
 import Search from "../components/search.astro";
 
@@ -414,12 +413,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 <slot />
             </main>
         </div>
-
-        {
-            import.meta.env.DEV && (
-                <AgentationIsland client:only="react" />
-            )
-        }
 
         <script>
             import "basecoat-css/all";

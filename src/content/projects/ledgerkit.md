@@ -3,8 +3,8 @@ title: ledgerkit
 description: Built for solo developers, consultants, indie hackers, and small SaaS operators who want understandable business records without giving up control of their data.
 kind: Business Tooling
 status: In progress
-featured: true
-order: 6
+featured: false
+order: 7
 stack:
   - Business Records
   - Self-hosted

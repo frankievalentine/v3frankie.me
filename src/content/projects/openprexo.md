@@ -3,8 +3,8 @@ title: openprexo
 description: A unified CLI and desktop application for AI image generation.
 kind: Creative Tooling
 status: In progress
-featured: false
-order: 5
+featured: true
+order: 3
 stack:
   - CLI
   - Desktop App

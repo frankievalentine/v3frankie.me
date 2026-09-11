@@ -3,8 +3,8 @@ title: Deku
 description: A modern, lightweight self-hosted PaaS inspired by Dokku, built with Rust, Angie, and Astro.
 kind: Self-hosted PaaS
 status: In progress
-featured: true
-order: 1
+featured: false
+order: 6
 stack:
   - Rust
   - Angie

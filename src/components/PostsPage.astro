@@ -100,22 +100,18 @@ const paginationDisabledClass =
                 </svg>
               </div>
 
-              <div class="mt-3 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-3">
-                <div class="flex shrink-0 items-center gap-3 whitespace-nowrap">
+              <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 lg:gap-x-1">
+                <div class="flex shrink-0 items-center gap-3 whitespace-nowrap lg:gap-1">
                   <time datetime={post.data.date.toISOString()} class="text-xs text-muted-foreground">
                     {formatDate(post.data.date)}
                   </time>
                   <span class="text-border" aria-hidden="true">·</span>
                   <span class="text-xs text-muted-foreground">{readingTime(post.body ?? "")}</span>
                 </div>
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="flex w-full flex-wrap items-center gap-2 sm:w-auto">
-                    {post.data.tags.map((tag) => (
-                      // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's HTML attributes do not type-check the JSX key prop.
-                      <span class="badge text-xs" data-variant="secondary">{tag}</span>
-                    ))}
-                  </div>
-                )}
+                {post.data.tags?.map((tag) => (
+                  // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's HTML attributes do not type-check the JSX key prop.
+                  <span class="badge max-w-full whitespace-normal text-xs [overflow-wrap:anywhere] lg:px-1" data-variant="secondary">{tag}</span>
+                ))}
               </div>
             </section>
           </div>

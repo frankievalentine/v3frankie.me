@@ -1,0 +1,30 @@
+---
+title: "A personal site that stays editable"
+description: "An Astro personal-site template with CMS-managed content on Cloudflare, without a separate editing stack."
+date: 2026-09-11
+tags: [minastro, astro, cloudflare, cms, self-hosting]
+---
+
+I have kept a personal site for years, and the workflow has never felt settled. Static files are simple to host but awkward for anyone else to edit. Hosted platforms are easier to edit but harder to own. I built **Minastro** to explore the middle ground: a personal-site template that stays editable without moving the writing onto a hosted content service.
+
+Minastro is built with Astro. The site runs server-side on Cloudflare Workers, and content is managed through EmDash, a Git-free CMS that stores entries in Cloudflare D1 and media in R2. The public site and the admin are served from the same project, so there is no separate content product to keep in sync. They are not the same runtime surface: the public site renders through Astro, while the admin is a separate area of the Worker.
+
+## A clear split between writing and presentation
+
+The boundary I care about most is between editorial data and presentation. Editorial content lives in the CMS: site identity and settings, primary navigation, posts, projects, pages, tags, homepage fields, and listing or newsletter copy. All of it is editable from the built-in admin at `/_emdash/admin`.
+
+Presentation stays in code. Bio, avatar, location, roles, social links, analytics, and newsletter integration live in `src/site.config.ts`. That split is deliberate. Changing a headline should not require a deploy, and layout decisions should not quietly hide inside a CMS.
+
+EmDash is the only source of runtime content for CMS routes. There are no local-content fallbacks, so missing content fails visibly instead of silently rendering something else. The bundled seed only initializes an empty database; it does not rewrite an existing site's content.
+
+## Running it locally
+
+Local development uses `bun run cf:dev`, which builds the site and runs the Worker with simulated D1, R2, and KV bindings. The committed `siteConfig.url` matches that local origin, including for passkeys. Content persists in `.wrangler/state` between restarts. Plain `bun run dev` runs Astro alone and does not provide the bindings, so it is not enough for full-stack work.
+
+Setup is local-first. Before `cf:dev` you set a bootstrap secret, and the first setup screen decides whether to include sample content. Deployment is optional. When you are ready, `bun run cf:deploy` builds and deploys an already configured Worker.
+
+## What I am not claiming
+
+Minastro is a template, not a hosted product, and there is no separate Minastro website. Running it in production means using your own Cloudflare account and operating the database and storage yourself. Passkeys registered on localhost do not transfer to production.
+
+Out of the box it includes a blog, a project portfolio, CMS-managed pages, search, RSS, tags, comments, and an optional newsletter. It is still early, but it is a starting point for personal sites that want a real content model without giving up the simplicity of a small Astro project.

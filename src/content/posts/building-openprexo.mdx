@@ -1,6 +1,6 @@
 ---
-title: "Building OpenPrexo: A Home for Image Generation"
-description: Why I am building a consistent image-generation workflow that keeps the creative process and its history close at hand.
+title: "A local-first home for image generation"
+description: A local-first image-generation workflow that keeps the CLI, desktop app, and provider jobs in step.
 date: 2026-07-30
 tags: [openprexo, ai, image-generation, local-first]
 ---
@@ -18,6 +18,8 @@ Local ownership does not mean every generation is fully offline. A local image e
 ## One rhythm for different tools
 
 I want the basic rhythm to stay familiar: choose a configured provider, describe the image, watch the job progress, and save the result with enough context to understand it later. The early command-line flow, local service, configuration, and image history are the first pieces of that idea.
+
+Underneath, the CLI and the desktop app use the same loopback-only API under `/v1`. A generation is submitted as a job with an idempotency key, and the job keeps its ID, attempt, state, provider and model, and produced media. The desktop app runs against an authenticated local sidecar rather than an open server. Remote providers are connected through BYOK, and the first-party OpenPrexo cloud backend is not operational.
 
 There are also experiments for terminal and desktop experiences, but they are not yet one polished, fully integrated product. I would rather let those interfaces grow from the same dependable foundation than rush several disconnected versions into the world.
 

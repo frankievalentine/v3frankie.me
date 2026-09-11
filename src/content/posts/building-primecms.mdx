@@ -1,0 +1,32 @@
+---
+title: "A CMS that keeps content in the repository"
+description: "A file-based CMS for Astro that adds editing and review without taking content out of the repository."
+date: 2026-09-11
+tags: [primecms, astro, cms, markdown, ai]
+---
+
+Content tools tend to come in two shapes. Hosted platforms keep your writing in their database and charge a monthly fee. File-based tools keep content next to the code and offer a smaller feature set. I started **Prime CMS** because I wanted the second shape with more of the editing experience people expect from the first.
+
+Prime is a compact, file-based CMS for Astro. Its canonical content stays in the repository as Markdown, MDX, JSON, and YAML. There is no content database. The integration registers a collection loader, injects an admin route into the development server, and reads the configured content collections, so existing `getCollection()` and `getEntry()` calls keep working.
+
+## An editor over the files
+
+The goal is not to replace the files. It is to give non-technical editing a real interface while keeping the source canonical. The editor round-trips Markdown and MDX instead of storing a proprietary document format. Regions the editor cannot safely represent — unsupported MDX or JSX, which the project calls source islands — are preserved exactly rather than rewritten. MDX is displayed as source instead of executed in the admin.
+
+That choice keeps content readable and diffable in version control. Anyone can still open a post in a text editor, and a change that looks wrong in review is visible as a change to a plain file.
+
+## Staged changes instead of direct writes
+
+Agent-assisted authoring is the part I find most useful. The Agent never writes files. It stages changes as a server-owned changeset: a batch of create, update, rename, or delete operations carrying base revisions and validation results. Review shows the complete batch, and only an authorized human can accept it.
+
+Acceptance is atomic. Every file is checked before anything is written, so a batch either applies completely or not at all. If an entry changed since it was staged, acceptance stops with a conflict rather than overwriting newer work. The same staging contract backs the editor and MCP tools; none of them can accept a change on their own.
+
+## A small set of packages
+
+The project is organized as separate packages: `core` for schema, file I/O, and changesets; a Vite plugin for development middleware and virtual modules; an Astro integration; an admin UI; an editor; and an agent workspace. The admin routes live under `/prime` and run in development only, so a deployed static site does not ship an editing surface.
+
+## Early and private
+
+Prime is an early, private project at version 0.0.1. The local editing and staged review paths exist, but important work is unfinished: remote GitHub editing and deployment reporting are not done, repository media is still incomplete, and creating new entries in imported Astro collections remains open. I am treating it as work in progress rather than software to depend on.
+
+What I want to prove first is the boundary: content stays in the repository, the editor improves it without owning it, and every change is reviewed before it becomes a file.

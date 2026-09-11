@@ -35,7 +35,6 @@
 	"devDependencies": {
 		"@astrojs/check": "^0.9.10",
 		"@biomejs/biome": "^2.5.8",
-		"agentation": "^3.0.2",
 		"knip": "^6.32.2",
 		"typescript": "6.0.3",
 		"wrangler": "^4.123.0"
