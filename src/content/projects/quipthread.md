@@ -13,7 +13,7 @@ stack:
 
 ![Quipthread marketing homepage with live comment thread](/quipthread-product.webp)
 
-[Quipthread](https://quipthread.com) is a comment system for people who want something clean, self-hostable, and practical. It is designed to cover the common needs without feeling bloated: sign-in, moderation, writing tools, and a dashboard that does not make routine tasks harder than they need to be.
+<a href="https://quipthread.com" target="_blank" rel="noopener noreferrer">Quipthread</a> is a comment system for people who want something clean, self-hostable, and practical. It is designed to cover the common needs without feeling bloated: sign-in, moderation, writing tools, and a dashboard that does not make routine tasks harder than they need to be.
 
 Authentication support spans GitHub, Google, and email/password so it can fit a range of sites and audiences. The editor and admin experience matter just as much as the backend because comments are only useful when they are easy to write, review, and manage.
 
