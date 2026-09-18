@@ -11,7 +11,7 @@ stack:
   - admin ui
 ---
 
-![Quipthread marketing homepage with live comment thread](/quipthread-product.webp)
+![Quipthread marketing homepage with live comment thread](/images/projects/quipthread-product.webp)
 
 <a href="https://quipthread.com" target="_blank" rel="noopener noreferrer">Quipthread</a> is a comment system for people who want something clean, self-hostable, and practical. It is designed to cover the common needs without feeling bloated: sign-in, moderation, writing tools, and a dashboard that does not make routine tasks harder than they need to be.
 

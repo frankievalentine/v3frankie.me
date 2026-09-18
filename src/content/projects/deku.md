@@ -1,8 +1,8 @@
 ---
 title: Deku
-description: A modern, lightweight self-hosted PaaS inspired by Dokku, built with Rust, Angie, and Astro.
+description: A modern, lightweight self-hosted PaaS built with Rust, Angie, and Astro.
 kind: Self-hosted PaaS
-status: In progress
+status: Available
 featured: false
 order: 6
 stack:
@@ -11,7 +11,10 @@ stack:
   - astro
 ---
 
-Deku is a self-hosted platform for shipping apps without taking on the weight and complexity of a larger platform stack. It borrows the directness that made Dokku appealing, then rebuilds the experience with a more modern foundation.
+<img src="/images/projects/deku-dashboard-light.webp" alt="Deku server dashboard in light theme" class="block dark:hidden" />
+<img src="/images/projects/deku-dashboard-dark.webp" alt="Deku server dashboard in dark theme" class="hidden dark:block" />
+
+<a href="https://get-deku.vercel.app/" target="_blank" rel="noopener noreferrer">Deku</a> is a self-hosted platform for shipping apps without taking on the weight and complexity of a larger platform stack.
 
 The goal is not just to make deployments work. It is to make the whole system understandable: routing, provisioning, deploy flow, and the operator experience should all feel legible from the start.
 
