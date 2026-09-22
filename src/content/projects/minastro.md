@@ -11,11 +11,12 @@ stack:
   - cloudflare workers
   - d1
   - r2
-links:
-  repository: https://github.com/frankievalentine/minastro
 ---
 
-minastro is a personal-site template built with Astro and [EmDash](https://emdashcms.com), running server-side on Cloudflare Workers. EmDash is a Git-free CMS that stores content in Cloudflare D1 and media in R2, so posts, projects, pages, and settings are all editable from a built-in admin.
+<img src="/images/projects/minastro-light.webp" alt="minastro personal site template in light theme" class="block dark:hidden" />
+<img src="/images/projects/minastro-dark.webp" alt="minastro personal site template in dark theme" class="hidden dark:block" />
+
+<a href="https://minastro.pages.dev" target="_blank" rel="noopener noreferrer">minastro</a> is a personal-site template built with Astro and [EmDash](https://emdashcms.com), running server-side on Cloudflare Workers. EmDash is a Git-free CMS that stores content in Cloudflare D1 and media in R2, so posts, projects, pages, and settings are all editable from a built-in admin.
 
 Out of the box it includes a blog, a project portfolio, CMS-managed pages, search, RSS, tags, comments, and an optional newsletter. EmDash is the sole source of runtime content for CMS routes, so missing content fails visibly instead of silently rendering something else.
 
