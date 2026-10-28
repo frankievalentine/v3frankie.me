@@ -10,34 +10,34 @@
     "cfpreview": "bun run build && astro preview",
     "cfdeploy": "bun run build && wrangler pages deploy ./dist --project-name v3frankie-me --branch main",
     "check": "astro check && biome lint .",
-    "typecheck": "astro check",
+    "typecheck": "astro check && bun check --no-script",
     "knip": "knip",
     "lint": "biome lint .",
     "format": "biome format --write .",
     "fix": "biome lint --write ."
   },
   "dependencies": {
-    "@astrojs/mdx": "^8.0.2",
-    "@astrojs/react": "^7.0.0",
+    "@astrojs/mdx": "^8.1.2",
+    "@astrojs/react": "^7.1.2",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
     "@xyflow/react": "^12.12.0",
-    "astro": "^7.3.5",
-    "astro-expressive-code": "^0.44.2",
+    "astro": "^7.4.3",
+    "astro-expressive-code": "^0.44.3",
     "astro-pagefind": "^2.0.1",
-    "basecoat-css": "^1.0.2",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
+    "basecoat-css": "^1.1.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.3",
     "valibot": "^1.5.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@biomejs/biome": "^2.5.15",
-    "knip": "^6.39.0",
+    "@astrojs/check": "^0.9.12",
+    "@biomejs/biome": "^2.6.3",
+    "knip": "^6.43.0",
     "typescript": "6.0.3",
     "wrangler": "^4.147.0"
   },
-  "packageManager": "bun@1.4.2"
+  "packageManager": "bun@1.4.4"
 }
