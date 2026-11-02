@@ -4,7 +4,7 @@ description: AI-native development environments built on mise, composed from a c
 kind: Developer Tooling
 status: In progress
 featured: false
-order: 4
+order: 7
 stack:
   - mise
   - tool registry

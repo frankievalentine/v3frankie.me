@@ -2,9 +2,9 @@
 title: dotroam
 description: A cross-platform dotfiles manager and community platform for sharing reproducible setup bundles.
 kind: Developer Tooling
-status: In progress
+status: Experimental
 featured: false
-order: 9
+order: 12
 stack:
   - rust
   - astro

@@ -3,8 +3,8 @@ title: primecms
 description: A modular content management system built to work with Astro Content Collections.
 kind: Content Platform
 status: In progress
-featured: true
-order: 1
+featured: false
+order: 4
 stack:
   - astro
   - vite

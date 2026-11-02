@@ -4,7 +4,7 @@ description: A Shopify catalog explorer for browsing products, variants, and pri
 kind: Catalog Explorer
 status: Available
 featured: false
-order: 8
+order: 11
 stack:
   - next.js
   - shopify

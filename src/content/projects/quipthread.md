@@ -3,8 +3,8 @@ title: Quipthread
 description: A minimal, self-hostable comment system with multi-provider authentication, a WYSIWYG editor, and a clean admin dashboard.
 kind: Comment System
 status: Available
-featured: true
-order: 2
+featured: false
+order: 5
 stack:
   - authentication
   - wysiwyg

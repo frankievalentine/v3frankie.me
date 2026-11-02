@@ -4,7 +4,7 @@ description: An Astro personal-site template powered by EmDash, with CMS-managed
 kind: Site Template
 status: Available
 featured: false
-order: 5
+order: 8
 stack:
   - astro
   - emdash

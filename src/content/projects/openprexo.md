@@ -3,8 +3,8 @@ title: openprexo
 description: A local-first AI image and video generation product with a browser app, CLI, and desktop app.
 kind: Creative Tooling
 status: In progress
-featured: true
-order: 3
+featured: false
+order: 6
 stack:
   - browser app
   - cli
