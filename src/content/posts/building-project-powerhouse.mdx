@@ -1,41 +1,40 @@
 ---
-title: "From repeated prompts to reusable workflows"
-description: How repeated AI-assistant instructions became a portable set of skills, workflows, and configurations.
-date: 2026-07-30
-tags: [ai, project-powerhouse, developer-tools, web-development]
+title: "A fleet of AI agents in your own Cloudflare account"
+description: A self-hosted team of AI agents that routes each job to the right role and waits for approval before changing anything outside itself.
+date: 2026-11-06
+tags: [powerhouse, ai, cloudflare, self-hosting]
 ---
 
-I kept having the same conversation with coding assistants.
+Giving an AI agent real work means giving it real access: your email, your issue tracker, your repositories. I wanted that access to live somewhere I already control, with a person still deciding what actually goes out the door.
 
-Use the project's existing patterns. Keep the change focused. Check accessibility. Run the relevant tests. Read the diff before calling the work done. None of those requests were unusual, but I was rewriting some version of them every time I opened a new chat or tried a different tool.
+That idea became **powerhouse**, a fleet of AI agents for a team that runs entirely in its own Cloudflare account. There is no powerhouse server between you and Cloudflare, and the project itself is free. Running it uses your own accounts.
 
-**Powerhouse** started as my attempt to stop losing those expectations between sessions. Instead of leaving useful instructions buried in chat history, I began putting them into files I could keep in a repository, review, and reuse.
+## One prompt, routed to a role
 
-## From repeated prompts to a toolkit
+Using it starts with a single box. You type what needs doing, and a fast decision model picks the right role in under a second. If you would rather choose, Cmd+K lets you pick one yourself.
 
-The basic idea is pretty simple: if I expect to say something again, it probably belongs somewhere more durable than a prompt box.
+A role is where the real configuration lives. Each one has a purpose, instructions, a model, tools, allowed sites, connections, and skills. You can start from the defaults or a library that includes a researcher, a competitor watcher, a site QA tester, a product manager, and support replies. The role editor also suggests skills from a bundled set of 32.
 
-Powerhouse currently collects a few kinds of material:
+Jobs run on Claude or GPT through your AI Gateway by default, with open-weight models on Workers AI as an alternative for an org or a single role. Each job shows up as a pill with its current step and estimated cost, and everyone in the org sees the same live state.
 
-- **Skills** for topics such as TypeScript, accessibility, Next.js, web performance, and GitHub workflows.
-- **Workflows** for repeatable jobs like reviewing a pull request, creating a component, checking test coverage, or preparing a preview deployment.
-- **Commands** that provide a shorter way to start common tasks where an assistant supports them.
-- **Assistant-specific configurations** that reshape the shared ideas for tools including Claude Code, OpenCode, Codex, Gemini, Continue, Copilot, and Cursor.
+## Real tools, with a person in the loop
 
-That last part matters because these assistants do not all read the same files or expose the same features. The repository is not one universal configuration that behaves identically everywhere. It is closer to a set of shared notes with different adapters around them.
+Agents can read pages, search the web, drive a real browser with screenshots and takeover, and send email. Linear, Notion, Atlassian, Sentry, GitHub, or any remote MCP server can be connected once and allowed for the roles that need them. Optional tools stay off until you turn them on.
 
-## Making expectations portable
+The approval step is what makes that comfortable. Emails and writes to connected accounts wait for a person, with the full details shown. For roles with connections, so do browser actions and reading sites outside the role's allowed list. Web pages, search results, and connection results are marked as untrusted for the model, because anything an agent reads could be trying to steer it.
 
-What I wanted to carry between projects was not a giant prompt. It was a small collection of useful defaults: understand the task before editing, avoid unrelated changes, account for loading and error states, verify the result, and report what was actually checked.
+Sign-in goes through Cloudflare Access, so only the people you allow can get in. Provider keys stay on your AI Gateway, where powerhouse never sees them. Setup asks for a Cloudflare API token once and never saves it.
 
-Keeping those ideas as ordinary text files makes them easy to inspect and change. I can borrow one workflow without adopting the whole repository, adjust a skill to fit a project's conventions, or compare how the same expectation is expressed for different assistants.
+## Meeting people where they already work
 
-There is also an installer that can copy selected skills and commands into an assistant's configuration directory. I still treat that as a convenience rather than magic: I can read the files first, choose what I want, and update copied files deliberately later.
+powerhouse has no Slack or other chat integrations, and that is a deliberate decision rather than a gap. Once an admin turns on its MCP server, members can start jobs and read results from Claude, ChatGPT, or Cursor. Approvals still happen only in powerhouse.
 
-## Still early, still changing
+Scheduled jobs and push notifications cover the rest. A job can run every day, on weekdays, or every few hours in your time zone, and your devices hear about it when a job needs you, fails, or finishes a scheduled run.
 
-Powerhouse is an early toolkit, and that is the useful framing for it. Some assistants have richer command and skill setups than others. Some instructions will need to change as the tools and the web platform change. A reusable workflow can make my intent clearer, but it cannot guarantee the assistant's output or replace my review.
+## Easy to start, easy to leave
 
-The repository is already useful to me because it gives repeated decisions a home. When I improve a review checklist or find a clearer way to describe a component workflow, that lesson no longer has to stay trapped in one conversation.
+There are a few ways to set it up: a Deploy to Cloudflare button with a short guided setup, a coding agent following the repository's instructions, or `node setup.mjs`. Cloudflare's free tier runs everything except the browser tool and open-weight models, which need Workers Paid. Zero Trust is the one step you have to turn on yourself.
 
-That is really what I am building: a portable shelf of the instructions I want nearby when I work with an AI assistant. Not a finished system and not an answer to every project, just a practical way to reuse the parts of my process that are worth repeating.
+Leaving matters as much as starting. `node setup.mjs --remove` lists exactly what it found, asks you to type the Worker's name, and then deletes it in order. Updates arrive as a pull request or a single command, and they never overwrite the roles you already have.
+
+powerhouse is **available** now, and its roadmap will follow what teams ask for. My goal is modest: let a team hand real work to agents without handing their accounts to anyone else.

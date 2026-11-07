@@ -4,7 +4,7 @@ description: A local-first AI image and video generation product with a browser 
 kind: Creative Tooling
 status: In progress
 featured: false
-order: 6
+order: 7
 stack:
   - browser app
   - cli

@@ -4,7 +4,7 @@ description: A modern, lightweight self-hosted PaaS built with Rust, Angie, and 
 kind: Self-hosted PaaS
 status: Experimental
 featured: false
-order: 9
+order: 10
 stack:
   - rust
   - angie

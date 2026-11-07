@@ -4,7 +4,7 @@ description: A cross-platform dotfiles manager and community platform for sharin
 kind: Developer Tooling
 status: Experimental
 featured: false
-order: 12
+order: 13
 stack:
   - rust
   - astro

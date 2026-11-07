@@ -4,7 +4,7 @@ description: A modular content management system built to work with Astro Conten
 kind: Content Platform
 status: In progress
 featured: false
-order: 4
+order: 5
 stack:
   - astro
   - vite

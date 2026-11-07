@@ -4,7 +4,7 @@ description: A minimal, self-hostable comment system with multi-provider authent
 kind: Comment System
 status: Available
 featured: false
-order: 5
+order: 6
 stack:
   - authentication
   - wysiwyg

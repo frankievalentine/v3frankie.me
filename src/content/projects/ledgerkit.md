@@ -4,7 +4,7 @@ description: Built for solo developers, consultants, indie hackers, and small Sa
 kind: Business Tooling
 status: In progress
 featured: false
-order: 10
+order: 11
 stack:
   - business records
   - self-hosted
