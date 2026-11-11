@@ -75,6 +75,14 @@
 - The newsletter's browser validation uses Valibot. Turnstile verification and
   the subscription service are external contracts; this repository has no
   newsletter backend.
+- Post and project view counts use the Pages Function `functions/api/views.ts`
+  backed by the D1 database `v3frankie-views` (binding `VIEWS_DB`). Schema
+  changes go in `migrations/` and are applied with
+  `bunx wrangler d1 migrations apply v3frankie-views --local` and `--remote`.
+  `src/components/ViewCount.astro` renders and records counts; keys are
+  route-shaped (`posts/<id>`, `projects/<id>`), so renaming an entry resets its
+  count. Counts stay hidden under `bun run dev`; test them with
+  `bun run build && bunx wrangler pages dev dist`.
 - Everything sent to browser code is public. Never add credentials, private API
   keys, or privileged tokens to Astro client scripts, public assets, or
   frontmatter.
@@ -108,6 +116,9 @@ Start with the narrowest relevant check:
 
 - Production is the Git-integrated Cloudflare Pages project `v3frankie-me` on
   the `main` branch. Pushes to `main` are the normal deployment path.
+- `wrangler.toml` is the source of truth for the Pages project's non-secret
+  configuration (compatibility settings, plaintext vars, bindings). Dashboard
+  edits to those settings are overridden; secrets remain dashboard-managed.
 - `bun run cfdeploy` is manual recovery only. It builds the site and uploads
   `dist` to Pages.
 - Do **not** substitute `wrangler deploy`: it targets a Worker, while this site

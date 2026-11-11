@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { getPostsPagePath, type Post } from "../posts";
 import { formatDate, readingTime } from "../utils";
+import ViewCount from "./ViewCount.astro";
 
 interface Props {
   posts: Post[];
@@ -107,6 +108,7 @@ const paginationDisabledClass =
                   </time>
                   <span class="text-border" aria-hidden="true">·</span>
                   <span class="text-xs text-muted-foreground">{readingTime(post.body ?? "")}</span>
+                  <ViewCount viewKey={`posts/${post.id}`} compact size="xs" />
                 </div>
                 {post.data.tags?.map((tag) => (
                   // biome-ignore lint/correctness/useJsxKeyInIterable: Astro's HTML attributes do not type-check the JSX key prop.

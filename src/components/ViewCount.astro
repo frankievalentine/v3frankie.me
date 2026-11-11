@@ -1,0 +1,166 @@
+---
+interface Props {
+  // Route-shaped key, e.g. "posts/building-deku".
+  viewKey: string;
+  // Record a view for this visitor (detail pages) instead of only reading the count.
+  track?: boolean;
+  compact?: boolean;
+  size?: "xs" | "sm";
+}
+
+const { viewKey, track = false, compact = false, size = "sm" } = Astro.props;
+
+// Invisible placeholder that reserves roughly the final width until the count loads.
+const placeholder = compact ? "0.0K views" : "0,000 views";
+const partClass =
+  "invisible opacity-0 transition-opacity duration-300 motion-reduce:transition-none";
+---
+
+<span
+  class="contents"
+  data-view-count={viewKey}
+  data-view-track={track ? "" : undefined}
+  data-view-format={compact ? "compact" : "full"}
+>
+  <span class:list={["text-border", partClass]} aria-hidden="true" data-view-part>·</span>
+  <span
+    class:list={[
+      size === "xs" ? "text-xs" : "text-sm",
+      "text-muted-foreground tabular-nums",
+      partClass,
+    ]}
+    data-view-part
+    data-view-label>{placeholder}</span
+  >
+</span>
+
+<script>
+  const DEDUPE_WINDOW_MS = 24 * 60 * 60 * 1000;
+  const STORAGE_PREFIX = "views:";
+
+  const formatters = {
+    full: new Intl.NumberFormat("en-US"),
+    compact: new Intl.NumberFormat("en-US", {
+      notation: "compact",
+      maximumFractionDigits: 1,
+    }),
+  };
+
+  let controller: AbortController | undefined;
+
+  const viewedRecently = (key: string) => {
+    try {
+      const viewedAt = Number(localStorage.getItem(STORAGE_PREFIX + key));
+      return Date.now() - viewedAt < DEDUPE_WINDOW_MS;
+    } catch {
+      return false;
+    }
+  };
+
+  const markViewed = (key: string) => {
+    try {
+      localStorage.setItem(STORAGE_PREFIX + key, String(Date.now()));
+    } catch {
+      // Storage can be unavailable (private mode, blocked site data); the view
+      // still counted, it just will not be deduplicated next time.
+    }
+  };
+
+  const recordView = async (key: string, signal: AbortSignal) => {
+    const response = await fetch("/api/views", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key }),
+      signal,
+    });
+    if (!response.ok) {
+      throw new Error(`View tracking failed with ${response.status}`);
+    }
+    const { views } = (await response.json()) as { views: number };
+    markViewed(key);
+    return views;
+  };
+
+  const fetchViews = async (keys: string[], signal: AbortSignal) => {
+    const params = new URLSearchParams({ keys: keys.join(",") });
+    const response = await fetch(`/api/views?${params}`, { signal });
+    if (!response.ok) {
+      throw new Error(`View lookup failed with ${response.status}`);
+    }
+    const { views } = (await response.json()) as {
+      views: Record<string, number>;
+    };
+    return views;
+  };
+
+  const show = (element: HTMLElement, views: number) => {
+    const formatter =
+      element.dataset.viewFormat === "compact"
+        ? formatters.compact
+        : formatters.full;
+    const label = element.querySelector<HTMLElement>("[data-view-label]");
+    if (label) {
+      label.textContent = `${formatter.format(views)} ${views === 1 ? "view" : "views"}`;
+    }
+    for (const part of element.querySelectorAll("[data-view-part]")) {
+      part.classList.remove("invisible", "opacity-0");
+    }
+  };
+
+  // Elements are replaced on each ClientRouter navigation, so look them up per page load.
+  document.addEventListener("astro:page-load", async () => {
+    controller?.abort();
+    controller = undefined;
+
+    const elements = [
+      ...document.querySelectorAll<HTMLElement>("[data-view-count]"),
+    ];
+    if (elements.length === 0) {
+      return;
+    }
+
+    const current = new AbortController();
+    controller = current;
+    const { signal } = current;
+
+    const keyOf = (element: HTMLElement) => element.dataset.viewCount ?? "";
+    const trackedKeys = new Set(
+      elements
+        .filter((element) => element.dataset.viewTrack !== undefined)
+        .map(keyOf)
+        .filter((key) => !viewedRecently(key)),
+    );
+    const lookupKeys = [
+      ...new Set(elements.map(keyOf).filter((key) => !trackedKeys.has(key))),
+    ];
+
+    const views = new Map<string, number>();
+    try {
+      await Promise.all([
+        ...[...trackedKeys].map(async (key) => {
+          views.set(key, await recordView(key, signal));
+        }),
+        lookupKeys.length > 0
+          ? fetchViews(lookupKeys, signal).then((result) => {
+              for (const [key, count] of Object.entries(result)) {
+                views.set(key, count);
+              }
+            })
+          : undefined,
+      ]);
+    } catch {
+      if (signal.aborted) {
+        return;
+      }
+    }
+
+    for (const element of elements) {
+      const count = views.get(keyOf(element));
+      if (count === undefined) {
+        element.hidden = true;
+      } else {
+        show(element, count);
+      }
+    }
+  });
+</script>

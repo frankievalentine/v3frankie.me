@@ -1,0 +1,23 @@
+# Cloudflare Pages configuration. This file is the source of truth for the
+# v3frankie-me project's non-secret settings; secrets stay in the dashboard.
+name = "v3frankie-me"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-12-04"
+
+# Preview deployments and `wrangler pages dev` share the production database.
+[[d1_databases]]
+binding = "VIEWS_DB"
+database_name = "v3frankie-views"
+database_id = "b1462ce0-4342-4616-810d-38c5032b854a"
+
+[env.production]
+compatibility_date = "2026-03-02"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production.vars]
+BUN_VERSION = "1.4.4"
+
+[[env.production.d1_databases]]
+binding = "VIEWS_DB"
+database_name = "v3frankie-views"
+database_id = "b1462ce0-4342-4616-810d-38c5032b854a"

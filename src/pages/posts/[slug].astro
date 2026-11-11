@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import BackToTop from "../../components/ui/back-to-top.astro";
+import ViewCount from "../../components/ViewCount.astro";
 import Layout from "../../layouts/Layout.astro";
 import { formatDate, readingTime } from "../../utils";
 
@@ -73,6 +74,7 @@ const timeToRead = readingTime(bodyText);
         </time>
         <span class="text-border" aria-hidden="true">·</span>
         <span class="text-sm text-muted-foreground">{timeToRead}</span>
+        <ViewCount viewKey={`posts/${post.id}`} track />
         {post.data.tags && post.data.tags.length > 0 && (
           <>
             <span class="text-border" aria-hidden="true">·</span>
