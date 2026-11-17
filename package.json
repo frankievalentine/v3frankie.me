@@ -20,7 +20,7 @@
     "@astrojs/mdx": "^8.1.4",
     "@astrojs/react": "^7.1.7",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/sitemap": "^3.7.5",
     "@tailwindcss/vite": "^4.3.5",
     "@xyflow/react": "^12.12.1",
     "astro": "^7.4.10",
